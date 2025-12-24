@@ -1,0 +1,41 @@
+/* ============================================
+   Tailwind CSS v4 主题配置
+   @theme 指令用于定义自定义的颜色、字体等
+   ============================================ */
+@theme {
+  /* 自定义颜色 - 这些会生成 bg-paper, text-ink 等工具类 */
+  --color-paper: #F2F2F2;
+  /* 纸张灰，用于背景 */
+  --color-ink: #1C1C1C;
+  /* 炭黑，用于文字 */
+  --color-grid: rgba(0, 0, 0, 0.1);
+  /* 网格线 */
+
+  /* 自定义字体族 - 这些会生成 font-mono, font-dot 等工具类 */
+  --font-mono: "Roboto Mono", monospace;
+  /* 等宽字体，用于正文 */
+  --font-dot: "DotGothic16", monospace;
+  /* 点阵字体，用于标题 */
+}
+
+/* Tailwind 核心层导入 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   全局基础样式
+   @layer base 用于定义会被 Tailwind 重置覆盖的基础样式
+   ============================================ */
+@layer base {
+  body {
+    /* 
+     * @apply 让我们可以在 CSS 中使用 Tailwind 的工具类
+     * bg-paper: 应用我们上面定义的纸张灰背景
+     * text-ink: 应用炭黑色文字
+     * font-mono: 使用等宽字体
+     * antialiased: 开启字体抗锯齿，让文字更平滑
+     */
+    @apply bg-paper text-ink font-mono antialiased;
+  }
+}
