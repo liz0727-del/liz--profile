@@ -40,10 +40,31 @@
 8.  **Footer**: 联系方式。
 
 ## 5. 当前进度 (Current Status)
-- ✅ **文档已就位**: `plan.md`, `task.md`, `.cursorrules`, `FOLDER_GUIDE.md` 已创建。
-- ✅ **文件夹已建立**: `src/components`, `src/assets/videos` 等。
-- ✅ **资源已就位**: 用户已上传测试视频 `01.mp4` 到 `src/assets/videos/`。
-- ✨ **下一步 (Next Step)**: **执行 Phase 1** - 初始化 Git，安装 Vite + React + Tailwind。
+> 🕐 **最后更新**: 2025-12-25
+
+### ✅ 已完成
+- **Phase 1: 地基 (Setup)** - Git 初始化、Vite + React 项目、Tailwind CSS 配置、字体引入
+- **Phase 2: 骨架 (Structure)** - 全局 12 列网格布局、Header 组件、响应式断点
+- **Phase 3 (部分)**: 
+    - ✅ ASCII Video Effect (视频转 ASCII 字符背景)
+    - ✅ 鼠标 Sparkle 效果 (Random Character Sparkle 交互)
+
+### 🔄 进行中
+- **Phase 3: 灵魂 (The Vibe)**
+    - ❌ Sticky Cursor (惯性光标 + 粒子消散)
+    - ❌ Noise Texture (可选)
+
+### ⏳ 待开始
+- **Phase 4**: 页面模块 (Hero / Slogan / 视频翻页 / 自我介绍 / 作品列表 / 页脚)
+- **Phase 5**: AI Chat Widget
+- **Phase 6**: 性能优化
+- **Phase 7**: 发布部署
+- **Phase 8**: 扩展功能 (留言板 / 真实 AI 接入)
+
+### ✨ 下一步 (Next Step)
+可选择：
+1. 继续 Phase 3 - 实现 **Sticky Cursor** 惯性光标效果
+2. 跳转 Phase 4 - 开始 **Hero 区** 等页面模块开发
 
 ## 6. 给 AI 的指令 (Prompt for AI)
-"请读取项目根目录下的 `plan.md` 和 `.cursorrules`，严格遵循其中的规范。我们直接从 **Phase 1: 地基 (Setup)** 开始，请帮我初始化项目环境。"
+"请读取项目根目录下的 `plan.md` 和 `.cursorrules`，严格遵循其中的规范。当前项目处于 **Phase 3**，可继续完成 Sticky Cursor，或进入 **Phase 4: 页面模块开发**。"

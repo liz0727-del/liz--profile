@@ -30,7 +30,7 @@ const VIDEOS = [
     new URL('../../assets/videos/04.mp4', import.meta.url).href
 ];
 
-const AsciiEffect = () => {
+const AsciiEffect = ({ children }) => {
     const videoRef = useRef(null);
     const textRef = useRef(null);
     const canvasRef = useRef(null);
@@ -253,16 +253,8 @@ const AsciiEffect = () => {
             </div>
 
             {/* Scrollable Trigger Sections */}
-            <div className="relative z-10 pointer-events-none">
-                {VIDEOS.map((_, idx) => (
-                    <div
-                        key={idx}
-                        ref={(el) => (sectionsRef.current[idx] = el)}
-                        data-video-index={idx}
-                        className="h-screen"
-                        style={{ minHeight: '100vh' }}
-                    />
-                ))}
+            <div className="relative z-10">
+                {children}
             </div>
         </>
     );

@@ -1,4 +1,16 @@
 /* ============================================
+   自定义字体引入
+   @font-face 用于加载本地字体文件
+   ============================================ */
+@font-face {
+  font-family: 'Ndot';
+  src: url('./assets/fonts/Ndot_55-s.p.0ff3148d.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap; /* 优化加载体验，先显示备用字体 */
+}
+
+/* ============================================
    Tailwind CSS v4 主题配置
    @theme 指令用于定义自定义的颜色、字体等
    ============================================ */
@@ -11,11 +23,13 @@
   --color-grid: rgba(0, 0, 0, 0.1);
   /* 网格线 */
 
-  /* 自定义字体族 - 这些会生成 font-mono, font-dot 等工具类 */
+  /* 自定义字体族 - 这些会生成 font-mono, font-dot, font-ndot 等工具类 */
   --font-mono: "Roboto Mono", monospace;
   /* 等宽字体，用于正文 */
   --font-dot: "DotGothic16", monospace;
   /* 点阵字体，用于标题 */
+  --font-ndot: "Ndot", "DotGothic16", monospace;
+  /* Ndot 点阵字体，用于 Hero 大标题 */
 }
 
 /* Tailwind 核心层导入 */

@@ -1,6 +1,7 @@
 import React from 'react';
 import Layout from './components/Layout';
 import Header from './components/Header';
+import Hero from './components/Hero';
 import AsciiEffect from './components/AsciiEffect';
 import StickyCursor from './components/StickyCursor';
 
@@ -27,21 +28,8 @@ function App() {
           </div>
         </header>
 
-        {/* SECTION 1: Intro Hero */}
-        <section className="min-h-screen flex flex-col justify-center items-center p-6 pt-32 text-center pointer-events-none">
-          <div className="space-y-12 max-w-4xl mx-auto">
-            <h2 className="text-4xl md:text-6xl font-bold tracking-tight leading-tight mix-blend-difference text-black">
-              ESSENTIAL IS THE FIRST STEP <br />
-              TOWARDS AN AI OPERATING SYSTEM.
-            </h2>
-
-            {/* Card Placeholder */}
-            <div className="bg-white/90 backdrop-blur-sm p-6 rounded-lg shadow-lg text-left max-w-sm mx-auto text-xs font-mono text-gray-800 rotate-1 transform">
-              <p>Personal computing is entering a new phase. Where devices adapt to people, not the other way around.</p>
-              <div className="mt-4 h-1 w-8 bg-black"></div>
-            </div>
-          </div>
-        </section>
+        {/* SECTION 1: Hero 区域 - 使用独立的 Hero 组件 */}
+        <Hero />
 
         {/* SECTION 2: Natural Language */}
         <section className="min-h-screen flex flex-col justify-center items-center p-6 text-center pointer-events-none">
