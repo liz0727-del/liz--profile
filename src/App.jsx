@@ -34,7 +34,13 @@ function App() {
         {/* SECTION 2: Natural Language */}
         <section className="min-h-screen flex flex-col justify-center items-center p-6 text-center pointer-events-none">
           <div className="space-y-8 max-w-5xl mx-auto">
-            <h2 className="text-4xl md:text-7xl font-bold tracking-tighter uppercase mix-blend-difference text-black">
+            <h2
+              className="font-ndot uppercase mix-blend-difference text-ink leading-[1.2]"
+              style={{
+                fontSize: 'clamp(28px, 4vw, 60px)',
+                letterSpacing: 'normal'
+              }}
+            >
               WITH ESSENTIAL, ANYONE CAN CREATE <br />
               THEIR OWN APPS IN SECONDS <br />
               USING NATURAL LANGUAGE
@@ -58,7 +64,13 @@ function App() {
             </div>
           </div>
 
-          <h2 className="text-2xl md:text-4xl font-bold text-center max-w-3xl mix-blend-difference text-black uppercase">
+          <h2
+            className="font-ndot text-center max-w-4xl mix-blend-difference text-ink uppercase leading-[1.2]"
+            style={{
+              fontSize: 'clamp(28px, 4vw, 60px)',
+              letterSpacing: 'normal'
+            }}
+          >
             The playground is your platform <br />
             to explore, create, and share <br />
             the most creative ideas
@@ -68,7 +80,13 @@ function App() {
         {/* SECTION 4: New Era / Footer */}
         <section className="min-h-screen flex flex-col justify-between p-6 pb-20 pointer-events-none">
           <div className="flex-1 flex flex-col justify-center items-center text-center space-y-12">
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight uppercase mix-blend-difference text-black">
+            <h2
+              className="font-ndot uppercase mix-blend-difference text-ink leading-[1.2]"
+              style={{
+                fontSize: 'clamp(28px, 4vw, 60px)',
+                letterSpacing: 'normal'
+              }}
+            >
               NEW THINKING FOR A NEW ERA
             </h2>
 

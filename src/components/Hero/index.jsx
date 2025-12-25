@@ -15,31 +15,31 @@ function Hero() {
         // flex + items-center + justify-center 实现垂直+水平居中
         <section className="min-h-screen flex flex-col justify-center items-center p-6 md:p-12 text-center">
 
-            {/* 内容容器 - 限制最大宽度，增加可读性 */}
-            <div className="max-w-4xl mx-auto space-y-8">
+            {/* 内容容器 - 移除最大宽度限制，让超大标题可以铺满 */}
+            <div className="w-full mx-auto space-y-8">
 
                 {/* 
-         * 大标题
-         * font-ndot: 使用 Ndot 点阵字体
-         * text-3xl md:text-6xl: 响应式字号 (移动端 30px, 桌面端 60px)
-         * tracking-tight: 字间距紧凑
-         * leading-[1.3]: 行高 130%
-         * uppercase: 全大写
-         * text-ink: 使用我们定义的炭黑色
-         * mix-blend-difference: 与背景混合，确保在 ASCII 背景上可见
-         */}
-                <h1 className="font-ndot text-3xl md:text-6xl tracking-tight leading-[1.3] uppercase text-ink mix-blend-difference">
+                 * 大标题 - 参考 Essential.com 设置
+                 * 字号: ~145px (约 10vw)
+                 * letter-spacing: normal (轻盈感来自大字号)
+                 * 颜色: #1C1C1C 炭黑
+                 */}
+                <h1
+                    className="font-ndot leading-[1.3] uppercase text-ink mix-blend-difference"
+                    style={{
+                        fontSize: 'clamp(60px, 10vw, 150px)',
+                        letterSpacing: 'normal'
+                    }}
+                >
                     XUELI FAN
                 </h1>
 
                 {/* 
-         * 副标题
-         * font-mono: 使用 Geist Mono 等宽字体
-         * text-lg md:text-2xl: 响应式字号
-         * tracking-widest: 字间距宽松，增加呼吸感
-         * text-ink/70: 炭黑色 70% 透明度，形成层次
-         */}
-                <p className="font-mono text-lg md:text-2xl tracking-widest text-ink/70 mix-blend-difference">
+                 * 副标题
+                 * font-mono: 使用 Geist Mono 等宽字体
+                 * 字号也相应增大
+                 */}
+                <p className="font-mono text-xl md:text-3xl tracking-widest text-ink/70 mix-blend-difference">
                     Design × Code × Vibe
                 </p>
 
