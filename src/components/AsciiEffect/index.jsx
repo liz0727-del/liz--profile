@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import videoSrc from '../../assets/videos/01.mp4';
 
-// ASCII 字符集：Strict User Set (:;+=zxcby)
-const DENSITY_CHARS = ":;+=zxcby";
+// ASCII 字符集：从最密到空格 (Essential.com 风格)
+const DENSITY_CHARS = "#N$976543210?!abcxyz;:+=-_,. ".split("");
+
+// 用于闪烁动画的随机字符
+const SPARKLE_CHARS = "?!zxy#$".split("");
 
 // 核心配置参数
 const SETTINGS = {
@@ -10,6 +13,13 @@ const SETTINGS = {
     lineHeight: 18,
     letterSpacing: 6,
     color: 'rgb(215, 215, 215)',
+};
+
+// 鼠标互动配置
+const MOUSE_CONFIG = {
+    radius: 6,           // 激活半径（字符数）
+    probability: 0.05,   // 5% 的字符被激活
+    duration: 500,       // 动画持续时间 (ms)
 };
 
 // Import all videos
@@ -26,6 +36,11 @@ const AsciiEffect = () => {
     const canvasRef = useRef(null);
     const animationRef = useRef(null);
     const sectionsRef = useRef([]);
+
+    // 激活的单元格: Map<"x,y" => { startTime, randomChars }>
+    const activeCellsRef = useRef(new Map());
+    // 鼠标位置（网格坐标）
+    const mouseGridRef = useRef({ x: -1, y: -1 });
 
     const [currentVideoIdx, setCurrentVideoIdx] = useState(0);
 
@@ -52,6 +67,63 @@ const AsciiEffect = () => {
 
         return () => window.removeEventListener('scroll', handleScroll);
     }, [currentVideoIdx]);
+
+    // 鼠标互动监听器
+    useEffect(() => {
+        const charWidth = (SETTINGS.fontSize * 0.6) + SETTINGS.letterSpacing;
+        const charHeight = SETTINGS.lineHeight;
+
+        const handleMouseMove = (e) => {
+            // 将像素坐标转换为网格坐标
+            const gridX = Math.floor(e.clientX / charWidth);
+            const gridY = Math.floor(e.clientY / charHeight);
+
+            const prevX = mouseGridRef.current.x;
+            const prevY = mouseGridRef.current.y;
+
+            // 只有当鼠标移动到新的网格位置时才处理
+            if (gridX === prevX && gridY === prevY) return;
+
+            mouseGridRef.current = { x: gridX, y: gridY };
+
+            const now = performance.now();
+            const activeCells = activeCellsRef.current;
+
+            // 在鼠标周围的圆形区域内激活字符
+            const radius = MOUSE_CONFIG.radius;
+            for (let dy = -radius; dy <= radius; dy++) {
+                for (let dx = -radius; dx <= radius; dx++) {
+                    // 检查是否在圆形区域内
+                    if (dx * dx + dy * dy > radius * radius) continue;
+
+                    // 只有约5%的字符被激活
+                    if (Math.random() > MOUSE_CONFIG.probability) continue;
+
+                    const cellX = gridX + dx;
+                    const cellY = gridY + dy;
+                    const key = `${cellX},${cellY}`;
+
+                    // 如果这个格子还没被激活，或者之前的动画已经结束
+                    if (!activeCells.has(key)) {
+                        // 生成这个格子的随机闪烁字符序列 (3-5个)
+                        const numChars = 3 + Math.floor(Math.random() * 3);
+                        const randomChars = [];
+                        for (let i = 0; i < numChars; i++) {
+                            randomChars.push(SPARKLE_CHARS[Math.floor(Math.random() * SPARKLE_CHARS.length)]);
+                        }
+
+                        activeCells.set(key, {
+                            startTime: now,
+                            randomChars: randomChars
+                        });
+                    }
+                }
+            }
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        return () => window.removeEventListener('mousemove', handleMouseMove);
+    }, []);
 
     // Video playback and ASCII rendering
     useEffect(() => {
@@ -81,9 +153,37 @@ const AsciiEffect = () => {
             const data = imageData.data;
 
             let asciiStr = "";
+            const now = performance.now();
+            const activeCells = activeCellsRef.current;
+
+            // 清理已过期的激活单元格
+            for (const [key, cell] of activeCells.entries()) {
+                if (now - cell.startTime > MOUSE_CONFIG.duration) {
+                    activeCells.delete(key);
+                }
+            }
 
             for (let i = 0; i < h; i++) {
                 for (let j = 0; j < w; j++) {
+                    const key = `${j},${i}`;
+                    const activeCell = activeCells.get(key);
+
+                    // 如果这个格子被激活，显示闪烁动画
+                    if (activeCell) {
+                        const elapsed = now - activeCell.startTime;
+                        const progress = elapsed / MOUSE_CONFIG.duration;
+
+                        if (progress < 1) {
+                            // 根据进度选择随机字符序列中的一个字符
+                            const charIndex = Math.floor(progress * activeCell.randomChars.length);
+                            const safeCharIdx = Math.min(charIndex, activeCell.randomChars.length - 1);
+                            const sparkleChar = activeCell.randomChars[safeCharIdx];
+                            asciiStr += sparkleChar === " " ? "&nbsp;" : sparkleChar;
+                            continue;
+                        }
+                    }
+
+                    // 正常渲染：基于视频亮度选择字符
                     const offset = (i * w + j) * 4;
                     const r = data[offset];
                     const g = data[offset + 1];
