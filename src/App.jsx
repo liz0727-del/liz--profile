@@ -2,6 +2,7 @@ import React from 'react';
 import Layout from './components/Layout';
 import Header from './components/Header';
 import Hero from './components/Hero';
+import HeroVideo from './components/HeroVideo';
 import AsciiEffect from './components/AsciiEffect';
 import StickyCursor from './components/StickyCursor';
 
@@ -12,11 +13,12 @@ function App() {
     <Layout>
       <StickyCursor />
       {/*  
-         AsciiEffect now acts as the Background Wrapper.
-         It tracks scroll to change videos.
-         We simply place our content sections inside it.
+         AsciiEffect 管理三层结构:
+         1. 视频背景层 (z-index: 1) - 通过 videoBackground prop 传入
+         2. ASCII 动效层 (z-index: 5) - 固定在屏幕
+         3. 内容层 (z-index: 10) - 通过 children 传入
       */}
-      <AsciiEffect>
+      <AsciiEffect videoBackground={<HeroVideo />}>
         {/* Sticky Header */}
         <header className="fixed top-0 left-0 w-full p-8 z-50 mix-blend-difference text-white pointer-events-none">
           <div className="flex justify-between items-start">

@@ -30,7 +30,7 @@ const VIDEOS = [
     new URL('../../assets/videos/04.mp4', import.meta.url).href
 ];
 
-const AsciiEffect = ({ children }) => {
+const AsciiEffect = ({ children, videoBackground }) => {
     const videoRef = useRef(null);
     const textRef = useRef(null);
     const canvasRef = useRef(null);
@@ -230,8 +230,19 @@ const AsciiEffect = ({ children }) => {
 
     return (
         <>
-            {/* Fixed ASCII Background */}
-            <div className="fixed inset-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden">
+            {/* 层级结构 (从底到顶):
+             * 1. 视频背景层 - z-index: 1 (随页面滚动)
+             * 2. ASCII 动效层 - z-index: 5 (固定在屏幕)
+             * 3. 内容文字层 - z-index: 10 (随页面滚动)
+             */}
+
+            {/* Layer 1: 视频背景层 - z-index: 1 */}
+            <div className="relative" style={{ zIndex: 1 }}>
+                {videoBackground}
+            </div>
+
+            {/* Layer 2: Fixed ASCII Background - z-index: 5 */}
+            <div className="fixed inset-0 pointer-events-none flex items-center justify-center overflow-hidden" style={{ zIndex: 5 }}>
                 <video
                     ref={videoRef}
                     playsInline
@@ -252,8 +263,8 @@ const AsciiEffect = ({ children }) => {
                 />
             </div>
 
-            {/* Scrollable Trigger Sections */}
-            <div className="relative z-10">
+            {/* Layer 3: 内容层 - z-index: 10 */}
+            <div className="relative" style={{ zIndex: 10 }}>
                 {children}
             </div>
         </>
