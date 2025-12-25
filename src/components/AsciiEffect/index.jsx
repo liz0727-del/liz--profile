@@ -29,28 +29,29 @@ const AsciiEffect = () => {
 
     const [currentVideoIdx, setCurrentVideoIdx] = useState(0);
 
-    // IntersectionObserver to detect which section is in view
+    // Scroll listener to toggle videos based on scroll position
     useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        const idx = parseInt(entry.target.dataset.videoIndex);
-                        setCurrentVideoIdx(idx);
-                    }
-                });
-            },
-            {
-                threshold: 0.5, // Trigger when 50% of the section is visible
+        const handleScroll = () => {
+            const scrollY = window.scrollY;
+            const viewportHeight = window.innerHeight;
+            // Map scroll position to video index: each 100vh section corresponds to one video
+            // We use Math.round to switch when > 50% into the next section
+            const idx = Math.floor((scrollY + viewportHeight * 0.5) / viewportHeight);
+
+            // Safety clamp
+            const safeIdx = Math.max(0, Math.min(idx, VIDEOS.length - 1));
+
+            if (safeIdx !== currentVideoIdx) {
+                setCurrentVideoIdx(safeIdx);
             }
-        );
+        };
 
-        sectionsRef.current.forEach((section) => {
-            if (section) observer.observe(section);
-        });
+        window.addEventListener('scroll', handleScroll);
+        // Initial check
+        handleScroll();
 
-        return () => observer.disconnect();
-    }, []);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [currentVideoIdx]);
 
     // Video playback and ASCII rendering
     useEffect(() => {
