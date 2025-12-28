@@ -5,6 +5,7 @@ import Hero from './components/Hero';
 import HeroVideo from './components/HeroVideo';
 import AsciiEffect from './components/AsciiEffect';
 import StickyCursor from './components/StickyCursor';
+import VideoSection from './components/VideoSection';
 
 // App 组件：我们应用的入口
 // 所有的页面组件都在这里被组装
@@ -55,6 +56,9 @@ function App() {
             THEIR OWN APPS IN SECONDS
           </h2>
         </section>
+
+        {/* SECTION 3: Video Player */}
+        <VideoSection />
 
         {/* SECTION 3: Playground / Start by Us */}
         <section className="min-h-screen flex flex-col justify-center items-center p-6 relative pointer-events-none">
