@@ -46,12 +46,13 @@
   body {
     /* 
      * @apply 让我们可以在 CSS 中使用 Tailwind 的工具类
-     * bg-paper: 应用我们上面定义的纸张灰背景
+     * 移除 bg-paper 让背景透明，以便看到底层视频
      * text-ink: 应用炭黑色文字
      * font-mono: 使用等宽字体
      * antialiased: 开启字体抗锯齿，让文字更平滑
      */
-    @apply bg-paper text-ink font-mono antialiased;
+    @apply text-ink font-mono antialiased;
     margin: 0;
+    background: transparent;
   }
 }

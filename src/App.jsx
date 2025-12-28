@@ -34,27 +34,26 @@ function App() {
         <Hero />
 
         {/* SECTION 2: Natural Language */}
-        <section className="min-h-screen flex flex-col justify-center items-center p-6 text-center pointer-events-none">
-          <div className="space-y-8 max-w-5xl mx-auto">
-            <h2
-              className="font-ndot uppercase mix-blend-difference text-ink leading-[1.2]"
-              style={{
-                fontSize: 'clamp(28px, 4vw, 60px)',
-                letterSpacing: 'normal'
-              }}
-            >
-              WITH ESSENTIAL, ANYONE CAN CREATE <br />
-              THEIR OWN APPS IN SECONDS <br />
-              USING NATURAL LANGUAGE
-            </h2>
-
-            {/* Floating Elements Placeholder */}
-            <div className="flex justify-center gap-4 mt-12">
-              <div className="w-12 h-12 bg-yellow-400 rounded-full mix-blend-multiply opacity-80"></div>
-              <div className="w-16 h-16 bg-red-500 rounded-lg mix-blend-multiply opacity-80 rotate-12"></div>
-              <div className="w-10 h-10 bg-blue-600 rounded-full mix-blend-multiply opacity-80"></div>
-            </div>
-          </div>
+        <section
+          className="relative flex w-full max-w-6xl mx-auto flex-col items-center justify-center pointer-events-none"
+          style={{
+            boxSizing: 'border-box',
+            height: '222px',
+            marginTop: '80px',
+            marginBottom: '80px',
+            padding: '48px'
+          }}
+        >
+          <h2
+            className="font-ndot uppercase mix-blend-difference text-ink leading-[1.2] text-center"
+            style={{
+              fontSize: 'clamp(28px, 4vw, 60px)',
+              letterSpacing: 'normal'
+            }}
+          >
+            WITH ESSENTIAL, ANYONE CAN CREATE <br />
+            THEIR OWN APPS IN SECONDS
+          </h2>
         </section>
 
         {/* SECTION 3: Playground / Start by Us */}

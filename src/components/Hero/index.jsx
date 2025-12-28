@@ -12,6 +12,7 @@ function Hero() {
             <div className="w-full mx-auto space-y-8">
                 {/* 大标题 */}
                 <h1
+                    id="hero-title"
                     className="font-ndot leading-[1.3] uppercase text-ink mix-blend-difference"
                     style={{
                         fontSize: 'clamp(60px, 10vw, 150px)',
