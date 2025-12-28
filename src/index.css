@@ -7,7 +7,8 @@
   src: url('./assets/fonts/Ndot_55-s.p.0ff3148d.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
-  font-display: swap; /* 优化加载体验，先显示备用字体 */
+  font-display: swap;
+  /* 优化加载体验，先显示备用字体 */
 }
 
 /* ============================================
@@ -51,5 +52,6 @@
      * antialiased: 开启字体抗锯齿，让文字更平滑
      */
     @apply bg-paper text-ink font-mono antialiased;
+    margin: 0;
   }
 }

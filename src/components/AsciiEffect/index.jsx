@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import videoSrc from '../../assets/videos/01.mp4';
 
-// ASCII 字符集：从最密到空格 (Essential.com 风格)
-const DENSITY_CHARS = "#N$976543210?!abcxyz;:+=-_,. ".split("");
+// ASCII 字符集：从最密到空格 (暗部聚集→亮部扩散)
+// 聚集部分: xyz (3份) | 扩散部分: =+-;:,. (7份) = 7:3 比例
+const DENSITY_CHARS = "xyz=+-;:,. ".split("");
 
 // 用于闪烁动画的随机字符
 const SPARKLE_CHARS = "?!zxy#$".split("");
@@ -140,8 +141,8 @@ const AsciiEffect = ({ children, videoBackground }) => {
         const processFrame = () => {
             if (video.paused || video.ended) return;
 
-            const w = Math.floor(window.innerWidth / charWidth);
-            const h = Math.floor(window.innerHeight / charHeight);
+            const w = Math.ceil(window.innerWidth / charWidth) + 1;
+            const h = Math.ceil(window.innerHeight / charHeight) + 1;
 
             if (canvas.width !== w || canvas.height !== h) {
                 canvas.width = w;
@@ -242,7 +243,7 @@ const AsciiEffect = ({ children, videoBackground }) => {
             </div>
 
             {/* Layer 2: Fixed ASCII Background - z-index: 5 */}
-            <div className="fixed inset-0 pointer-events-none flex items-center justify-center overflow-hidden" style={{ zIndex: 5 }}>
+            <div className="fixed inset-0 pointer-events-none flex items-start justify-start overflow-hidden" style={{ zIndex: 5 }}>
                 <video
                     ref={videoRef}
                     playsInline
@@ -254,11 +255,11 @@ const AsciiEffect = ({ children, videoBackground }) => {
                 <pre
                     ref={textRef}
                     aria-hidden="true"
-                    className="font-mono text-[18px] leading-[18px] tracking-[6px] whitespace-pre text-center select-none"
+                    className="font-mono text-[18px] leading-[18px] tracking-[6px] whitespace-pre select-none"
                     style={{
                         color: SETTINGS.color,
-                        marginTop: '-10px',
-                        marginLeft: '-3px'
+                        margin: 0,
+                        padding: 0
                     }}
                 />
             </div>
