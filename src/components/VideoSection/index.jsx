@@ -14,10 +14,10 @@ import videoSrc from '../../assets/videos/04.mp4';
 function VideoSection() {
     const sectionRef = useRef(null);
     const videoRef = useRef(null);
+    const videoContainerRef = useRef(null);
     const progressRef = useRef(null);
     const isDraggingRef = useRef(false);
-
-    const [videoWidth, setVideoWidth] = useState(972);
+    const rafIdRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(true);
     const [isMuted, setIsMuted] = useState(true);
     const [currentTime, setCurrentTime] = useState(0);
@@ -51,10 +51,10 @@ function VideoSection() {
         }
     }, []);
 
-    // 滚动缩放效果
+    // 滚动缩放效果 - 使用 RAF + 直接 DOM 操作优化
     useEffect(() => {
-        const handleScroll = () => {
-            if (!sectionRef.current) return;
+        const updateWidth = () => {
+            if (!sectionRef.current || !videoContainerRef.current) return;
 
             const rect = sectionRef.current.getBoundingClientRect();
             const sectionTop = rect.top;
@@ -66,13 +66,31 @@ function VideoSection() {
             const progress = 1 - Math.max(0, Math.min(1, (sectionTop - (viewportCenter - sectionHeight / 2)) / (startPoint - (viewportCenter - sectionHeight / 2))));
 
             const newWidth = MIN_WIDTH + progress * (MAX_WIDTH - MIN_WIDTH);
-            setVideoWidth(Math.max(MIN_WIDTH, Math.min(MAX_WIDTH, newWidth)));
+            const clampedWidth = Math.max(MIN_WIDTH, Math.min(MAX_WIDTH, newWidth));
+
+            // 直接操作 DOM，跳过 React 渲染周期
+            videoContainerRef.current.style.width = `${clampedWidth}px`;
         };
 
-        window.addEventListener('scroll', handleScroll);
-        handleScroll();
+        const handleScroll = () => {
+            // 使用 requestAnimationFrame 节流，确保每帧最多更新一次
+            if (rafIdRef.current) return;
 
-        return () => window.removeEventListener('scroll', handleScroll);
+            rafIdRef.current = requestAnimationFrame(() => {
+                updateWidth();
+                rafIdRef.current = null;
+            });
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        updateWidth(); // 初始化
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            if (rafIdRef.current) {
+                cancelAnimationFrame(rafIdRef.current);
+            }
+        };
     }, []);
 
     // 视频时间更新
@@ -151,12 +169,12 @@ function VideoSection() {
                 padding: '0 48px'
             }}
         >
-            {/* 视频容器 - 使用固定高度确保可见 */}
+            {/* 视频容器 */}
             <div
+                ref={videoContainerRef}
                 style={{
-                    width: `${videoWidth}px`,
+                    width: `${MIN_WIDTH}px`,
                     maxWidth: '100%',
-                    transition: 'width 0.1s ease-out',
                     position: 'relative',
                     borderRadius: '20px',
                     overflow: 'hidden',
