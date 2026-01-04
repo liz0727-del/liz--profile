@@ -175,18 +175,14 @@ function Project3Detail() {
     // 项目数据
     const projectData = {
         title: 'Christmas spirit',
-        likes: 43,
         description: 'A fun Christmas animation in time for the holidays.',
-        category: 'Essential Apps',
-        creator: {
-            name: 'Daniel',
-            avatar: null, // 后续可添加头像
-        },
-        compatibility: 'Compatible with Nothing phones running OS 4.0 and later.',
+        location: 'Shanghai, China',
+        completionDate: '2024.12',
+        overview: 'Compatible with Nothing phones running OS 4.0 and later. This project includes custom animations, wallpapers, and sound effects designed to bring the holiday spirit to your device. Works best with the latest Nothing OS updates for optimal performance and visual fidelity.',
     };
 
     return (
-        <div className="project3-detail min-h-screen flex flex-col">
+        <div className="project3-detail min-h-screen flex flex-col" style={{ backgroundColor: '#F8F8F8', backgroundImage: 'radial-gradient(circle, rgba(0, 0, 0, 0.08) 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
             {/* ========== Header 导航栏 ========== */}
             <header className="flex items-center justify-between" style={{ padding: '16px' }}>
                 {/* 左侧: Logo 点状文字 */}
@@ -255,8 +251,8 @@ function Project3Detail() {
                         </svg>
                     </button>
 
-                    {/* 作品下拉列表 - 固定宽度容器 */}
-                    <div className="relative z-[60]" style={{ marginLeft: '16px', width: '140px' }} ref={dropdownRef}>
+                    {/* 作品下拉列表 */}
+                    <div className="relative z-[60]" style={{ marginLeft: '16px' }} ref={dropdownRef}>
                         <button
                             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                             className="group inline-flex items-center justify-center gap-3 h-8 rounded-full shrink-0 origin-center transition-all duration-200 ease-out outline-none disabled:pointer-events-none disabled:opacity-50 focus-visible:ring-[3px] focus-visible:ring-blue-500/50"
@@ -326,42 +322,61 @@ function Project3Detail() {
                             )}
                         </button>
 
-                        {/* 下拉菜单 */}
+                        {/* 下拉菜单 - 每个项目独立浮动 */}
                         {isDropdownOpen && (
                             <div
-                                className="absolute right-0 mt-2 w-48 rounded-lg shadow-lg overflow-hidden z-50"
+                                className="absolute z-50"
                                 style={{
-                                    backgroundColor: isDarkMode ? '#374151' : '#FFFFFF',
-                                    border: `1px solid ${isDarkMode ? '#4B5563' : '#E3E3E3'}`,
+                                    right: '0px',
+                                    left: 'auto',
+                                    marginTop: '12px',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'flex-end',
+                                    gap: '8px',
                                 }}
                             >
                                 {projectsList.map((project) => (
                                     <Link
                                         key={project.id}
                                         to={project.link}
-                                        className="block px-4 py-3 text-sm font-mono transition-colors duration-150"
+                                        className="flex items-center font-mono select-none outline-none"
                                         style={{
+                                            height: '32px',
+                                            padding: '6px 8px 6px 12px',
+                                            gap: '12px',
+                                            borderRadius: '9999px',
                                             color: isDarkMode ? '#FFFFFF' : '#1C1C1C',
-                                            backgroundColor: project.id === 3
-                                                ? (isDarkMode ? '#4B5563' : '#F3F4F6')
-                                                : 'transparent',
+                                            backgroundColor: isDarkMode ? '#374151' : '#FFFFFF',
+                                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                                            transition: 'all 300ms ease-out',
+                                            fontSize: '14px',
+                                            textDecoration: 'none',
+                                            minWidth: '166px',
+                                            boxSizing: 'border-box',
                                         }}
                                         onClick={() => setIsDropdownOpen(false)}
                                         onMouseEnter={(e) => {
-                                            if (project.id !== 3) {
-                                                e.currentTarget.style.backgroundColor = isDarkMode ? '#4B5563' : '#F3F4F6';
-                                            }
+                                            e.currentTarget.style.transform = 'scale(1.02)';
+                                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
                                         }}
                                         onMouseLeave={(e) => {
-                                            if (project.id !== 3) {
-                                                e.currentTarget.style.backgroundColor = 'transparent';
-                                            }
+                                            e.currentTarget.style.transform = 'scale(1)';
+                                            e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
                                         }}
                                     >
-                                        {project.name}
-                                        {project.id === 3 && (
-                                            <span className="ml-2 text-xs opacity-60">(current)</span>
-                                        )}
+                                        <span>{project.name}</span>
+                                        {/* 右侧点状图标 */}
+                                        <span
+                                            className="ml-auto"
+                                            style={{
+                                                color: isDarkMode ? '#6B7280' : '#9CA3AF',
+                                                fontSize: '10px',
+                                                letterSpacing: '2px',
+                                            }}
+                                        >
+                                            ∴
+                                        </span>
                                     </Link>
                                 ))}
                             </div>
@@ -380,11 +395,13 @@ function Project3Detail() {
                         <div style={{ flex: 1 }} className="flex flex-col items-center">
                             {/* 图片容器 */}
                             <div
-                                className={`relative w-full aspect-[4/3] rounded-lg border overflow-hidden flex items-center justify-center ${hoverSide === 'left' ? 'cursor-dot-left' : hoverSide === 'right' ? 'cursor-dot-right' : ''
+                                className={`relative w-full overflow-hidden flex items-center justify-center ${hoverSide === 'left' ? 'cursor-dot-left' : hoverSide === 'right' ? 'cursor-dot-right' : ''
                                     }`}
                                 style={{
                                     backgroundColor: 'transparent',
-                                    borderColor: isDarkMode ? '#4B5563' : '#E5E7EB',
+                                    borderRadius: '16px',
+                                    border: `1px solid ${isDarkMode ? '#4B5563' : '#E5E7EB'}`,
+                                    height: '720px',
                                 }}
                                 onClick={handleImageClick}
                                 onMouseMove={handleMouseMove}
@@ -410,128 +427,122 @@ function Project3Detail() {
                                         <DotArrowRight />
                                     </div>
                                 )}
-                            </div>
 
-                            {/* 小圆点指示器 */}
-                            <div className="flex items-center gap-2 mt-4">
-                                {images.map((_, index) => (
-                                    <button
-                                        key={index}
-                                        onClick={() => setCurrentIndex(index)}
-                                        className="w-2 h-2 rounded-full transition-colors"
-                                        style={{
-                                            backgroundColor: index === currentIndex
-                                                ? (isDarkMode ? '#FFFFFF' : '#1C1C1C')
-                                                : (isDarkMode ? '#6B7280' : '#D1D5DB'),
-                                        }}
-                                    />
-                                ))}
+                                {/* 小圆点指示器 - 固定在容器内底部32px */}
+                                <div
+                                    className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2"
+                                    style={{ bottom: '32px' }}
+                                >
+                                    {images.map((_, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setCurrentIndex(index);
+                                            }}
+                                            className="w-2 h-2 rounded-full transition-colors"
+                                            style={{
+                                                backgroundColor: index === currentIndex
+                                                    ? (isDarkMode ? '#FFFFFF' : '#1C1C1C')
+                                                    : (isDarkMode ? '#6B7280' : '#D1D5DB'),
+                                            }}
+                                        />
+                                    ))}
+                                </div>
                             </div>
                         </div>
 
                         {/* ===== 右列: 信息区 ===== */}
-                        <div style={{ flex: 1 }} className="flex flex-col">
+                        <div style={{ flex: 1, marginRight: '16px', paddingLeft: '12px', paddingRight: '12px' }} className="relative z-10 flex flex-col items-center gap-8 pt-4 pb-8">
                             {/* 标题 */}
                             <h1
-                                className="font-ndot text-3xl md:text-4xl text-center md:text-left mb-2"
+                                className="font-ndot text-3xl md:text-4xl text-center"
                                 style={{ color: isDarkMode ? '#FFFFFF' : '#1C1C1C' }}
                             >
                                 {projectData.title}
                             </h1>
 
-                            {/* 点赞数 */}
-                            <div
-                                className="flex items-center justify-center md:justify-start gap-1 mb-4"
-                                style={{ color: isDarkMode ? '#9CA3AF' : '#6B7280' }}
-                            >
-                                <span className="font-mono">{`{${projectData.likes}}`}</span>
-                                <span>♡</span>
-                            </div>
-
                             {/* 描述 */}
                             <p
-                                className="text-center md:text-left mb-6 font-mono text-sm"
+                                className="text-center font-mono text-sm leading-[1.25] tracking-[-0.28px]"
                                 style={{ color: isDarkMode ? '#D1D5DB' : '#4B5563' }}
                             >
                                 {projectData.description}
                             </p>
 
                             {/* 按钮组 */}
-                            <div className="flex gap-3 mb-8">
-                                {/* Download 按钮 */}
+                            <div className="flex w-full" style={{ gap: '32px', marginTop: '32px', marginBottom: '32px' }}>
+                                {/* Gallery 按钮 */}
                                 <button
-                                    className="flex-1 inline-flex items-center justify-between gap-3 px-3 py-2 rounded-md transition-colors"
-                                    style={{ backgroundColor: '#FFC700', color: '#1C1C1C' }}
+                                    className="flex-1 inline-flex items-center justify-between gap-3 px-6 rounded-full transition-colors"
+                                    style={{ backgroundColor: '#FFC700', color: '#1C1C1C', height: '32px' }}
                                 >
-                                    <span className="font-mono text-sm font-medium">Download</span>
-                                    <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
-                                        <path d="M8 1v10M4 8l4 4 4-4M2 14h12" stroke="currentColor" strokeWidth="1.5" fill="none" />
+                                    <span className="font-mono text-sm font-medium">Gallery</span>
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <line x1="5" y1="12" x2="19" y2="12" />
+                                        <polyline points="12 5 19 12 12 19" />
                                     </svg>
                                 </button>
 
-                                {/* Share 按钮 */}
+                                {/* Proposal 按钮 */}
                                 <button
-                                    className="flex-1 inline-flex items-center justify-between gap-3 px-3 py-2 rounded-md transition-colors"
+                                    className="flex-1 inline-flex items-center justify-between gap-3 px-6 rounded-full transition-colors"
                                     style={{
                                         backgroundColor: isDarkMode ? '#374151' : '#FFFFFF',
                                         color: isDarkMode ? '#FFFFFF' : '#1C1C1C',
                                         border: `1px solid ${isDarkMode ? '#4B5563' : '#E5E7EB'}`,
+                                        height: '32px',
                                     }}
                                 >
-                                    <span className="font-mono text-sm font-medium">Share</span>
-                                    <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5">
-                                        <path d="M4 12l8-8M12 4v8M12 4H4" />
+                                    <span className="font-mono text-sm font-medium">Proposal</span>
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <line x1="7" y1="17" x2="17" y2="7" />
+                                        <polyline points="7 7 17 7 17 17" />
                                     </svg>
                                 </button>
                             </div>
 
-                            {/* 信息列表 */}
-                            <div
-                                className="space-y-4 pt-4"
-                                style={{ borderTop: `1px solid ${isDarkMode ? '#374151' : '#E5E7EB'}` }}
-                            >
-                                {/* Category */}
+                            {/* 信息列表 - 增加间距 */}
+                            <div className="w-full">
+                                {/* Location */}
                                 <div
-                                    className="flex justify-between items-center py-2"
-                                    style={{ borderBottom: `1px solid ${isDarkMode ? '#374151' : '#F3F4F6'}` }}
+                                    className="flex justify-between items-center"
+                                    style={{ borderBottom: `1px solid ${isDarkMode ? '#374151' : '#E5E7EB'}`, padding: '12px 0' }}
                                 >
-                                    <span className="font-mono text-sm" style={{ color: isDarkMode ? '#9CA3AF' : '#6B7280' }}>Category</span>
-                                    <span className="font-mono text-sm" style={{ color: isDarkMode ? '#FFFFFF' : '#1C1C1C' }}>{projectData.category}</span>
+                                    <span className="font-mono text-sm font-medium" style={{ color: isDarkMode ? '#FFFFFF' : '#1C1C1C' }}>Location</span>
+                                    <span className="font-mono text-sm" style={{ color: isDarkMode ? '#9CA3AF' : '#6B7280' }}>{projectData.location}</span>
                                 </div>
 
-                                {/* Creator */}
+                                {/* Completion Date */}
                                 <div
-                                    className="flex justify-between items-center py-2"
-                                    style={{ borderBottom: `1px solid ${isDarkMode ? '#374151' : '#F3F4F6'}` }}
+                                    className="flex justify-between items-center"
+                                    style={{ borderBottom: `1px solid ${isDarkMode ? '#374151' : '#E5E7EB'}`, padding: '12px 0' }}
                                 >
-                                    <span className="font-mono text-sm" style={{ color: isDarkMode ? '#9CA3AF' : '#6B7280' }}>Creator</span>
-                                    <div className="flex items-center gap-2">
-                                        <span className="font-mono text-sm" style={{ color: isDarkMode ? '#FFFFFF' : '#1C1C1C' }}>{projectData.creator.name}</span>
-                                        {projectData.creator.avatar && (
-                                            <img src={projectData.creator.avatar} alt={projectData.creator.name} className="w-6 h-6 rounded-full" />
-                                        )}
-                                    </div>
+                                    <span className="font-mono text-sm font-medium" style={{ color: isDarkMode ? '#FFFFFF' : '#1C1C1C' }}>Completion Date</span>
+                                    <span className="font-mono text-sm" style={{ color: isDarkMode ? '#9CA3AF' : '#6B7280' }}>{projectData.completionDate}</span>
                                 </div>
 
-                                {/* Compatibility */}
-                                <div className="py-2">
+                                {/* Project Overview */}
+                                <div
+                                    style={{ borderBottom: `1px solid ${isDarkMode ? '#374151' : '#E5E7EB'}`, padding: '12px 0' }}
+                                >
                                     <div className="flex justify-between items-center">
-                                        <span className="font-mono text-sm" style={{ color: isDarkMode ? '#9CA3AF' : '#6B7280' }}>Compatibility</span>
-                                        <button style={{ color: isDarkMode ? '#9CA3AF' : '#9CA3AF' }}>
-                                            <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2">
-                                                <path d="M4 10l4-4 4 4" />
+                                        <span className="font-mono text-sm font-medium" style={{ color: isDarkMode ? '#FFFFFF' : '#1C1C1C' }}>Project Overview</span>
+                                        <button style={{ color: isDarkMode ? '#9CA3AF' : '#6B7280' }}>
+                                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <polyline points="18 15 12 9 6 15" />
                                             </svg>
                                         </button>
                                     </div>
-                                    <p className="font-mono text-xs mt-2" style={{ color: isDarkMode ? '#6B7280' : '#9CA3AF' }}>
-                                        {projectData.compatibility}
+                                    <p className="font-mono text-sm mt-3" style={{ color: isDarkMode ? '#6B7280' : '#9CA3AF' }}>
+                                        {projectData.overview}
                                     </p>
                                 </div>
                             </div>
 
                             {/* 免责声明 */}
                             <p
-                                className="text-center text-xs mt-8 font-mono"
+                                className="text-center text-xs font-mono"
                                 style={{ color: isDarkMode ? '#6B7280' : '#9CA3AF' }}
                             >
                                 This is provided by the community. Use at your own discretion.
