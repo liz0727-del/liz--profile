@@ -13,6 +13,8 @@ import project2 from '../../assets/playground/projects/project2.JPG';
 import project3img1 from '../../assets/playground/projects/project3/img1.JPG';
 import project3img2 from '../../assets/playground/projects/project3/img2.JPG';
 import project3img3 from '../../assets/playground/projects/project3/img3.JPG';
+import project4 from '../../assets/playground/projects/project4.svg';
+import project5 from '../../assets/playground/projects/project5.webp';
 
 /**
  * PlaygroundSection - 作品展示区域
@@ -40,6 +42,8 @@ function PlaygroundSection() {
             alt: 'Project 3',
             link: '/detail/project/3',
         },
+        project4: { src: project4, alt: 'Project 4', link: '/detail/project/4' },
+        project5: { src: project5, alt: 'Project 5', link: '/detail/project/5' },
     };
 
     return (
@@ -245,42 +249,45 @@ function PlaygroundSection() {
                         </Link>
                     </div>
 
-                    {/* 3-2: 图表占位符 */}
+                    {/* 3-2: Project 4 - height: 60%, 1:1 正方形, rounded-[20px] */}
                     <div
                         className="flex h-full w-full items-center justify-center"
                         style={{ aspectRatio: '4/3' }}
                     >
-                        <div
-                            className="border rounded-lg flex items-end justify-center p-3 gap-2"
-                            style={{
-                                width: '60%',
-                                height: '60%',
-                                borderColor: '#e3e3e3',
-                            }}
-                        >
-                            <div className="w-6 bg-ink" style={{ height: '30%' }}></div>
-                            <div className="w-6 bg-ink" style={{ height: '70%' }}></div>
-                        </div>
+                        <Link to={projects.project4.link} className="flex h-full w-full items-center justify-center">
+                            <img
+                                src={projects.project4.src}
+                                alt={projects.project4.alt}
+                                className="cursor-pointer object-cover transition-transform duration-600 ease-out hover:scale-[1.15]"
+                                style={{
+                                    height: '60%',
+                                    aspectRatio: '1/1',
+                                    borderRadius: '20px',
+                                }}
+                            />
+                        </Link>
                     </div>
 
                     {/* 3-3: 空占位符 */}
                     <div className="w-full" style={{ aspectRatio: '4/3' }}></div>
 
-                    {/* 3-4: 雷达/时钟图标 - h-[60%], rounded-[20px] */}
+                    {/* 3-4: Project 5 - height: 60%, 1:1 正方形, rounded-[20px] */}
                     <div
                         className="flex h-full w-full items-center justify-center"
                         style={{ aspectRatio: '4/3' }}
                     >
-                        <div
-                            className="bg-ink flex items-center justify-center"
-                            style={{
-                                height: '60%',
-                                aspectRatio: '1/1',
-                                borderRadius: '20px',
-                            }}
-                        >
-                            <span className="text-green-400 text-3xl">◉</span>
-                        </div>
+                        <Link to={projects.project5.link} className="flex h-full w-full items-center justify-center">
+                            <img
+                                src={projects.project5.src}
+                                alt={projects.project5.alt}
+                                className="cursor-pointer object-cover transition-transform duration-600 ease-out hover:scale-[1.15]"
+                                style={{
+                                    height: '60%',
+                                    aspectRatio: '1/1',
+                                    borderRadius: '20px',
+                                }}
+                            />
+                        </Link>
                     </div>
                 </div>
             </div>
