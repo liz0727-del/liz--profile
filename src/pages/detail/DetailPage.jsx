@@ -1,15 +1,21 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
+import Project3Detail from './Project3Detail';
 
 /**
- * DetailPage - 详情页占位组件
+ * DetailPage - 详情页路由分发
  * 
- * 用于显示项目/创作者的详细信息
- * 目前为占位页面，后续会完善内容
+ * 根据 type 和 id 渲染对应的详情组件
  */
 function DetailPage() {
     const { type, id } = useParams();
 
+    // Project 3 专属详情页
+    if (type === 'project' && id === '3') {
+        return <Project3Detail />;
+    }
+
+    // 通用占位页面
     return (
         <div className="min-h-screen flex flex-col items-center justify-center p-8 bg-paper">
             <div className="max-w-2xl w-full text-center space-y-8">
@@ -42,3 +48,4 @@ function DetailPage() {
 }
 
 export default DetailPage;
+
