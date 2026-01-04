@@ -109,38 +109,38 @@ function PlaygroundSection() {
                     {/* 1-2: 空占位符 */}
                     <div className="w-full" style={{ aspectRatio: '4/3' }}></div>
 
-                    {/* 1-3: Project 1 - 1:1 正方形, 124px */}
+                    {/* 1-3: Project 1 - height: 60%, 1:1 正方形 */}
                     <div
                         className="flex h-full w-full items-center justify-center"
                         style={{ aspectRatio: '4/3' }}
                     >
-                        <Link to={projects.project1.link} className="flex items-center justify-center">
+                        <Link to={projects.project1.link} className="flex h-full w-full items-center justify-center">
                             <img
                                 src={projects.project1.src}
                                 alt={projects.project1.alt}
                                 className="cursor-pointer object-cover transition-transform duration-600 ease-out hover:scale-[1.15]"
                                 style={{
-                                    width: '124px',
-                                    height: '124px',
+                                    height: '60%',
+                                    aspectRatio: '1/1',
                                     borderRadius: '20px',
                                 }}
                             />
                         </Link>
                     </div>
 
-                    {/* 1-4: Project 2 - 正圆形, 124px 直径 */}
+                    {/* 1-4: Project 2 - height: 60%, 正圆形 */}
                     <div
                         className="flex h-full w-full items-center justify-center"
                         style={{ aspectRatio: '4/3' }}
                     >
-                        <Link to={projects.project2.link} className="flex items-center justify-center">
+                        <Link to={projects.project2.link} className="flex h-full w-full items-center justify-center">
                             <img
                                 src={projects.project2.src}
                                 alt={projects.project2.alt}
                                 className="cursor-pointer object-cover transition-transform duration-600 ease-out hover:scale-[1.15]"
                                 style={{
-                                    width: '124px',
-                                    height: '124px',
+                                    height: '60%',
+                                    aspectRatio: '1/1',
                                     borderRadius: '9999px',  /* 正圆形 */
                                 }}
                             />
