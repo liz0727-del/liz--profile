@@ -3,8 +3,19 @@ import { Link, useNavigate } from 'react-router-dom';
 
 // 导入图片
 import img1 from '../../assets/playground/projects/project3/gallery/img1.JPG';
-import img2 from '../../assets/playground/projects/project3/gallery/img2.JPG';
 import img3 from '../../assets/playground/projects/project3/gallery/img3.JPG';
+import IMG_3970 from '../../assets/playground/projects/project3/gallery/IMG_3970.JPG';
+import IMG_3971 from '../../assets/playground/projects/project3/gallery/IMG_3971.JPG';
+import IMG_3978 from '../../assets/playground/projects/project3/gallery/IMG_3978.JPG';
+import IMG_3981 from '../../assets/playground/projects/project3/gallery/IMG_3981.JPG';
+import IMG_3983 from '../../assets/playground/projects/project3/gallery/IMG_3983.JPG';
+import IMG_3985 from '../../assets/playground/projects/project3/gallery/IMG_3985.JPG';
+import IMG_3986 from '../../assets/playground/projects/project3/gallery/IMG_3986.JPG';
+import IMG_3987 from '../../assets/playground/projects/project3/gallery/IMG_3987.JPG';
+import IMG_3988 from '../../assets/playground/projects/project3/gallery/IMG_3988.JPG';
+import IMG_3992 from '../../assets/playground/projects/project3/gallery/IMG_3992.JPG';
+import IMG_3993 from '../../assets/playground/projects/project3/gallery/IMG_3993.JPG';
+import IMG_3999 from '../../assets/playground/projects/project3/gallery/IMG_3999.JPG';
 
 /**
  * Project3Detail - Project 3 详情页
@@ -77,7 +88,12 @@ function Project3Detail() {
     const navigate = useNavigate();
 
     // 图片数组
-    const images = [img1, img2, img3];
+    const images = [
+        img1, img3,
+        IMG_3970, IMG_3971, IMG_3978, IMG_3981, IMG_3983,
+        IMG_3985, IMG_3986, IMG_3987, IMG_3988, IMG_3992,
+        IMG_3993, IMG_3999
+    ];
     const [currentIndex, setCurrentIndex] = useState(0);
     const [hoverSide, setHoverSide] = useState(null); // 'left' | 'right' | null
 
@@ -107,6 +123,17 @@ function Project3Detail() {
         };
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    // 页面加载时确保立即显示
+    useEffect(() => {
+        // 滚动到顶部
+        window.scrollTo(0, 0);
+        // 强制重绘
+        document.body.style.opacity = '0.99';
+        requestAnimationFrame(() => {
+            document.body.style.opacity = '1';
+        });
     }, []);
 
     // 切换到上一张图片
@@ -162,29 +189,44 @@ function Project3Detail() {
         <div className="project3-detail min-h-screen flex flex-col">
             {/* ========== Header 导航栏 ========== */}
             <header className="flex items-center justify-between" style={{ padding: '16px' }}>
-                {/* 左侧: 返回按钮 */}
+                {/* 左侧: Logo 点状文字 */}
                 <button
                     onClick={handleBack}
-                    className="inline-flex items-center justify-between gap-3 h-8 px-[11px] rounded-full border transition-all duration-150 shrink-0 whitespace-nowrap disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:ring-[3px]"
-                    style={{
-                        backgroundColor: 'transparent',
-                        borderColor: isDarkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)',
-                        color: isDarkMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.4)',
-                    }}
-                    onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = isDarkMode ? '#374151' : '#E3E3E3';
-                    }}
-                    onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = 'transparent';
-                    }}
-                    aria-label="返回"
+                    className="flex flex-col items-start transition-opacity duration-150 hover:opacity-70"
+                    style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+                    aria-label="返回首页"
                 >
-                    <div className="flex items-center justify-center rounded-full">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="pointer-events-none shrink-0">
-                            <line x1="19" y1="12" x2="5" y2="12" />
-                            <polyline points="12 19 5 12 12 5" />
-                        </svg>
-                    </div>
+                    <p
+                        className="font-ndot uppercase"
+                        style={{
+                            fontSize: '16px',
+                            color: isDarkMode ? '#FFFFFF' : '#1C1C1C',
+                            letterSpacing: '0.05em',
+                            margin: 0
+                        }}
+                    >
+                        Nothing (R)
+                    </p>
+                    <p
+                        style={{
+                            fontSize: '16px',
+                            color: isDarkMode ? '#FFFFFF' : '#1C1C1C',
+                            margin: 0
+                        }}
+                    >
+                        <span className="font-ndot uppercase">Playground</span>
+                        <span
+                            className="font-mono"
+                            style={{
+                                fontSize: '10px',
+                                color: isDarkMode ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.4)',
+                                verticalAlign: 'middle',
+                                marginLeft: '4px'
+                            }}
+                        >
+                            ALPHA
+                        </span>
+                    </p>
                 </button>
 
                 {/* 右侧: 按钮组 */}
@@ -328,13 +370,14 @@ function Project3Detail() {
                 </div>
             </header>
 
-            {/* ========== 主内容区: 两列布局 ========== */}
-            <main className="flex-1 px-3 py-8 sm:px-6 md:px-8">
+            {/* ========== 主内容区: 两列水平布局 ========== */}
+            <main className="flex-1 py-8" style={{ paddingLeft: '16px', paddingRight: '16px' }}>
                 <div className="max-w-6xl mx-auto">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                    {/* 默认水平并排 */}
+                    <div style={{ display: 'flex', flexDirection: 'row', gap: '48px' }}>
 
                         {/* ===== 左列: 图片轮播 ===== */}
-                        <div className="flex flex-col items-center">
+                        <div style={{ flex: 1 }} className="flex flex-col items-center">
                             {/* 图片容器 */}
                             <div
                                 className={`relative w-full aspect-[4/3] rounded-lg border overflow-hidden flex items-center justify-center ${hoverSide === 'left' ? 'cursor-dot-left' : hoverSide === 'right' ? 'cursor-dot-right' : ''
@@ -387,7 +430,7 @@ function Project3Detail() {
                         </div>
 
                         {/* ===== 右列: 信息区 ===== */}
-                        <div className="flex flex-col">
+                        <div style={{ flex: 1 }} className="flex flex-col">
                             {/* 标题 */}
                             <h1
                                 className="font-ndot text-3xl md:text-4xl text-center md:text-left mb-2"
