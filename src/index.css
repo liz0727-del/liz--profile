@@ -24,6 +24,13 @@
   --color-grid: rgba(0, 0, 0, 0.1);
   /* 网格线 */
 
+  /* Playground Section 专用颜色 */
+  --color-surface-primary: #f2f2f2;
+  --color-surface-on-primary: #ffffff;
+  --color-surface-tertiary: #e3e3e3;
+  --color-border-lighter: #e3e3e3;
+  --color-text-primary: #1c1c1c;
+
   /* 自定义字体族 - 这些会生成 font-mono, font-dot, font-ndot 等工具类 */
   --font-mono: "Roboto Mono", monospace;
   /* 等宽字体，用于正文 */
@@ -54,5 +61,35 @@
     @apply text-ink font-mono antialiased;
     margin: 0;
     background: transparent;
+  }
+}
+
+/* ============================================
+   Playground Section 自定义动画
+   ============================================ */
+@layer utilities {
+
+  /* 旋转头像动画 - 3秒一周 */
+  .animate-spin-slow {
+    animation: spin 3s linear infinite;
+  }
+
+  /* 悬停时暂停动画 */
+  .group:has(.avatar:hover) .animate-spin-slow {
+    animation-play-state: paused;
+  }
+
+  /* 其他头像淡化效果 */
+  .group:has(.avatar:hover) .avatar:not(:hover) {
+    opacity: 0.1;
+  }
+
+  /* 图片卡片 hover 放大效果 */
+  .hover-scale-115 {
+    transition: transform 600ms ease-out;
+  }
+
+  .hover-scale-115:hover {
+    transform: scale(1.15);
   }
 }
