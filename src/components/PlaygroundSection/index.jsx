@@ -184,51 +184,66 @@ function PlaygroundSection() {
 
                     {/* ===== 第三行: 4个组件 ===== */}
 
-                    {/* 3-1: Project 3 堆叠图片 - 3张固定尺寸 80x120px */}
-                    <Link
-                        to={projects.project3.link}
-                        className="group relative flex w-full items-center justify-center"
+                    {/* 3-1: Project 3 堆叠图片 - 用外层容器包裹并居中 */}
+                    <div
+                        className="flex h-full w-full items-center justify-center"
                         style={{ aspectRatio: '4/3' }}
                     >
-                        {/* 第一张卡片 - 左侧 */}
-                        <img
-                            src={projects.project3.images[0]}
-                            alt="Project 3 - Image 1"
-                            className="absolute object-cover transition-transform duration-200 ease-out group-hover:rotate-[-8deg]"
+                        <Link
+                            to={projects.project3.link}
+                            className="group grid overflow-hidden"
                             style={{
-                                width: '80px',
-                                height: '120px',
-                                borderRadius: '14px',
-                                transform: 'translateX(-50px) rotate(-6deg)',
-                                zIndex: 0,
+                                width: '85%',
+                                aspectRatio: '4/3',
+                                padding: '16%',
+                                gridTemplateColumns: 'repeat(7, minmax(0, 1fr))',
+                                gridTemplateRows: 'minmax(0, 1fr)',
                             }}
-                        />
-                        {/* 第二张卡片 - 中间 */}
-                        <img
-                            src={projects.project3.images[1]}
-                            alt="Project 3 - Image 2"
-                            className="absolute object-cover transition-transform duration-200 ease-out"
-                            style={{
-                                width: '80px',
-                                height: '120px',
-                                borderRadius: '14px',
-                                zIndex: 10,
-                            }}
-                        />
-                        {/* 第三张卡片 - 右侧 */}
-                        <img
-                            src={projects.project3.images[2]}
-                            alt="Project 3 - Image 3"
-                            className="absolute object-cover transition-transform duration-200 ease-out group-hover:rotate-[8deg]"
-                            style={{
-                                width: '80px',
-                                height: '120px',
-                                borderRadius: '14px',
-                                transform: 'translateX(50px) rotate(6deg)',
-                                zIndex: 20,
-                            }}
-                        />
-                    </Link>
+                        >
+                            {/* 左侧图片 - grid-column: 1/4, rotate: -10deg */}
+                            <img
+                                src={projects.project3.images[0]}
+                                alt="Project 3 - Image 1"
+                                className="object-cover transition-all duration-600 ease-out group-hover:opacity-50"
+                                style={{
+                                    gridColumn: '1 / 4',
+                                    gridRow: '1 / 2',
+                                    height: '100%',
+                                    aspectRatio: '3/4',
+                                    borderRadius: '6px',
+                                    rotate: '-10deg',
+                                }}
+                            />
+                            {/* 中间图片 - grid-column: 3/6, z-index: 10 */}
+                            <img
+                                src={projects.project3.images[1]}
+                                alt="Project 3 - Image 2"
+                                className="object-cover transition-all duration-600 ease-out group-hover:scale-[1.2]"
+                                style={{
+                                    gridColumn: '3 / 6',
+                                    gridRow: '1 / 2',
+                                    height: '100%',
+                                    aspectRatio: '3/4',
+                                    borderRadius: '6px',
+                                    zIndex: 10,
+                                }}
+                            />
+                            {/* 右侧图片 - grid-column: 5/8, rotate: 10deg */}
+                            <img
+                                src={projects.project3.images[2]}
+                                alt="Project 3 - Image 3"
+                                className="object-cover transition-all duration-600 ease-out group-hover:opacity-50"
+                                style={{
+                                    gridColumn: '5 / 8',
+                                    gridRow: '1 / 2',
+                                    height: '100%',
+                                    aspectRatio: '3/4',
+                                    borderRadius: '6px',
+                                    rotate: '10deg',
+                                }}
+                            />
+                        </Link>
+                    </div>
 
                     {/* 3-2: 图表占位符 */}
                     <div
