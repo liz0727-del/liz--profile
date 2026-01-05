@@ -47,7 +47,7 @@ function PlaygroundSection() {
     };
 
     return (
-        <section className="relative w-full pointer-events-auto">
+        <section id="playground" className="relative w-full pointer-events-auto">
             {/* 外层容器 - 大圆角卡片 */}
             <div
                 style={{

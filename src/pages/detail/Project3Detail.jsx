@@ -100,9 +100,30 @@ function Project3Detail() {
     // 暗黑模式状态
     const [isDarkMode, setIsDarkMode] = useState(false);
 
+    // 实时时间状态
+    const [currentTime, setCurrentTime] = useState('');
+
     // 下拉菜单状态
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
+
+    // 更新实时时间
+    useEffect(() => {
+        const updateTime = () => {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            setCurrentTime(`${year}/${month}/${day} | ${hours}:${minutes}`);
+        };
+
+        updateTime(); // 立即更新一次
+        const interval = setInterval(updateTime, 1000); // 每秒更新
+
+        return () => clearInterval(interval); // 清理定时器
+    }, []);
 
     // 切换暗黑模式
     const toggleDarkMode = () => {
@@ -169,7 +190,14 @@ function Project3Detail() {
 
     // 返回主页 Playground 区域
     const handleBack = () => {
-        navigate('/');
+        navigate('/#playground');
+        // 立即跳转到 playground 区域（无滚动动画）
+        setTimeout(() => {
+            const playgroundSection = document.getElementById('playground');
+            if (playgroundSection) {
+                playgroundSection.scrollIntoView({ behavior: 'instant', block: 'start' });
+            }
+        }, 100);
     };
 
     // 项目数据
@@ -182,9 +210,31 @@ function Project3Detail() {
     };
 
     return (
-        <div className="project3-detail min-h-screen flex flex-col" style={{ backgroundColor: '#F8F8F8', backgroundImage: 'radial-gradient(circle, rgba(0, 0, 0, 0.08) 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
+        <div className="project3-detail min-h-screen flex flex-col" style={{
+            backgroundColor: isDarkMode ? '#1C1C1C' : '#F8F8F8',
+            backgroundImage: isDarkMode
+                ? 'radial-gradient(circle, rgba(255, 255, 255, 0.08) 1px, transparent 1px)'
+                : 'radial-gradient(circle, rgba(0, 0, 0, 0.08) 1px, transparent 1px)',
+            backgroundSize: '20px 20px'
+        }}>
             {/* ========== Header 导航栏 ========== */}
-            <header className="flex items-center justify-between" style={{ padding: '16px' }}>
+            <header
+                className="flex items-center justify-between"
+                style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    paddingLeft: '32px',
+                    paddingRight: '32px',
+                    paddingTop: '16px',
+                    paddingBottom: '16px',
+                    backgroundColor: isDarkMode ? 'rgba(28, 28, 28, 0.8)' : 'rgba(248, 248, 248, 0.8)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    zIndex: 1000
+                }}
+            >
                 {/* 左侧: Logo 点状文字 */}
                 <button
                     onClick={handleBack}
@@ -251,29 +301,9 @@ function Project3Detail() {
                         </svg>
                     </button>
 
-                    {/* Focus Overlay - 模糊背景层 */}
-                    {isDropdownOpen && (
-                        <div
-                            className="fixed transition-opacity duration-300"
-                            style={{
-                                position: 'fixed',
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                bottom: 0,
-                                width: '100vw',
-                                height: '100vh',
-                                zIndex: 55,
-                                backdropFilter: 'blur(4px)',
-                                WebkitBackdropFilter: 'blur(4px)',
-                                backgroundColor: 'rgba(255, 255, 255, 0.01)',
-                            }}
-                            onClick={() => setIsDropdownOpen(false)}
-                        />
-                    )}
 
                     {/* 作品下拉列表 */}
-                    <div className="relative z-[60]" style={{ marginLeft: '16px' }} ref={dropdownRef}>
+                    <div className="relative z-[1060]" style={{ marginLeft: '16px' }} ref={dropdownRef}>
                         <button
                             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                             className="group inline-flex items-center justify-center gap-3 h-8 rounded-full shrink-0 origin-center transition-all duration-200 ease-out outline-none disabled:pointer-events-none disabled:opacity-50 focus-visible:ring-[3px] focus-visible:ring-blue-500/50"
@@ -406,8 +436,29 @@ function Project3Detail() {
                 </div>
             </header>
 
+            {/* Focus Overlay - 模糊背景层 (移到 header 外部) */}
+            {isDropdownOpen && (
+                <div
+                    className="fixed transition-opacity duration-300"
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        width: '100vw',
+                        height: '100vh',
+                        zIndex: 999,
+                        backdropFilter: 'blur(4px)',
+                        WebkitBackdropFilter: 'blur(4px)',
+                        backgroundColor: 'rgba(255, 255, 255, 0.01)',
+                    }}
+                    onClick={() => setIsDropdownOpen(false)}
+                />
+            )}
+
             {/* ========== 主内容区: 两列水平布局 ========== */}
-            <main className="flex-1 py-8" style={{ paddingLeft: '16px', paddingRight: '16px' }}>
+            <main className="flex-1" style={{ marginTop: '64px', paddingTop: '32px', paddingBottom: '16px', paddingLeft: '32px', paddingRight: '32px' }}>
                 <div className="max-w-6xl mx-auto">
                     {/* 默认水平并排 */}
                     <div style={{ display: 'flex', flexDirection: 'row', gap: '48px' }}>
@@ -466,6 +517,7 @@ function Project3Detail() {
                                                 backgroundColor: index === currentIndex
                                                     ? (isDarkMode ? '#FFFFFF' : '#1C1C1C')
                                                     : (isDarkMode ? '#6B7280' : '#D1D5DB'),
+                                                border: 'none',
                                             }}
                                         />
                                     ))}
@@ -492,11 +544,16 @@ function Project3Detail() {
                             </p>
 
                             {/* 按钮组 */}
-                            <div className="flex w-full" style={{ gap: '32px', marginTop: '32px', marginBottom: '32px' }}>
+                            <div className="flex w-full" style={{ gap: '32px', marginTop: '32px', marginBottom: '32px', position: 'relative', zIndex: 1060 }}>
                                 {/* Gallery 按钮 */}
                                 <button
                                     className="flex-1 inline-flex items-center justify-between gap-3 px-6 rounded-full transition-colors"
-                                    style={{ backgroundColor: '#FFC700', color: '#1C1C1C', height: '32px' }}
+                                    style={{
+                                        backgroundColor: '#FFC700',
+                                        color: '#1C1C1C',
+                                        height: '32px',
+                                        border: '1px solid rgba(0, 0, 0, 0.1)'
+                                    }}
                                 >
                                     <span className="font-mono text-sm font-medium">Gallery</span>
                                     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -545,7 +602,7 @@ function Project3Detail() {
 
                                 {/* Project Overview */}
                                 <div
-                                    style={{ borderBottom: `1px solid ${isDarkMode ? '#374151' : '#E5E7EB'}`, padding: '12px 0' }}
+                                    style={{ padding: '12px 0 24px 0' }}
                                 >
                                     <div className="flex justify-between items-center">
                                         <span className="font-mono text-sm font-medium" style={{ color: isDarkMode ? '#FFFFFF' : '#1C1C1C' }}>Project Overview</span>
@@ -561,13 +618,28 @@ function Project3Detail() {
                                 </div>
                             </div>
 
-                            {/* 免责声明 */}
-                            <p
-                                className="text-center text-xs font-mono"
-                                style={{ color: isDarkMode ? '#6B7280' : '#9CA3AF' }}
-                            >
-                                This is provided by the community. Use at your own discretion.
-                            </p>
+                            {/* 免责声明 - 居中靠下 */}
+                            <div className="mt-auto pt-8 flex flex-col items-center">
+                                {/* 灰色分隔线 */}
+                                <div
+                                    style={{
+                                        width: '100%',
+                                        height: '1px',
+                                        backgroundColor: isDarkMode ? '#374151' : '#E5E7EB',
+                                        marginBottom: 0
+                                    }}
+                                ></div>
+                                {/* 免责声明文字 */}
+                                <p
+                                    className="text-center text-xs font-mono"
+                                    style={{
+                                        color: isDarkMode ? '#6B7280' : '#9CA3AF',
+                                        marginBottom: 0
+                                    }}
+                                >
+                                    This is provided by the community. Use at your own discretion.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -575,42 +647,100 @@ function Project3Detail() {
 
             {/* ========== Footer 页脚 ========== */}
             <footer
-                className="mt-auto px-3 py-8 md:px-8"
-                style={{ backgroundColor: isDarkMode ? '#2D2D2D' : '#E3E3E3' }}
+                className="mt-auto"
+                style={{
+                    backgroundColor: isDarkMode ? '#1C1C1C' : '#E3E3E3',
+                    padding: '32px'
+                }}
             >
-                {/* 第一部分: Logo 和导航 */}
-                <div className="flex flex-col md:flex-row justify-between items-start mb-16">
+                {/* 第一行: 实时时间（右上角）*/}
+                <div className="flex justify-end mb-16">
                     <div
-                        className="font-ndot text-sm uppercase tracking-wider mb-8 md:mb-0"
-                        style={{ color: isDarkMode ? '#FFFFFF' : '#1C1C1C' }}
+                        className="font-ndot"
+                        style={{
+                            fontSize: '12px',
+                            color: isDarkMode ? '#FFFFFF' : '#1C1C1C'
+                        }}
                     >
-                        <span>NOTHING (R)</span>
-                    </div>
-                    <div
-                        className="flex flex-wrap gap-6 text-xs font-mono uppercase"
-                        style={{ color: isDarkMode ? '#D1D5DB' : '#1C1C1C' }}
-                    >
-                        <a href="#" className="hover:underline">TERMS OF SERVICE</a>
-                        <a href="#" className="hover:underline">PRIVACY POLICY</a>
-                        <a href="#" className="hover:underline">INSTAGRAM</a>
-                        <a href="#" className="hover:underline">X</a>
-                        <a href="#" className="hover:underline">COMMUNITY</a>
+                        {currentTime}
                     </div>
                 </div>
 
-                {/* 第二部分: See you on the canvas */}
-                <div className="flex flex-col md:flex-row justify-between items-end">
+                {/* 第二行: See you on the canvas + 装饰圆点 */}
+                <div className="flex justify-between items-center mb-16" style={{ marginTop: '200px' }}>
                     <p
-                        className="font-ndot text-2xl md:text-3xl italic mb-4 md:mb-0"
-                        style={{ color: isDarkMode ? '#FFFFFF' : '#1C1C1C' }}
+                        className="font-ndot italic"
+                        style={{
+                            fontSize: '20px',
+                            color: isDarkMode ? '#FFFFFF' : '#1C1C1C'
+                        }}
                     >
                         See you on the canvas.
                     </p>
                     <div className="flex items-center gap-2">
-                        <span className="w-4 h-4 rounded-full bg-yellow-400"></span>
-                        <span className="w-6 h-6 rounded-full bg-black flex items-center justify-center">
-                            <span className="w-3 h-3 rounded-full bg-white"></span>
+                        <span
+                            className="rounded-full"
+                            style={{
+                                width: '16px',
+                                height: '16px',
+                                backgroundColor: '#FFC700'
+                            }}
+                        ></span>
+                        <span
+                            className="rounded-full flex items-center justify-center"
+                            style={{
+                                width: '24px',
+                                height: '24px',
+                                backgroundColor: isDarkMode ? '#FFFFFF' : '#1C1C1C'
+                            }}
+                        >
+                            <span
+                                className="rounded-full"
+                                style={{
+                                    width: '12px',
+                                    height: '12px',
+                                    backgroundColor: isDarkMode ? '#1C1C1C' : '#FFFFFF'
+                                }}
+                            ></span>
                         </span>
+                    </div>
+                </div>
+
+                {/* 第三行: NOTHING (R) + 社交媒体链接 */}
+                <div className="flex justify-between items-end">
+                    <div
+                        className="font-ndot uppercase"
+                        style={{
+                            fontSize: '20px',
+                            color: isDarkMode ? '#FFFFFF' : '#1C1C1C'
+                        }}
+                    >
+                        NOTHING (R)
+                    </div>
+                    <div
+                        className="flex font-ndot uppercase"
+                        style={{
+                            gap: '16px',
+                            fontSize: '12px',
+                            color: isDarkMode ? '#D1D5DB' : '#1C1C1C'
+                        }}
+                    >
+                        <a
+                            href="https://www.instagram.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:underline"
+                        >
+                            INSTAGRAM
+                        </a>
+                        <a
+                            href="https://www.xiaohongshu.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:underline"
+                        >
+                            XIAOHONGSHU
+                        </a>
                     </div>
                 </div>
             </footer>
