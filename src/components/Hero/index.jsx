@@ -16,7 +16,8 @@ function Hero() {
                     className="font-ndot leading-[1.3] uppercase text-ink mix-blend-difference"
                     style={{
                         fontSize: 'clamp(60px, 10vw, 150px)',
-                        letterSpacing: 'normal'
+                        letterSpacing: 'normal',
+                        fontWeight: 300
                     }}
                 >
                     XUELI FAN
