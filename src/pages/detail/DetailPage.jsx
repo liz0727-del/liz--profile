@@ -1,5 +1,7 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
+import Project1Detail from './Project1Detail';
+import Project2Detail from './Project2Detail';
 import Project3Detail from './Project3Detail';
 
 /**
@@ -9,6 +11,16 @@ import Project3Detail from './Project3Detail';
  */
 function DetailPage() {
     const { type, id } = useParams();
+
+    // Project 1 专属详情页
+    if (type === 'project' && id === '1') {
+        return <Project1Detail />;
+    }
+
+    // Project 2 专属详情页
+    if (type === 'project' && id === '2') {
+        return <Project2Detail />;
+    }
 
     // Project 3 专属详情页
     if (type === 'project' && id === '3') {

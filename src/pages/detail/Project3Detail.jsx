@@ -107,6 +107,11 @@ function Project3Detail() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
 
+    // Gallery 画廊模态框状态
+    const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+    const [isFullscreen, setIsFullscreen] = useState(false);
+    const [fullscreenIndex, setFullscreenIndex] = useState(0);
+
     // 更新实时时间
     useEffect(() => {
         const updateTime = () => {
@@ -202,11 +207,11 @@ function Project3Detail() {
 
     // 项目数据
     const projectData = {
-        title: 'Christmas spirit',
-        description: 'A fun Christmas animation in time for the holidays.',
-        location: 'Shanghai, China',
-        completionDate: '2024.12',
-        overview: 'Compatible with Nothing phones running OS 4.0 and later. This project includes custom animations, wallpapers, and sound effects designed to bring the holiday spirit to your device. Works best with the latest Nothing OS updates for optimal performance and visual fidelity.',
+        title: 'ZHONGHAI',
+        description: 'Shenyang Zhonghai · Heping Gate Office Showroom Soft Furnishing Design',
+        location: 'Shenyang, China',
+        completionDate: '2024.08',
+        overview: 'Located in the core area of Shenyang and Changbai business district, adjacent to Nanjing South Street and Hunnan West Road, at the intersection of Hunhe River and the Second Golden Corridor. The design balances modern composition with artistic aesthetics, using calm beige as the main color, infused with elegant bean paste green and ivory tones. It conveys humanistic temperament through modern and simple expression, creating a warm and quiet innovative humanistic community that transforms Shenyang\'s industrial heritage into a future-adaptive office space and urban showcase.',
     };
 
     return (
@@ -547,7 +552,8 @@ function Project3Detail() {
                             <div className="flex w-full" style={{ gap: '32px', marginTop: '32px', marginBottom: '32px', position: 'relative', zIndex: 1060 }}>
                                 {/* Gallery 按钮 */}
                                 <button
-                                    className="flex-1 inline-flex items-center justify-between gap-3 px-6 rounded-full transition-colors"
+                                    onClick={() => setIsGalleryOpen(true)}
+                                    className="flex-1 inline-flex items-center justify-between gap-3 px-6 rounded-full transition-colors hover:brightness-110"
                                     style={{
                                         backgroundColor: '#FFC700',
                                         color: '#1C1C1C',
@@ -564,7 +570,8 @@ function Project3Detail() {
 
                                 {/* Proposal 按钮 */}
                                 <button
-                                    className="flex-1 inline-flex items-center justify-between gap-3 px-6 rounded-full transition-colors"
+                                    onClick={() => window.open('/pdfs/project3-proposal.pdf', '_blank')}
+                                    className="flex-1 inline-flex items-center justify-between gap-3 px-6 rounded-full transition-colors hover:brightness-95"
                                     style={{
                                         backgroundColor: isDarkMode ? '#374151' : '#FFFFFF',
                                         color: isDarkMode ? '#FFFFFF' : '#1C1C1C',
@@ -744,6 +751,239 @@ function Project3Detail() {
                     </div>
                 </div>
             </footer>
+
+            {/* ========== Gallery 画廊模态框 ========== */}
+            {isGalleryOpen && (
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        width: '100vw',
+                        height: '100vh',
+                        zIndex: 2000,
+                        overflow: 'hidden',
+                    }}
+                >
+                    {/* 模糊背景层 */}
+                    <div
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            width: '100%',
+                            height: '100%',
+                            backdropFilter: 'blur(20px)',
+                            WebkitBackdropFilter: 'blur(20px)',
+                            backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.7)',
+                        }}
+                    />
+
+                    {/* 关闭按钮 - 右上角 */}
+                    <button
+                        onClick={() => {
+                            setIsGalleryOpen(false);
+                            setIsFullscreen(false);
+                        }}
+                        className="absolute z-[2010] inline-flex items-center justify-center transition-all duration-200 hover:scale-105"
+                        style={{
+                            top: '32px',
+                            right: '32px',
+                            height: '26px',
+                            paddingLeft: '16px',
+                            paddingRight: '16px',
+                            borderRadius: '9999px',
+                            backgroundColor: '#FFC700',
+                            border: 'none',
+                        }}
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                            width="20"
+                            height="20"
+                            fill="none"
+                            stroke="#4B5563"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                        </svg>
+                    </button>
+
+                    {/* 返回网格按钮 - 关闭按钮左侧16px */}
+                    {isFullscreen && (
+                        <button
+                            onClick={() => setIsFullscreen(false)}
+                            className="absolute z-[2010] inline-flex items-center justify-center transition-all duration-200 hover:scale-105"
+                            style={{
+                                top: '32px',
+                                right: '96px',
+                                height: '26px',
+                                paddingLeft: '16px',
+                                paddingRight: '16px',
+                                borderRadius: '9999px',
+                                backgroundColor: isDarkMode ? 'rgba(55, 65, 81, 0.9)' : 'rgba(255, 255, 255, 0.9)',
+                                border: `1px solid ${isDarkMode ? '#4B5563' : '#E5E7EB'}`,
+                            }}
+                        >
+                            <svg
+                                viewBox="0 0 24 24"
+                                width="20"
+                                height="20"
+                                fill="none"
+                                stroke={isDarkMode ? '#9CA3AF' : '#6B7280'}
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            >
+                                <path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z" />
+                            </svg>
+                        </button>
+                    )}
+
+                    {/* 根据状态显示网格视图或全屏视图 */}
+                    {!isFullscreen ? (
+                        /* ===== 网格视图 ===== */
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                overflowY: 'auto',
+                                padding: '32px',
+                                paddingTop: '80px',
+                            }}
+                        >
+                            <div
+                                className="grid"
+                                style={{
+                                    gridTemplateColumns: 'repeat(4, 1fr)',
+                                    gap: '8px',
+                                }}
+                            >
+                                {images.map((img, index) => (
+                                    <div
+                                        key={index}
+                                        onClick={() => {
+                                            setFullscreenIndex(index);
+                                            setIsFullscreen(true);
+                                        }}
+                                        className="cursor-pointer overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:shadow-xl"
+                                        style={{
+                                            borderRadius: '12px',
+                                        }}
+                                    >
+                                        <img
+                                            src={img}
+                                            alt={`Gallery 图片 ${index + 1}`}
+                                            className="w-full object-cover"
+                                            style={{
+                                                aspectRatio: '4 / 3',
+                                                borderRadius: '12px',
+                                                display: 'block',
+                                            }}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ) : (
+                        /* ===== 全屏查看视图 ===== */
+                        <div style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}>
+                            {/* 左箭头 - 椭圆形 */}
+                            <button
+                                onClick={() => setFullscreenIndex(prev => prev === 0 ? images.length - 1 : prev - 1)}
+                                className="absolute z-[2010] inline-flex items-center justify-center transition-all duration-200 hover:scale-105"
+                                style={{
+                                    left: '32px',
+                                    height: '26px',
+                                    paddingLeft: '16px',
+                                    paddingRight: '16px',
+                                    borderRadius: '9999px',
+                                    backgroundColor: isDarkMode ? 'rgba(55, 65, 81, 0.9)' : 'rgba(255, 255, 255, 0.9)',
+                                    border: `1px solid ${isDarkMode ? '#4B5563' : '#E5E7EB'}`,
+                                }}
+                            >
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke={isDarkMode ? '#9CA3AF' : '#6B7280'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <polyline points="15 18 9 12 15 6" />
+                                </svg>
+                            </button>
+
+                            {/* 大图展示 - 居中 */}
+                            <div
+                                className="flex items-center justify-center"
+                                style={{
+                                    maxWidth: 'calc(100vw - 200px)',
+                                    maxHeight: 'calc(100vh - 120px)',
+                                }}
+                            >
+                                <img
+                                    src={images[fullscreenIndex]}
+                                    alt={`全屏查看 ${fullscreenIndex + 1}`}
+                                    className="object-contain"
+                                    style={{
+                                        maxWidth: '100%',
+                                        maxHeight: 'calc(100vh - 120px)',
+                                        borderRadius: '16px',
+                                        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                                    }}
+                                />
+                            </div>
+
+                            {/* 右箭头 - 椭圆形 */}
+                            <button
+                                onClick={() => setFullscreenIndex(prev => prev === images.length - 1 ? 0 : prev + 1)}
+                                className="absolute z-[2010] inline-flex items-center justify-center transition-all duration-200 hover:scale-105"
+                                style={{
+                                    right: '32px',
+                                    height: '26px',
+                                    paddingLeft: '16px',
+                                    paddingRight: '16px',
+                                    borderRadius: '9999px',
+                                    backgroundColor: isDarkMode ? 'rgba(55, 65, 81, 0.9)' : 'rgba(255, 255, 255, 0.9)',
+                                    border: `1px solid ${isDarkMode ? '#4B5563' : '#E5E7EB'}`,
+                                }}
+                            >
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke={isDarkMode ? '#9CA3AF' : '#6B7280'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <polyline points="9 18 15 12 9 6" />
+                                </svg>
+                            </button>
+
+                            {/* 图片计数器 - 底部居中 */}
+                            <div
+                                className="absolute z-[2010] px-4 py-2 rounded-full font-mono"
+                                style={{
+                                    bottom: '8px',
+                                    left: '50%',
+                                    transform: 'translateX(-50%)',
+                                    fontSize: '12px',
+                                    backgroundColor: isDarkMode ? 'rgba(55, 65, 81, 0.9)' : 'rgba(229, 231, 235, 0.9)',
+                                    color: isDarkMode ? '#9CA3AF' : '#6B7280',
+                                }}
+                            >
+                                {fullscreenIndex + 1} / {images.length}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 }
