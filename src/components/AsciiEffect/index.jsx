@@ -14,6 +14,7 @@ const SETTINGS = {
     lineHeight: 18,
     letterSpacing: 6,
     color: 'rgb(215, 215, 215)',
+    fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace',
 };
 
 // 鼠标互动配置
@@ -34,10 +35,9 @@ const VIDEOS = [
 
 const AsciiEffect = ({ children, videoBackground }) => {
     const videoRef = useRef(null);
-    const textRef = useRef(null);
-    const canvasRef = useRef(null);
+    const samplingCanvasRef = useRef(null);  // 用于采样视频帧
+    const displayCanvasRef = useRef(null);   // 用于显示 ASCII 字符
     const animationRef = useRef(null);
-    const sectionsRef = useRef([]);
 
     // 激活的单元格: Map<"x,y" => { startTime, randomChars }>
     const activeCellsRef = useRef(new Map());
@@ -46,16 +46,16 @@ const AsciiEffect = ({ children, videoBackground }) => {
 
     const [currentVideoIdx, setCurrentVideoIdx] = useState(0);
 
+    // 计算字符尺寸
+    const charWidth = (SETTINGS.fontSize * 0.6) + SETTINGS.letterSpacing;
+    const charHeight = SETTINGS.lineHeight;
+
     // Scroll listener to toggle videos based on scroll position
     useEffect(() => {
         const handleScroll = () => {
             const scrollY = window.scrollY;
             const viewportHeight = window.innerHeight;
-            // Map scroll position to video index: each 100vh section corresponds to one video
-            // We use Math.round to switch when > 50% into the next section
             const idx = Math.floor((scrollY + viewportHeight * 0.5) / viewportHeight);
-
-            // Safety clamp
             const safeIdx = Math.max(0, Math.min(idx, VIDEOS.length - 1));
 
             if (safeIdx !== currentVideoIdx) {
@@ -63,8 +63,7 @@ const AsciiEffect = ({ children, videoBackground }) => {
             }
         };
 
-        window.addEventListener('scroll', handleScroll);
-        // Initial check
+        window.addEventListener('scroll', handleScroll, { passive: true });
         handleScroll();
 
         return () => window.removeEventListener('scroll', handleScroll);
@@ -72,18 +71,13 @@ const AsciiEffect = ({ children, videoBackground }) => {
 
     // 鼠标互动监听器
     useEffect(() => {
-        const charWidth = (SETTINGS.fontSize * 0.6) + SETTINGS.letterSpacing;
-        const charHeight = SETTINGS.lineHeight;
-
         const handleMouseMove = (e) => {
-            // 将像素坐标转换为网格坐标
             const gridX = Math.floor(e.clientX / charWidth);
             const gridY = Math.floor(e.clientY / charHeight);
 
             const prevX = mouseGridRef.current.x;
             const prevY = mouseGridRef.current.y;
 
-            // 只有当鼠标移动到新的网格位置时才处理
             if (gridX === prevX && gridY === prevY) return;
 
             mouseGridRef.current = { x: gridX, y: gridY };
@@ -91,70 +85,82 @@ const AsciiEffect = ({ children, videoBackground }) => {
             const now = performance.now();
             const activeCells = activeCellsRef.current;
 
-            // 在鼠标周围的圆形区域内激活字符
             const radius = MOUSE_CONFIG.radius;
             for (let dy = -radius; dy <= radius; dy++) {
                 for (let dx = -radius; dx <= radius; dx++) {
-                    // 检查是否在圆形区域内
                     if (dx * dx + dy * dy > radius * radius) continue;
-
-                    // 只有约5%的字符被激活
                     if (Math.random() > MOUSE_CONFIG.probability) continue;
 
                     const cellX = gridX + dx;
                     const cellY = gridY + dy;
                     const key = `${cellX},${cellY}`;
 
-                    // 如果这个格子还没被激活，或者之前的动画已经结束
                     if (!activeCells.has(key)) {
-                        // 生成这个格子的随机闪烁字符序列 (3-5个)
                         const numChars = 3 + Math.floor(Math.random() * 3);
                         const randomChars = [];
                         for (let i = 0; i < numChars; i++) {
                             randomChars.push(SPARKLE_CHARS[Math.floor(Math.random() * SPARKLE_CHARS.length)]);
                         }
-
-                        activeCells.set(key, {
-                            startTime: now,
-                            randomChars: randomChars
-                        });
+                        activeCells.set(key, { startTime: now, randomChars });
                     }
                 }
             }
         };
 
-        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('mousemove', handleMouseMove, { passive: true });
         return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, []);
+    }, [charWidth, charHeight]);
 
-    // Video playback and ASCII rendering
+    // Video playback and Canvas-based ASCII rendering
     useEffect(() => {
         const video = videoRef.current;
-        const canvas = canvasRef.current;
-        const textDiv = textRef.current;
+        const samplingCanvas = samplingCanvasRef.current;
+        const displayCanvas = displayCanvasRef.current;
 
-        if (!video || !canvas || !textDiv) return;
+        if (!video || !samplingCanvas || !displayCanvas) return;
 
-        const ctx = canvas.getContext('2d', { willReadFrequently: true });
-        const charWidth = (SETTINGS.fontSize * 0.6) + SETTINGS.letterSpacing;
-        const charHeight = SETTINGS.lineHeight;
+        const samplingCtx = samplingCanvas.getContext('2d', { willReadFrequently: true });
+        const displayCtx = displayCanvas.getContext('2d', { alpha: true });
+
+        // 设置显示 Canvas 的字体
+        displayCtx.font = `${SETTINGS.fontSize}px ${SETTINGS.fontFamily}`;
+        displayCtx.textBaseline = 'top';
+        displayCtx.fillStyle = SETTINGS.color;
 
         const processFrame = () => {
             if (video.paused || video.ended) return;
 
-            const w = Math.ceil(window.innerWidth / charWidth) + 1;
-            const h = Math.ceil(window.innerHeight / charHeight) + 1;
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
 
-            if (canvas.width !== w || canvas.height !== h) {
-                canvas.width = w;
-                canvas.height = h;
+            // 计算网格尺寸
+            const gridW = Math.ceil(screenWidth / charWidth) + 1;
+            const gridH = Math.ceil(screenHeight / charHeight) + 1;
+
+            // 更新采样 Canvas 尺寸
+            if (samplingCanvas.width !== gridW || samplingCanvas.height !== gridH) {
+                samplingCanvas.width = gridW;
+                samplingCanvas.height = gridH;
             }
 
-            ctx.drawImage(video, 0, 0, w, h);
-            const imageData = ctx.getImageData(0, 0, w, h);
+            // 更新显示 Canvas 尺寸
+            if (displayCanvas.width !== screenWidth || displayCanvas.height !== screenHeight) {
+                displayCanvas.width = screenWidth;
+                displayCanvas.height = screenHeight;
+                // 重新设置字体（Canvas 尺寸改变后需要重设）
+                displayCtx.font = `${SETTINGS.fontSize}px ${SETTINGS.fontFamily}`;
+                displayCtx.textBaseline = 'top';
+                displayCtx.fillStyle = SETTINGS.color;
+            }
+
+            // 采样视频帧
+            samplingCtx.drawImage(video, 0, 0, gridW, gridH);
+            const imageData = samplingCtx.getImageData(0, 0, gridW, gridH);
             const data = imageData.data;
 
-            let asciiStr = "";
+            // 清空显示 Canvas
+            displayCtx.clearRect(0, 0, screenWidth, screenHeight);
+
             const now = performance.now();
             const activeCells = activeCellsRef.current;
 
@@ -165,10 +171,12 @@ const AsciiEffect = ({ children, videoBackground }) => {
                 }
             }
 
-            for (let i = 0; i < h; i++) {
-                for (let j = 0; j < w; j++) {
+            // 遍历网格绘制字符
+            for (let i = 0; i < gridH; i++) {
+                for (let j = 0; j < gridW; j++) {
                     const key = `${j},${i}`;
                     const activeCell = activeCells.get(key);
+                    let char;
 
                     // 如果这个格子被激活，显示闪烁动画
                     if (activeCell) {
@@ -176,39 +184,42 @@ const AsciiEffect = ({ children, videoBackground }) => {
                         const progress = elapsed / MOUSE_CONFIG.duration;
 
                         if (progress < 1) {
-                            // 根据进度选择随机字符序列中的一个字符
                             const charIndex = Math.floor(progress * activeCell.randomChars.length);
                             const safeCharIdx = Math.min(charIndex, activeCell.randomChars.length - 1);
-                            const sparkleChar = activeCell.randomChars[safeCharIdx];
-                            asciiStr += sparkleChar === " " ? "&nbsp;" : sparkleChar;
-                            continue;
+                            char = activeCell.randomChars[safeCharIdx];
                         }
                     }
 
-                    // 正常渲染：基于视频亮度选择字符
-                    const offset = (i * w + j) * 4;
-                    const r = data[offset];
-                    const g = data[offset + 1];
-                    const b = data[offset + 2];
+                    // 如果没有激活字符，基于视频亮度选择字符
+                    if (!char) {
+                        const offset = (i * gridW + j) * 4;
+                        const r = data[offset];
+                        const g = data[offset + 1];
+                        const b = data[offset + 2];
 
-                    let avg = (r * 0.299 + g * 0.587 + b * 0.114);
+                        const avg = (r * 0.299 + g * 0.587 + b * 0.114);
 
-                    if (avg > 240) {
-                        asciiStr += "&nbsp;";
-                    } else {
-                        const darkness = 1 - (avg / 240);
-                        const boostedDarkness = Math.pow(darkness, 0.4);
-                        const len = DENSITY_CHARS.length;
-                        const charIdx = Math.floor(boostedDarkness * (len - 1));
-                        const safeIdx = Math.max(0, Math.min(charIdx, len - 1));
-                        const char = DENSITY_CHARS[safeIdx];
-                        asciiStr += char === " " ? "&nbsp;" : char;
+                        if (avg > 240) {
+                            char = ' ';
+                        } else {
+                            const darkness = 1 - (avg / 240);
+                            const boostedDarkness = Math.pow(darkness, 0.4);
+                            const len = DENSITY_CHARS.length;
+                            const charIdx = Math.floor(boostedDarkness * (len - 1));
+                            const safeIdx = Math.max(0, Math.min(charIdx, len - 1));
+                            char = DENSITY_CHARS[safeIdx];
+                        }
+                    }
+
+                    // 只绘制非空格字符
+                    if (char && char !== ' ') {
+                        const x = j * charWidth;
+                        const y = i * charHeight;
+                        displayCtx.fillText(char, x, y);
                     }
                 }
-                asciiStr += "\n";
             }
 
-            textDiv.innerHTML = asciiStr;
             animationRef.current = requestAnimationFrame(processFrame);
         };
 
@@ -228,7 +239,7 @@ const AsciiEffect = ({ children, videoBackground }) => {
             video.removeEventListener('play', handlePlay);
             if (animationRef.current) cancelAnimationFrame(animationRef.current);
         };
-    }, [currentVideoIdx]);
+    }, [currentVideoIdx, charWidth, charHeight]);
 
     return (
         <>
@@ -244,7 +255,16 @@ const AsciiEffect = ({ children, videoBackground }) => {
             </div>
 
             {/* Layer 2: Fixed ASCII Background - z-index: 5 */}
-            <div className="fixed inset-0 pointer-events-none flex items-start justify-start overflow-hidden" style={{ zIndex: 5 }}>
+            {/* 使用 will-change 和 transform 启用硬件加速 */}
+            <div
+                className="fixed inset-0 pointer-events-none overflow-hidden"
+                style={{
+                    zIndex: 5,
+                    willChange: 'transform',
+                    transform: 'translateZ(0)',
+                }}
+            >
+                {/* 隐藏的视频元素用于采样 */}
                 <video
                     ref={videoRef}
                     playsInline
@@ -252,21 +272,30 @@ const AsciiEffect = ({ children, videoBackground }) => {
                     muted
                     className="hidden"
                 />
-                <canvas ref={canvasRef} className="hidden" />
-                <pre
-                    ref={textRef}
+                {/* 隐藏的采样 Canvas */}
+                <canvas ref={samplingCanvasRef} className="hidden" />
+                {/* 显示 ASCII 字符的 Canvas */}
+                <canvas
+                    ref={displayCanvasRef}
                     aria-hidden="true"
-                    className="font-mono text-[18px] leading-[18px] tracking-[6px] whitespace-pre select-none"
                     style={{
-                        color: SETTINGS.color,
-                        margin: 0,
-                        padding: 0
+                        width: '100%',
+                        height: '100%',
+                        willChange: 'transform',
+                        transform: 'translateZ(0)',
                     }}
                 />
             </div>
 
             {/* Layer 3: 内容层 - z-index: 10 */}
-            <div className="relative" style={{ zIndex: 10 }}>
+            <div
+                className="relative"
+                style={{
+                    zIndex: 10,
+                    willChange: 'transform',
+                    transform: 'translateZ(0)',
+                }}
+            >
                 {children}
             </div>
         </>

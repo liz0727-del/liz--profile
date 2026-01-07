@@ -31,11 +31,14 @@ function FooterBackground({ opacity }) {
         loop
         muted
         playsInline
+        preload="metadata"
         className="fixed inset-0 w-full h-full object-cover pointer-events-none"
         style={{
           zIndex: 2,
           opacity: opacity,
           transition: 'opacity 0.3s ease',
+          willChange: 'opacity, transform',
+          transform: 'translateZ(0)',
         }}
       >
         <source src={new URL('./assets/videos/页脚视频/footer.mp4', import.meta.url).href} type="video/mp4" />
@@ -49,6 +52,8 @@ function FooterBackground({ opacity }) {
           opacity: opacity > 0 ? 1 : 0,
           transition: 'opacity 0.3s ease',
           paddingTop: '150px',
+          willChange: 'opacity, transform',
+          transform: 'translateZ(0)',
         }}
       >
         <h2
