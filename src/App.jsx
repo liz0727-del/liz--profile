@@ -22,7 +22,7 @@ function FooterBackground({ opacity }) {
         层级关系（从底到顶）：
         1. Footer 彩色视频 - z-index: 2（最底层，在 ASCII 层之下）
         2. ASCII 效果层 - z-index: 5（透明背景，可以看到底下的视频）
-        3. WITH ESSENTIAL 文字 - z-index: 7（在 ASCII 层之上）
+        3. WITH ESSENTIAL 文字 - z-index: 7（在 ASCII 层之上，现在移到 StickyTextSection）
       */}
 
       {/* 层1: 彩色视频背景 - z-index: 2（在 ASCII 层之下） */}
@@ -43,31 +43,6 @@ function FooterBackground({ opacity }) {
       >
         <source src={new URL('./assets/videos/页脚视频/footer.mp4', import.meta.url).href} type="video/mp4" />
       </video>
-
-      {/* 层3: WITH ESSENTIAL 文字 - z-index: 7（在 ASCII 层之上） */}
-      <section
-        className="fixed inset-0 flex w-full flex-col items-center justify-center pointer-events-none"
-        style={{
-          zIndex: 7,
-          opacity: opacity > 0 ? 1 : 0,
-          transition: 'opacity 0.3s ease',
-          paddingTop: '150px',
-          willChange: 'opacity, transform',
-          transform: 'translateZ(0)',
-        }}
-      >
-        <h2
-          className="font-ndot uppercase mix-blend-difference text-ink leading-[1.2] text-center"
-          style={{
-            fontSize: 'clamp(28px, 4vw, 60px)',
-            letterSpacing: 'normal',
-            fontWeight: 200
-          }}
-        >
-          WITH ESSENTIAL, ANYONE CAN CREATE <br />
-          THEIR OWN APPS IN SECONDS
-        </h2>
-      </section>
     </>
   );
 }
@@ -112,8 +87,43 @@ function HomePage({ onScrollTriggerRef }) {
       {/* SECTION 5: Playground - 作品展示 */}
       <PlaygroundSection />
 
-      {/* 滚动触发点 + 占位区域 */}
-      <div ref={onScrollTriggerRef} style={{ height: '150vh' }} />
+      {/* SECTION 6: Sticky Text - "WITH ESSENTIAL" 文字区域 + 滚动触发区域 */}
+      {/* 这个 section 需要足够高度(150vh)让 sticky 效果生效 */}
+      <section
+        ref={onScrollTriggerRef}
+        style={{
+          position: 'relative',
+          zIndex: 7,  /* 在 ASCII 层之上 */
+          height: '150vh',  /* 给 sticky 足够的滚动空间 */
+        }}
+      >
+        {/* 文字块级元素 - margin 150px，sticky 效果 */}
+        <div
+          style={{
+            paddingTop: '150px',  /* 用 padding 代替 margin，让文字从 150px 位置开始 */
+            paddingLeft: '48px',
+            paddingRight: '48px',
+            position: 'sticky',
+            top: '0',  /* 当到达屏幕顶部时固定 */
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+          }}
+        >
+          <h2
+            className="font-ndot uppercase mix-blend-difference text-ink leading-[1.2] text-center"
+            style={{
+              fontSize: 'clamp(28px, 4vw, 60px)',
+              letterSpacing: 'normal',
+              fontWeight: 200
+            }}
+          >
+            WITH ESSENTIAL, ANYONE CAN CREATE <br />
+            THEIR OWN APPS IN SECONDS
+          </h2>
+        </div>
+      </section>
 
       {/* SECTION 6: Footer - 从底部滑入 */}
       <footer
