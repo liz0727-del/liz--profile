@@ -28,7 +28,8 @@ const VIDEOS = [
     videoSrc,    // 01.mp4
     new URL('../../assets/videos/02.mp4', import.meta.url).href,
     new URL('../../assets/videos/03.mp4', import.meta.url).href,
-    new URL('../../assets/videos/04.mp4', import.meta.url).href
+    new URL('../../assets/videos/04.mp4', import.meta.url).href,
+    new URL('../../assets/videos/05.mp4', import.meta.url).href
 ];
 
 const AsciiEffect = ({ children, videoBackground }) => {
