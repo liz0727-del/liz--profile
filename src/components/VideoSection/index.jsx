@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import videoSrc from '../../assets/videos/04.mp4';
+import videoSrc from '../../assets/videos/彩色视频文件/2025-12-25 23-14-59.mp4';
 
 /**
  * VideoSection 组件 - 视频播放器区块

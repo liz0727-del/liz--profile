@@ -138,3 +138,34 @@
 ---
 
 
+## 9. 开发遗留问题 (Known Issues)
+
+### 🔴 ASCII 图层模糊问题
+
+**问题描述**：
+- ASCII 背景层在高 DPI 屏幕（如 Retina 显示器）上出现模糊/锯齿
+- 原因：Canvas 使用 CSS 像素渲染，未适配 `devicePixelRatio`
+
+**相关文件**：
+- `/src/components/AsciiEffect/index.jsx`
+
+**推荐解决方案**：
+
+| 方案 | 描述 | 优点 | 缺点 |
+|------|------|------|------|
+| **方案 1** | 适配 devicePixelRatio | 完全清晰 | 高 DPI 屏内存占用增加 |
+| **方案 2** | 限制最大 DPR 为 2 | 性能与清晰度平衡 | 3x 屏仍有轻微模糊 |
+| **方案 3** | 使用 OffscreenCanvas + Worker | 主线程释放 | 实现复杂 |
+
+**核心修改代码**（方案 1/2）：
+```javascript
+const dpr = Math.min(window.devicePixelRatio || 1, 2); // 方案2限制为2
+displayCanvas.width = screenWidth * dpr;
+displayCanvas.height = screenHeight * dpr;
+displayCtx.scale(dpr, dpr);
+```
+
+**优先级**：中
+**状态**：待处理
+
+---
