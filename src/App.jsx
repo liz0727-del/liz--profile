@@ -8,6 +8,8 @@ import StickyCursor from './components/StickyCursor';
 import VideoSection from './components/VideoSection';
 import IntroductionSection from './components/IntroductionSection';
 import PlaygroundSection from './components/PlaygroundSection';
+import { useLanguage, t } from './contexts/LanguageContext';
+import { translations } from './i18n/translations';
 const DetailPage = lazy(() => import('./pages/detail/DetailPage'));
 
 // Footer 背景组件 - 在 App 级别渲染，确保 fixed 定位正常工作
@@ -60,6 +62,8 @@ function FooterBackground({ opacity }) {
 
 // 主页内容组件
 function HomePage({ onScrollTriggerRef }) {
+  const { language } = useLanguage();
+
   return (
     <>
       {/* SECTION 1: Hero 区域 */}
@@ -84,8 +88,8 @@ function HomePage({ onScrollTriggerRef }) {
             fontWeight: 200
           }}
         >
-          ALWAYS EXPLORING NEW POSSIBILITIES. <br />
-          ALWAYS BUILDING WITH INTENTION.
+          {t(translations.section2.line1, language)} <br />
+          {t(translations.section2.line2, language)}
         </h2>
       </section>
 
@@ -93,10 +97,14 @@ function HomePage({ onScrollTriggerRef }) {
       <VideoSection />
 
       {/* SECTION 4: Introduction - 自我介绍 */}
-      <IntroductionSection />
+      <div id="section-introduction">
+        <IntroductionSection />
+      </div>
 
       {/* SECTION 5: Playground - 作品展示 */}
-      <PlaygroundSection />
+      <div id="section-project">
+        <PlaygroundSection />
+      </div>
 
       {/* SECTION 6: Sticky Text - "WITH ESSENTIAL" 文字区域 + 滚动触发区域 */}
       {/* 这个 section 需要足够高度(150vh)让 sticky 效果生效 */}
@@ -130,14 +138,15 @@ function HomePage({ onScrollTriggerRef }) {
               fontWeight: 200
             }}
           >
-            SEE DIFFERENTLY. THINK DEEPLY. <br />
-            BUILD BOLDLY. KEEP GOING.
+            {t(translations.sticky.line1, language)} <br />
+            {t(translations.sticky.line2, language)}
           </h2>
         </div>
       </section>
 
       {/* SECTION 6: Footer - 从底部滑入 */}
       <footer
+        id="section-contact"
         style={{
           backgroundColor: '#E3E3E3',
           padding: '32px',
@@ -175,7 +184,7 @@ function HomePage({ onScrollTriggerRef }) {
               color: '#1C1C1C'
             }}
           >
-            Let's build something.
+            {t(translations.footer.tagline, language)}
           </p>
           <div className="flex items-center gap-2">
             <span

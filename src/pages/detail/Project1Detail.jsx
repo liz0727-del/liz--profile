@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useLanguage, t } from '../../contexts/LanguageContext';
+import { translations } from '../../i18n/translations';
 
 // 导入 gallery 图片
 import img1 from '../../assets/playground/projects/project1/gallery/IMG_9526 2_副本.JPG';
@@ -45,6 +47,7 @@ const projectsList = [
 
 function Project1Detail() {
     const navigate = useNavigate();
+    const { language } = useLanguage();
 
     // 图片数组
     const images = [
@@ -162,13 +165,13 @@ function Project1Detail() {
         }, 100);
     };
 
-    // 项目数据 - 请根据实际情况修改
+    // 项目数据 - 根据语言切换
     const projectData = {
-        title: 'SHANHEDAO',
-        description: 'Zhengzhou Vanke · Shanhedao Phase II Model Room Soft Furnishing Design',
-        location: 'Zhengzhou, China',
-        completionDate: '2024.06',
-        overview: 'Born to Play - A home full of free attitudes. This interior soft decoration design scheme for the 130㎡ model room embraces artistic trends, youthful fashion, and technological quality. The design creates a playful yet refined living space that balances modern aesthetics with comfortable functionality, targeting young professionals who value individuality, style, and innovation.',
+        title: t(translations.project1.title, language),
+        description: t(translations.project1.description, language),
+        location: t(translations.project1.location, language),
+        completionDate: t(translations.project1.completionDate, language),
+        overview: t(translations.project1.overview, language),
     };
 
     return (
@@ -315,7 +318,7 @@ function Project1Detail() {
                                         className="text-sm font-medium whitespace-nowrap text-ellipsis"
                                         style={{ color: '#E3E3E3' }}
                                     >
-                                        Projects
+                                        {t(translations.detailUI.projects, language)}
                                     </span>
                                     <svg
                                         viewBox="0 0 24 24"
@@ -518,7 +521,7 @@ function Project1Detail() {
                                         border: '1px solid rgba(0, 0, 0, 0.1)'
                                     }}
                                 >
-                                    <span className="font-mono text-sm font-medium">Gallery</span>
+                                    <span className="font-mono text-sm font-medium">{t(translations.detailUI.gallery, language)}</span>
                                     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                         <line x1="5" y1="12" x2="19" y2="12" />
                                         <polyline points="12 5 19 12 12 19" />
@@ -536,7 +539,7 @@ function Project1Detail() {
                                         height: '32px',
                                     }}
                                 >
-                                    <span className="font-mono text-sm font-medium">Proposal</span>
+                                    <span className="font-mono text-sm font-medium">{t(translations.detailUI.proposal, language)}</span>
                                     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                         <line x1="7" y1="17" x2="17" y2="7" />
                                         <polyline points="7 7 17 7 17 17" />
@@ -551,7 +554,7 @@ function Project1Detail() {
                                     className="flex justify-between items-center"
                                     style={{ borderBottom: `1px solid ${isDarkMode ? '#374151' : '#E5E7EB'}`, padding: '12px 0' }}
                                 >
-                                    <span className="font-mono text-sm font-medium" style={{ color: isDarkMode ? '#FFFFFF' : '#1C1C1C' }}>Location</span>
+                                    <span className="font-mono text-sm font-medium" style={{ color: isDarkMode ? '#FFFFFF' : '#1C1C1C' }}>{t(translations.detailUI.location, language)}</span>
                                     <span className="font-mono text-sm" style={{ color: isDarkMode ? '#9CA3AF' : '#6B7280' }}>{projectData.location}</span>
                                 </div>
 
@@ -560,7 +563,7 @@ function Project1Detail() {
                                     className="flex justify-between items-center"
                                     style={{ borderBottom: `1px solid ${isDarkMode ? '#374151' : '#E5E7EB'}`, padding: '12px 0' }}
                                 >
-                                    <span className="font-mono text-sm font-medium" style={{ color: isDarkMode ? '#FFFFFF' : '#1C1C1C' }}>Completion Date</span>
+                                    <span className="font-mono text-sm font-medium" style={{ color: isDarkMode ? '#FFFFFF' : '#1C1C1C' }}>{t(translations.detailUI.completionDate, language)}</span>
                                     <span className="font-mono text-sm" style={{ color: isDarkMode ? '#9CA3AF' : '#6B7280' }}>{projectData.completionDate}</span>
                                 </div>
 
@@ -569,7 +572,7 @@ function Project1Detail() {
                                     style={{ padding: '12px 0 24px 0' }}
                                 >
                                     <div className="flex justify-between items-center">
-                                        <span className="font-mono text-sm font-medium" style={{ color: isDarkMode ? '#FFFFFF' : '#1C1C1C' }}>Project Overview</span>
+                                        <span className="font-mono text-sm font-medium" style={{ color: isDarkMode ? '#FFFFFF' : '#1C1C1C' }}>{t(translations.detailUI.projectOverview, language)}</span>
                                         <button style={{ color: isDarkMode ? '#9CA3AF' : '#6B7280' }}>
                                             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                                 <polyline points="18 15 12 9 6 15" />
@@ -601,7 +604,7 @@ function Project1Detail() {
                                         marginBottom: 0
                                     }}
                                 >
-                                    This is provided by the community. Use at your own discretion.
+                                    {t(translations.detailUI.disclaimer, language)}
                                 </p>
                             </div>
                         </div>
@@ -639,7 +642,7 @@ function Project1Detail() {
                             color: isDarkMode ? '#FFFFFF' : '#1C1C1C'
                         }}
                     >
-                        See you on the canvas.
+                        {t(translations.detailUI.footerTagline, language)}
                     </p>
                     <div className="flex items-center gap-2">
                         <span

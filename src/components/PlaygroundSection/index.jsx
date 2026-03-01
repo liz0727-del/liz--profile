@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useLanguage, t } from '../../contexts/LanguageContext';
+import { translations } from '../../i18n/translations';
 
 // 头像图片
 import avatar1 from '../../assets/playground/avatars/avatar1.svg';
@@ -25,6 +27,7 @@ import project5 from '../../assets/playground/projects/project5.webp';
  * - Project 3: 3张图片 (projects/project3/img1-3.svg)
  */
 function PlaygroundSection() {
+    const { language } = useLanguage();
     // 头像数据
     const avatars = [
         { id: 1, src: avatar1, alt: 'Avatar 1', link: '/detail/creator/1' },
@@ -170,7 +173,7 @@ function PlaygroundSection() {
                                 margin: 0,
                             }}
                         >
-                            Explore what I've been building.
+                            {t(translations.playground.title, language)}
                         </p>
                         <p
                             style={{
@@ -183,7 +186,7 @@ function PlaygroundSection() {
                                 textAlign: 'center',
                             }}
                         >
-                            Interiors, motion, and micro-tools — all made with intention.
+                            {t(translations.playground.subtitle, language)}
                         </p>
                     </div>
 

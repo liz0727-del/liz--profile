@@ -1,5 +1,7 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useLanguage, t } from '../../contexts/LanguageContext';
+import { translations } from '../../i18n/translations';
 import Project1Detail from './Project1Detail';
 import Project2Detail from './Project2Detail';
 import Project3Detail from './Project3Detail';
@@ -11,6 +13,7 @@ import Project3Detail from './Project3Detail';
  */
 function DetailPage() {
     const { type, id } = useParams();
+    const { language } = useLanguage();
 
     // Project 1 专属详情页
     if (type === 'project' && id === '1') {
@@ -36,17 +39,17 @@ function DetailPage() {
                     to="/"
                     className="inline-block px-6 py-2 border border-ink/20 rounded-full hover:bg-ink/5 transition-colors"
                 >
-                    ← Back to Home
+                    {t(translations.detail.backToHome, language)}
                 </Link>
 
                 {/* 占位内容 */}
                 <div className="p-12 rounded-2xl border border-ink/10 bg-white/50">
                     <h1 className="font-ndot text-3xl uppercase mb-4">
-                        {type === 'creator' ? 'Creator Profile' : 'Project Detail'}
+                        {type === 'creator' ? t(translations.detail.creatorProfile, language) : t(translations.detail.projectDetail, language)}
                     </h1>
                     <p className="text-ink/60 font-mono">
                         This is a placeholder page for <strong>{type} #{id}</strong>.<br />
-                        Content will be added later.
+                        {t(translations.detail.placeholder, language)}
                     </p>
                 </div>
 

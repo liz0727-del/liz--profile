@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useLanguage, t } from '../../contexts/LanguageContext';
+import { translations } from '../../i18n/translations';
 
 /**
  * IntroductionSection 组件 - 自我介绍区块
@@ -8,6 +10,7 @@ import React, { useState } from 'react';
  */
 function IntroductionSection() {
     const [isAiButtonHovered, setIsAiButtonHovered] = useState(false);
+    const { language } = useLanguage();
 
     // AI 按钮点击事件（预留给后续对话弹窗）
     const handleAiButtonClick = () => {
@@ -138,19 +141,19 @@ function IntroductionSection() {
                     }}
                 >
                     <p style={{ margin: 0 }}>
-                        I'm Liz.
+                        {t(translations.intro.greeting, language)}
                     </p>
 
                     <p style={{ marginTop: '12px', marginBottom: '12px' }}>
-                        Trained in decorative arts at Guangzhou Academy of Fine Arts, with years of experience in interior design.
+                        {t(translations.intro.background, language)}
                     </p>
 
                     <p style={{ marginTop: '12px', marginBottom: '12px' }}>
-                        Now I'm exploring a different kind of space: the digital canvas. Through AI-powered image and video generation, through building my own micro-tools via natural language, I'm discovering what happens when design intuition meets algorithmic possibility.
+                        {t(translations.intro.exploring, language)}
                     </p>
 
                     <p style={{ marginTop: '12px', marginBottom: '12px' }}>
-                        This site is both archive and laboratory — past projects, present experiments, and ongoing explorations.
+                        {t(translations.intro.archive, language)}
                     </p>
                 </div>
 
@@ -165,7 +168,7 @@ function IntroductionSection() {
                             letterSpacing: '0.05em'
                         }}
                     >
-                        Introduction
+                        {t(translations.intro.label, language)}
                     </span>
                     {/* 空心圆圈 */}
                     <div
