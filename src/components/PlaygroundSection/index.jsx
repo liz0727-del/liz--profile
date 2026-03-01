@@ -170,8 +170,7 @@ function PlaygroundSection() {
                                 margin: 0,
                             }}
                         >
-                            Come to play with Essential.<br />
-                            Your digital Playground awaits.
+                            Explore what I've been building.
                         </p>
                         <p
                             style={{
@@ -184,8 +183,7 @@ function PlaygroundSection() {
                                 textAlign: 'center',
                             }}
                         >
-                            Join thousands of creators to build something uniquely yours, and<br />
-                            discover the creativity of the Nothing Community.
+                            Interiors, motion, and micro-tools — all made with intention.
                         </p>
                     </div>
 

@@ -115,7 +115,6 @@ function IntroductionSection() {
                 style={{
                     width: '448px',
                     maxWidth: '100%',
-                    minHeight: '416px',
                     padding: '12px',
                     gap: '64px',
                     backgroundColor: '#FFFFFF',
@@ -123,7 +122,7 @@ function IntroductionSection() {
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'flex-start',
-                    justifyContent: 'flex-end',
+                    justifyContent: 'flex-start',
                     flexShrink: 0,
                     zIndex: 5
                 }}
@@ -138,29 +137,20 @@ function IntroductionSection() {
                         fontFamily: "'Geist Mono', monospace"
                     }}
                 >
-                    <p>
-                        Personal computing is entering a new phase. Where
-                        devices adapt to people, not the other way around.
+                    <p style={{ margin: 0 }}>
+                        I'm Liz.
                     </p>
 
-                    <p style={{ marginTop: '20px' }}>
-                        At Nothing, we're building a new kind of phone,
-                        where data and design come together to create
-                        experiences no lab can replicate.
+                    <p style={{ marginTop: '12px', marginBottom: '12px' }}>
+                        Trained in decorative arts at Guangzhou Academy of Fine Arts, with years of experience in interior design.
                     </p>
 
-                    <p style={{ marginTop: '20px' }}>
-                        The future is software you can shape with simple
-                        language, made possible only on top a powerful new
-                        phone that truly knows who you are.
+                    <p style={{ marginTop: '12px', marginBottom: '12px' }}>
+                        Now I'm exploring a different kind of space: the digital canvas. Through AI-powered image and video generation, through building my own micro-tools via natural language, I'm discovering what happens when design intuition meets algorithmic possibility.
                     </p>
 
-                    <p style={{ marginTop: '20px' }}>
-                        This combination is the only way to make an
-                        impactful OS that is just for you. Across every
-                        device, we can bring this knowledge into your
-                        control. This is how we move personal technology
-                        forward.
+                    <p style={{ marginTop: '12px', marginBottom: '12px' }}>
+                        This site is both archive and laboratory — past projects, present experiments, and ongoing explorations.
                     </p>
                 </div>
 

@@ -20,12 +20,12 @@ function Hero() {
                         fontWeight: 300
                     }}
                 >
-                    XUELI FAN
+                    LiiiiiiiZ
                 </h1>
 
                 {/* 副标题 */}
                 <p className="font-mono text-xl md:text-3xl tracking-widest text-ink/70 mix-blend-difference">
-                    Design × Code × Vibe
+                    Interior Designer ⁘ AI Explorer ⁘ Vibe Coder
                 </p>
             </div>
         </section>

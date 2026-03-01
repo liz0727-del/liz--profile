@@ -84,8 +84,8 @@ function HomePage({ onScrollTriggerRef }) {
             fontWeight: 200
           }}
         >
-          WITH ESSENTIAL, ANYONE CAN CREATE <br />
-          THEIR OWN APPS IN SECONDS
+          ALWAYS EXPLORING NEW POSSIBILITIES. <br />
+          ALWAYS BUILDING WITH INTENTION.
         </h2>
       </section>
 
@@ -130,8 +130,8 @@ function HomePage({ onScrollTriggerRef }) {
               fontWeight: 200
             }}
           >
-            WITH ESSENTIAL, ANYONE CAN CREATE <br />
-            THEIR OWN APPS IN SECONDS
+            SEE DIFFERENTLY. THINK DEEPLY. <br />
+            BUILD BOLDLY. KEEP GOING.
           </h2>
         </div>
       </section>
@@ -175,7 +175,7 @@ function HomePage({ onScrollTriggerRef }) {
               color: '#1C1C1C'
             }}
           >
-            See you on the canvas.
+            Let's build something.
           </p>
           <div className="flex items-center gap-2">
             <span
@@ -215,7 +215,7 @@ function HomePage({ onScrollTriggerRef }) {
               color: '#1C1C1C'
             }}
           >
-            NOTHING (R)
+            LIZ © 2026
           </div>
           <div
             className="flex font-ndot uppercase pointer-events-auto"
