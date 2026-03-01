@@ -436,7 +436,7 @@ function Project2Detail() {
                                 onMouseLeave={() => setHoverSide(null)}
                             >
                                 {/* 当前图片 */}
-                                <img
+                                <img loading="lazy" decoding="async"
                                     src={images[currentIndex]}
                                     alt={`Project 2 - Image ${currentIndex + 1}`}
                                     className="max-w-[80%] max-h-[80%] object-contain transition-opacity duration-300"
@@ -831,7 +831,7 @@ function Project2Detail() {
                                             borderRadius: '12px',
                                         }}
                                     >
-                                        <img
+                                        <img loading="lazy" decoding="async"
                                             src={img}
                                             alt={`Gallery 图片 ${index + 1}`}
                                             className="w-full object-cover"
@@ -884,7 +884,7 @@ function Project2Detail() {
                                     maxHeight: 'calc(100vh - 120px)',
                                 }}
                             >
-                                <img
+                                <img loading="lazy" decoding="async"
                                     src={images[fullscreenIndex]}
                                     alt={`全屏查看 ${fullscreenIndex + 1}`}
                                     className="object-contain"

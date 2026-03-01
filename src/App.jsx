@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef, createContext, useContext } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import React, { lazy, Suspense, useState, useEffect, useRef } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
-import Header from './components/Header';
 import Hero from './components/Hero';
 import HeroVideo from './components/HeroVideo';
 import AsciiEffect from './components/AsciiEffect';
@@ -9,13 +8,24 @@ import StickyCursor from './components/StickyCursor';
 import VideoSection from './components/VideoSection';
 import IntroductionSection from './components/IntroductionSection';
 import PlaygroundSection from './components/PlaygroundSection';
-import DetailPage from './pages/detail/DetailPage';
-
-// 创建 Context 用于共享 footer 视频透明度状态
-const FooterVideoContext = createContext({ opacity: 0, setScrollTriggerRef: () => { } });
+const DetailPage = lazy(() => import('./pages/detail/DetailPage'));
 
 // Footer 背景组件 - 在 App 级别渲染，确保 fixed 定位正常工作
 function FooterBackground({ opacity }) {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (opacity > 0.02) {
+      const p = video.play();
+      if (p && typeof p.catch === 'function') p.catch(() => { });
+    } else {
+      video.pause();
+    }
+  }, [opacity]);
+
   return (
     <>
       {/* 
@@ -27,11 +37,12 @@ function FooterBackground({ opacity }) {
 
       {/* 层1: 彩色视频背景 - z-index: 2（在 ASCII 层之下） */}
       <video
+        ref={videoRef}
         autoPlay
         loop
         muted
         playsInline
-        preload="metadata"
+        preload="none"
         className="fixed inset-0 w-full h-full object-cover pointer-events-none"
         style={{
           zIndex: 2,
@@ -241,10 +252,12 @@ function HomePage({ onScrollTriggerRef }) {
 function HomePageWrapper() {
   const scrollTriggerRef = useRef(null);
   const [videoOpacity, setVideoOpacity] = useState(0);
+  const rafIdRef = useRef(null);
+  const opacityRef = useRef(0);
 
   // 监听滚动，控制视频透明度
   useEffect(() => {
-    const handleScroll = () => {
+    const updateOpacity = () => {
       if (!scrollTriggerRef.current) return;
 
       const trigger = scrollTriggerRef.current;
@@ -258,16 +271,35 @@ function HomePageWrapper() {
       if (rect.top < triggerPoint) {
         const scrollPast = triggerPoint - rect.top;
         const opacity = Math.min(1, scrollPast / fadeDistance);
-        setVideoOpacity(opacity);
+        if (Math.abs(opacity - opacityRef.current) > 0.01) {
+          opacityRef.current = opacity;
+          setVideoOpacity(opacity);
+        }
       } else {
-        setVideoOpacity(0);
+        if (opacityRef.current !== 0) {
+          opacityRef.current = 0;
+          setVideoOpacity(0);
+        }
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
+    const handleScroll = () => {
+      if (rafIdRef.current) return;
+      rafIdRef.current = requestAnimationFrame(() => {
+        updateOpacity();
+        rafIdRef.current = null;
+      });
+    };
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    updateOpacity();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafIdRef.current) {
+        cancelAnimationFrame(rafIdRef.current);
+      }
+    };
   }, []);
 
   return (
@@ -289,13 +321,15 @@ function HomePageWrapper() {
 // App 组件：我们应用的入口
 function App() {
   return (
-    <Routes>
-      {/* 详情页路由 */}
-      <Route path="/detail/:type/:id" element={<DetailPage />} />
+    <Suspense fallback={null}>
+      <Routes>
+        {/* 详情页路由 */}
+        <Route path="/detail/:type/:id" element={<DetailPage />} />
 
-      {/* 主页路由 */}
-      <Route path="/" element={<HomePageWrapper />} />
-    </Routes>
+        {/* 主页路由 */}
+        <Route path="/" element={<HomePageWrapper />} />
+      </Routes>
+    </Suspense>
   );
 }
 

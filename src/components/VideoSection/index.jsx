@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import videoSrc from '../../assets/videos/彩色视频文件/2025-12-25 23-14-59.mp4';
+import videoSrc from '../../assets/videos/彩色视频文件/2025-12-25 23-14-59_web.mp4';
 
 /**
  * VideoSection 组件 - 视频播放器区块
@@ -32,23 +32,41 @@ function VideoSection() {
         isDraggingRef.current = isDragging;
     }, [isDragging]);
 
-    // 视频初始化 - 确保自动播放正常工作
+    // 进入视口后再播放，离开时暂停，减少后台解码开销
+    useEffect(() => {
+        if (!sectionRef.current || !videoRef.current) return;
+
+        const video = videoRef.current;
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                const inView = entry.isIntersecting;
+                if (inView) {
+                    const playPromise = video.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(() => {
+                            setIsPlaying(false);
+                        });
+                    }
+                    setIsPlaying(true);
+                } else {
+                    video.pause();
+                    setIsPlaying(false);
+                }
+            },
+            { threshold: 0.2 }
+        );
+
+        observer.observe(sectionRef.current);
+
+        return () => observer.disconnect();
+    }, []);
+
+    // 视频初始化
     useEffect(() => {
         const video = videoRef.current;
         if (!video) return;
 
-        // 确保视频静音（自动播放的必要条件）
         video.muted = true;
-
-        // 尝试播放
-        const playPromise = video.play();
-        if (playPromise !== undefined) {
-            playPromise.catch((error) => {
-                // 自动播放被阻止，设置状态
-                console.log('Autoplay was prevented:', error);
-                setIsPlaying(false);
-            });
-        }
     }, []);
 
     // 滚动缩放效果 - 使用 RAF + 直接 DOM 操作优化
@@ -184,10 +202,10 @@ function VideoSection() {
                 {/* 视频 */}
                 <video
                     ref={videoRef}
-                    autoPlay
                     loop
                     muted
                     playsInline
+                    preload="none"
                     style={{
                         width: '100%',
                         display: 'block',

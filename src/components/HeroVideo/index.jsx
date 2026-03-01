@@ -1,18 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { ShaderGradient, ShaderGradientCanvas } from '@shadergradient/react';
+import React, { useEffect, useRef, useState } from 'react';
+import heroMp4 from '../../assets/videos/hero 视频/shader 8s 见.mp4';
 
 /**
- * HeroVideo 组件 - Hero 动态渐变背景（ShaderGradient 官方参数）
+ * HeroVideo 组件 - Hero 背景视频（WebM 优先）
+ * 可见时播放，不可见时暂停。
  */
 function HeroVideo() {
   const [opacity, setOpacity] = useState(1);
-  const [pixelDensity, setPixelDensity] = useState(2);
+  const rafIdRef = useRef(null);
+  const opacityRef = useRef(1);
+  const videoRef = useRef(null);
 
   useEffect(() => {
-    const handleScroll = () => {
+    const updateOpacity = () => {
       const heroTitle = document.getElementById('hero-title');
       if (!heroTitle) {
-        setOpacity(1);
+        if (opacityRef.current !== 1) {
+          opacityRef.current = 1;
+          setOpacity(1);
+        }
         return;
       }
 
@@ -21,35 +27,83 @@ function HeroVideo() {
       const fadeStartDistance = 200;
 
       if (titleBottom <= 0) {
-        setOpacity(0);
+        if (opacityRef.current !== 0) {
+          opacityRef.current = 0;
+          setOpacity(0);
+        }
       } else if (titleBottom <= fadeStartDistance) {
-        setOpacity(titleBottom / fadeStartDistance);
+        const next = titleBottom / fadeStartDistance;
+        if (Math.abs(next - opacityRef.current) > 0.01) {
+          opacityRef.current = next;
+          setOpacity(next);
+        }
       } else {
-        setOpacity(1);
+        if (opacityRef.current !== 1) {
+          opacityRef.current = 1;
+          setOpacity(1);
+        }
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
+    const handleScroll = () => {
+      if (rafIdRef.current) return;
+      rafIdRef.current = requestAnimationFrame(() => {
+        updateOpacity();
+        rafIdRef.current = null;
+      });
+    };
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    updateOpacity();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafIdRef.current) {
+        cancelAnimationFrame(rafIdRef.current);
+      }
+    };
   }, []);
 
   useEffect(() => {
-    const updateDensity = () => {
-      const dpr = window.devicePixelRatio || 1;
-      const mobile = window.innerWidth < 768;
-      if (mobile) {
-        setPixelDensity(Math.min(1.5, dpr));
+    const video = videoRef.current;
+    if (!video) return;
+
+    const syncPlayback = () => {
+      const shouldPlay = !document.hidden && opacityRef.current > 0.02;
+      if (shouldPlay) {
+        const p = video.play();
+        if (p && typeof p.catch === 'function') {
+          p.catch(() => { });
+        }
       } else {
-        setPixelDensity(Math.min(2, dpr));
+        video.pause();
       }
     };
 
-    updateDensity();
-    window.addEventListener('resize', updateDensity);
-    return () => window.removeEventListener('resize', updateDensity);
+    const handleVisibilityChange = () => syncPlayback();
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    syncPlayback();
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      video.pause();
+    };
   }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (!document.hidden && opacity > 0.02) {
+      const p = video.play();
+      if (p && typeof p.catch === 'function') {
+        p.catch(() => { });
+      }
+    } else {
+      video.pause();
+    }
+  }, [opacity]);
 
   return (
     <div
@@ -60,67 +114,16 @@ function HeroVideo() {
         transition: 'opacity 0.1s ease-out',
       }}
     >
-      <div
-        style={{
-          position: 'absolute',
-          left: '-10%',
-          top: '-10%',
-          width: '120%',
-          height: '120%',
-        }}
+      <video
+        ref={videoRef}
+        loop
+        muted
+        playsInline
+        preload="metadata"
+        className="absolute top-0 left-0 w-full h-full object-cover"
       >
-        <ShaderGradientCanvas
-          style={{ position: 'absolute', inset: 0 }}
-          pixelDensity={pixelDensity}
-          fov={20}
-        >
-          <ShaderGradient
-            animate={opacity > 0.02 ? 'on' : 'off'}
-            axesHelper="off"
-            brightness={1.15}
-            cAzimuthAngle={180}
-            cDistance={17.91}
-            cPolarAngle={90}
-            cameraZoom={1}
-            color1="#f6f7c3"
-            color2="#d0f3f5"
-            color3="#d4ecbd"
-            destination="onCanvas"
-            embedMode="off"
-            envPreset="city"
-            format="gif"
-            fov={20}
-            frameRate={10}
-            gizmoHelper="hide"
-            grain="on"
-            lightType="3d"
-            loop="off"
-            loopDuration={0.1}
-            pixelDensity={pixelDensity}
-            positionX={0}
-            positionY={0}
-            positionZ={0}
-            range="enabled"
-            rangeEnd={46.5}
-            rangeStart={20.5}
-            reflection={0.1}
-            rotationX={0}
-            rotationY={0}
-            rotationZ={0}
-            shader="defaults"
-            toggleAxis={false}
-            type="waterPlane"
-            uAmplitude={1.3}
-            uDensity={0.4}
-            uFrequency={5.5}
-            uSpeed={0.3}
-            uStrength={4}
-            uTime={45.92}
-            wireframe={false}
-            zoomOut={false}
-          />
-        </ShaderGradientCanvas>
-      </div>
+        <source src={heroMp4} type="video/mp4" />
+      </video>
     </div>
   );
 }

@@ -47,7 +47,10 @@ function PlaygroundSection() {
     };
 
     return (
-        <section id="playground" className="relative w-full pointer-events-auto">
+        <section
+            id="playground"
+            className="relative w-full pointer-events-auto"
+        >
             {/* 外层容器 - 大圆角卡片 */}
             <div
                 style={{
@@ -86,25 +89,25 @@ function PlaygroundSection() {
                                     to={avatars[0].link}
                                     className="avatar col-start-2 row-start-1 flex cursor-pointer items-center justify-center rounded-full bg-white transition-opacity duration-200"
                                 >
-                                    <img src={avatars[0].src} alt={avatars[0].alt} className="h-full w-full rounded-full object-cover" />
+                                    <img loading="lazy" decoding="async" src={avatars[0].src} alt={avatars[0].alt} className="h-full w-full rounded-full object-cover" />
                                 </Link>
                                 <Link
                                     to={avatars[1].link}
                                     className="avatar col-start-1 row-start-2 flex cursor-pointer items-center justify-center rounded-full bg-white transition-opacity duration-200"
                                 >
-                                    <img src={avatars[1].src} alt={avatars[1].alt} className="h-full w-full rounded-full object-cover" />
+                                    <img loading="lazy" decoding="async" src={avatars[1].src} alt={avatars[1].alt} className="h-full w-full rounded-full object-cover" />
                                 </Link>
                                 <Link
                                     to={avatars[2].link}
                                     className="avatar col-start-3 row-start-2 flex cursor-pointer items-center justify-center rounded-full bg-white transition-opacity duration-200"
                                 >
-                                    <img src={avatars[2].src} alt={avatars[2].alt} className="h-full w-full rounded-full object-cover" />
+                                    <img loading="lazy" decoding="async" src={avatars[2].src} alt={avatars[2].alt} className="h-full w-full rounded-full object-cover" />
                                 </Link>
                                 <Link
                                     to={avatars[3].link}
                                     className="avatar col-start-2 row-start-3 flex cursor-pointer items-center justify-center rounded-full bg-white transition-opacity duration-200"
                                 >
-                                    <img src={avatars[3].src} alt={avatars[3].alt} className="h-full w-full rounded-full object-cover" />
+                                    <img loading="lazy" decoding="async" src={avatars[3].src} alt={avatars[3].alt} className="h-full w-full rounded-full object-cover" />
                                 </Link>
                             </div>
                         </div>
@@ -119,7 +122,7 @@ function PlaygroundSection() {
                         style={{ aspectRatio: '4/3' }}
                     >
                         <Link to={projects.project1.link} className="flex h-full w-full items-center justify-center">
-                            <img
+                            <img loading="lazy" decoding="async"
                                 src={projects.project1.src}
                                 alt={projects.project1.alt}
                                 className="cursor-pointer object-cover transition-transform duration-600 ease-out hover:scale-[1.15]"
@@ -138,7 +141,7 @@ function PlaygroundSection() {
                         style={{ aspectRatio: '4/3' }}
                     >
                         <Link to={projects.project2.link} className="flex h-full w-full items-center justify-center">
-                            <img
+                            <img loading="lazy" decoding="async"
                                 src={projects.project2.src}
                                 alt={projects.project2.alt}
                                 className="cursor-pointer object-cover transition-transform duration-600 ease-out hover:scale-[1.15]"
@@ -205,7 +208,7 @@ function PlaygroundSection() {
                             }}
                         >
                             {/* 左侧图片 - grid-column: 1/4, rotate: -10deg */}
-                            <img
+                            <img loading="lazy" decoding="async"
                                 src={projects.project3.images[0]}
                                 alt="Project 3 - Image 1"
                                 className="object-cover transition-all duration-600 ease-out group-hover:opacity-50"
@@ -219,7 +222,7 @@ function PlaygroundSection() {
                                 }}
                             />
                             {/* 中间图片 - grid-column: 3/6, z-index: 10 */}
-                            <img
+                            <img loading="lazy" decoding="async"
                                 src={projects.project3.images[1]}
                                 alt="Project 3 - Image 2"
                                 className="object-cover transition-all duration-600 ease-out group-hover:scale-[1.2]"
@@ -233,7 +236,7 @@ function PlaygroundSection() {
                                 }}
                             />
                             {/* 右侧图片 - grid-column: 5/8, rotate: 10deg */}
-                            <img
+                            <img loading="lazy" decoding="async"
                                 src={projects.project3.images[2]}
                                 alt="Project 3 - Image 3"
                                 className="object-cover transition-all duration-600 ease-out group-hover:opacity-50"
@@ -255,7 +258,7 @@ function PlaygroundSection() {
                         style={{ aspectRatio: '4/3' }}
                     >
                         <Link to={projects.project4.link} className="flex h-full w-full items-center justify-center">
-                            <img
+                            <img loading="lazy" decoding="async"
                                 src={projects.project4.src}
                                 alt={projects.project4.alt}
                                 className="cursor-pointer object-cover transition-transform duration-600 ease-out hover:scale-[1.15]"
@@ -277,7 +280,7 @@ function PlaygroundSection() {
                         style={{ aspectRatio: '4/3' }}
                     >
                         <Link to={projects.project5.link} className="flex h-full w-full items-center justify-center">
-                            <img
+                            <img loading="lazy" decoding="async"
                                 src={projects.project5.src}
                                 alt={projects.project5.alt}
                                 className="cursor-pointer object-cover transition-transform duration-600 ease-out hover:scale-[1.15]"
@@ -296,5 +299,3 @@ function PlaygroundSection() {
 }
 
 export default PlaygroundSection;
-
-

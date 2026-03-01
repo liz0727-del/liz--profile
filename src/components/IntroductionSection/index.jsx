@@ -41,7 +41,7 @@ function IntroductionSection() {
                 }}
             >
                 {/* 照片 */}
-                <img
+                <img loading="lazy" decoding="async"
                     src="/images/profile.JPG"
                     alt="Profile"
                     style={{

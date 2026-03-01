@@ -24,6 +24,12 @@ const MOUSE_CONFIG = {
     duration: 500,       // 动画持续时间 (ms)
 };
 
+const QUALITY_PRESETS = {
+    high: { targetFps: 22, cellScale: 1.15, mouseProbability: 0.035 },
+    medium: { targetFps: 18, cellScale: 1.4, mouseProbability: 0.02 },
+    low: { targetFps: 14, cellScale: 1.8, mouseProbability: 0.01 },
+};
+
 // Import all videos
 const VIDEOS = [
     videoSrc,    // 01.mp4
@@ -38,6 +44,11 @@ const AsciiEffect = ({ children, videoBackground }) => {
     const samplingCanvasRef = useRef(null);  // 用于采样视频帧
     const displayCanvasRef = useRef(null);   // 用于显示 ASCII 字符
     const animationRef = useRef(null);
+    const isPageVisibleRef = useRef(true);
+    const lastFrameTimeRef = useRef(0);
+    const qualityLevelRef = useRef('high');
+    const cellScaleRef = useRef(1);
+    const interactionEnabledRef = useRef(true);
 
     // 激活的单元格: Map<"x,y" => { startTime, randomChars }>
     const activeCellsRef = useRef(new Map());
@@ -57,23 +68,23 @@ const AsciiEffect = ({ children, videoBackground }) => {
             const viewportHeight = window.innerHeight;
             const idx = Math.floor((scrollY + viewportHeight * 0.5) / viewportHeight);
             const safeIdx = Math.max(0, Math.min(idx, VIDEOS.length - 1));
-
-            if (safeIdx !== currentVideoIdx) {
-                setCurrentVideoIdx(safeIdx);
-            }
+            setCurrentVideoIdx((prev) => (prev === safeIdx ? prev : safeIdx));
         };
 
         window.addEventListener('scroll', handleScroll, { passive: true });
         handleScroll();
 
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [currentVideoIdx]);
+    }, []);
 
     // 鼠标互动监听器
     useEffect(() => {
         const handleMouseMove = (e) => {
-            const gridX = Math.floor(e.clientX / charWidth);
-            const gridY = Math.floor(e.clientY / charHeight);
+            if (!interactionEnabledRef.current) return;
+            const cellScale = cellScaleRef.current;
+            const quality = QUALITY_PRESETS[qualityLevelRef.current];
+            const gridX = Math.floor(e.clientX / (charWidth * cellScale));
+            const gridY = Math.floor(e.clientY / (charHeight * cellScale));
 
             const prevX = mouseGridRef.current.x;
             const prevY = mouseGridRef.current.y;
@@ -89,7 +100,7 @@ const AsciiEffect = ({ children, videoBackground }) => {
             for (let dy = -radius; dy <= radius; dy++) {
                 for (let dx = -radius; dx <= radius; dx++) {
                     if (dx * dx + dy * dy > radius * radius) continue;
-                    if (Math.random() > MOUSE_CONFIG.probability) continue;
+                    if (Math.random() > quality.mouseProbability) continue;
 
                     const cellX = gridX + dx;
                     const cellY = gridY + dy;
@@ -111,13 +122,43 @@ const AsciiEffect = ({ children, videoBackground }) => {
         return () => window.removeEventListener('mousemove', handleMouseMove);
     }, [charWidth, charHeight]);
 
+    // 初始化质量档位（只在启动时按设备判断一次，避免动态切换抖动）
+    useEffect(() => {
+        const dpr = window.devicePixelRatio || 1;
+        const isMobile = window.innerWidth < 768;
+        const cpuCores = navigator.hardwareConcurrency || 4;
+        if (isMobile || cpuCores <= 4) {
+            qualityLevelRef.current = 'low';
+            interactionEnabledRef.current = false;
+        } else if (dpr > 1.5 || cpuCores <= 8) {
+            qualityLevelRef.current = 'medium';
+            interactionEnabledRef.current = true;
+        } else {
+            qualityLevelRef.current = 'high';
+            interactionEnabledRef.current = true;
+        }
+    }, []);
+
     // Video playback and Canvas-based ASCII rendering
     useEffect(() => {
+        const handleVisibilityChange = () => {
+            isPageVisibleRef.current = !document.hidden;
+            if (!isPageVisibleRef.current && animationRef.current) {
+                cancelAnimationFrame(animationRef.current);
+                animationRef.current = null;
+            }
+        };
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+
         const video = videoRef.current;
         const samplingCanvas = samplingCanvasRef.current;
         const displayCanvas = displayCanvasRef.current;
 
-        if (!video || !samplingCanvas || !displayCanvas) return;
+        if (!video || !samplingCanvas || !displayCanvas) {
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+            return;
+        }
 
         const samplingCtx = samplingCanvas.getContext('2d', { willReadFrequently: true });
         const displayCtx = displayCanvas.getContext('2d', { alpha: true });
@@ -128,14 +169,27 @@ const AsciiEffect = ({ children, videoBackground }) => {
         displayCtx.fillStyle = SETTINGS.color;
 
         const processFrame = () => {
-            if (video.paused || video.ended) return;
+            if (video.paused || video.ended || !isPageVisibleRef.current) return;
+
+            const nowTs = performance.now();
+            const quality = QUALITY_PRESETS[qualityLevelRef.current];
+            const frameInterval = 1000 / quality.targetFps;
+            if (nowTs - lastFrameTimeRef.current < frameInterval) {
+                animationRef.current = requestAnimationFrame(processFrame);
+                return;
+            }
+            lastFrameTimeRef.current = nowTs;
 
             const screenWidth = window.innerWidth;
             const screenHeight = window.innerHeight;
+            const activeQuality = QUALITY_PRESETS[qualityLevelRef.current];
+            const effectiveCharWidth = charWidth * activeQuality.cellScale;
+            const effectiveCharHeight = charHeight * activeQuality.cellScale;
+            cellScaleRef.current = activeQuality.cellScale;
 
             // 计算网格尺寸
-            const gridW = Math.ceil(screenWidth / charWidth) + 1;
-            const gridH = Math.ceil(screenHeight / charHeight) + 1;
+            const gridW = Math.ceil(screenWidth / effectiveCharWidth) + 1;
+            const gridH = Math.ceil(screenHeight / effectiveCharHeight) + 1;
 
             // 更新采样 Canvas 尺寸
             if (samplingCanvas.width !== gridW || samplingCanvas.height !== gridH) {
@@ -213,8 +267,8 @@ const AsciiEffect = ({ children, videoBackground }) => {
 
                     // 只绘制非空格字符
                     if (char && char !== ' ') {
-                        const x = j * charWidth;
-                        const y = i * charHeight;
+                        const x = j * effectiveCharWidth;
+                        const y = i * effectiveCharHeight;
                         displayCtx.fillText(char, x, y);
                     }
                 }
@@ -236,6 +290,7 @@ const AsciiEffect = ({ children, videoBackground }) => {
         video.play().catch(e => console.log("Autoplay blocked", e));
 
         return () => {
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
             video.removeEventListener('play', handlePlay);
             if (animationRef.current) cancelAnimationFrame(animationRef.current);
         };
