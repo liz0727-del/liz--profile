@@ -18,9 +18,29 @@ function IntroductionSection() {
     };
 
     return (
-        <section className="intro-section">
+        <section
+            className="relative flex w-full max-w-6xl mx-auto items-center justify-center mobile-intro-container"
+            style={{
+                marginBottom: '224px',
+                padding: '0 48px',
+                boxSizing: 'border-box',
+                minHeight: '500px'
+            }}
+        >
             {/* 左上角：个人照片卡片 */}
-            <div className="photo-card">
+            <div
+                className="absolute mobile-photo-card"
+                style={{
+                    left: '180px',
+                    top: '-40px',
+                    width: '176px',
+                    height: '176px',
+                    borderRadius: '20px',
+                    background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.20) 100%), #F2F2F2',
+                    overflow: 'hidden',
+                    zIndex: 10
+                }}
+            >
                 {/* 照片 */}
                 <img loading="lazy" decoding="async"
                     src="https://liz-profile-assets.oss-cn-shenzhen.aliyuncs.com/profile.JPG"
@@ -92,7 +112,23 @@ function IntroductionSection() {
             </div>
 
             {/* 中间：白色介绍卡片 */}
-            <div className="text-card">
+            <div
+                className="mobile-text-card"
+                style={{
+                    width: '448px',
+                    maxWidth: '100%',
+                    padding: '12px',
+                    gap: '64px',
+                    backgroundColor: '#FFFFFF',
+                    borderRadius: '16px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                    flexShrink: 0,
+                    zIndex: 5
+                }}
+            >
                 {/* 文字内容区域 */}
                 <div
                     className="relative flex flex-col items-start justify-start"
@@ -151,7 +187,22 @@ function IntroductionSection() {
                 onClick={handleAiButtonClick}
                 onMouseEnter={() => setIsAiButtonHovered(true)}
                 onMouseLeave={() => setIsAiButtonHovered(false)}
-                className={`sphere-button ${isAiButtonHovered ? 'hovered' : ''}`}
+                className={`absolute mobile-sphere-button ${isAiButtonHovered ? 'hovered' : ''}`}
+                style={{
+                    right: '72px',
+                    bottom: '-120px',
+                    width: '240px',
+                    height: '240px',
+                    border: 'none',
+                    background: 'transparent',
+                    cursor: 'pointer',
+                    padding: 0,
+                    margin: 0,
+                    outline: 'none',
+                    transform: isAiButtonHovered ? 'scale(1.1) translateY(-5px)' : 'scale(1)',
+                    transition: 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                    zIndex: 10
+                }}
             >
                 <div style={{ width: '100%', height: '100%' }}>
                     <img
@@ -162,65 +213,9 @@ function IntroductionSection() {
                 </div>
             </button>
 
-            {/* CSS 样式 */}
+            {/* CSS 样式 - 仅用于移动端覆盖 */}
             <style>{`
-                .intro-section {
-                    position: relative;
-                    display: flex;
-                    width: 100%;
-                    max-width: 1152px;
-                    margin: 0 auto 224px;
-                    padding: 0 48px;
-                    align-items: center;
-                    justify-content: center;
-                    min-height: 500px;
-                    box-sizing: border-box;
-                }
-
-                .photo-card {
-                    position: absolute;
-                    left: 180px;
-                    top: -40px;
-                    width: 176px;
-                    height: 176px;
-                    border-radius: 20px;
-                    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.20) 100%), #F2F2F2;
-                    overflow: hidden;
-                    z-index: 10;
-                }
-
-                .text-card {
-                    width: 448px;
-                    max-width: 100%;
-                    padding: 12px;
-                    gap: 64px;
-                    background-color: #FFFFFF;
-                    border-radius: 16px;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: flex-start;
-                    justify-content: flex-start;
-                    flex-shrink: 0;
-                    z-index: 5;
-                }
-
-                .sphere-button {
-                    position: absolute;
-                    right: 72px;
-                    bottom: -120px;
-                    width: 240px;
-                    height: 240px;
-                    border: none;
-                    background: transparent;
-                    cursor: pointer;
-                    padding: 0;
-                    margin: 0;
-                    outline: none;
-                    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-                    z-index: 10;
-                }
-
-                .sphere-button.hovered {
+                .mobile-sphere-button.hovered {
                     transform: scale(1.1) translateY(-5px);
                 }
 
@@ -229,41 +224,41 @@ function IntroductionSection() {
                     50% { transform: translateY(-10px); }
                 }
 
-                /* 移动端自适应 (手机端宽度通常 < 768px) */
                 @media (max-width: 768px) {
-                    .intro-section {
-                        margin-bottom: 120px;
-                        padding: 0 24px;
-                        min-height: auto;
-                        flex-direction: column;
+                    .mobile-intro-container {
+                        margin-bottom: 120px !important;
+                        padding: 0 24px !important;
+                        min-height: auto !important;
+                        flex-direction: column !important;
                     }
 
-                    .text-card {
-                        width: 100%;
-                        margin-top: 80px; /* 为上方的小组件留出空间 */
-                        gap: 32px;
-                        padding: 24px 16px 16px; /* 增加顶部内边距以防遮挡文字 */
+                    .mobile-text-card {
+                        width: 100% !important;
+                        margin-top: 80px !important;
+                        gap: 32px !important;
+                        padding: 24px 16px 16px !important;
                     }
 
-                    .photo-card {
-                        width: 22vw; /* 大约屏幕 1/4 */
-                        height: 22vw;
-                        max-width: 110px;
-                        max-height: 110px;
-                        left: 16px;
-                        top: 20px;
-                        border-radius: 12px;
-                        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                    .mobile-photo-card {
+                        width: 22vw !important;
+                        height: 22vw !important;
+                        max-width: 110px !important;
+                        max-height: 110px !important;
+                        left: 16px !important;
+                        top: 20px !important;
+                        border-radius: 12px !important;
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
                     }
 
-                    .sphere-button {
-                        width: 22vw; /* 大约屏幕 1/4 */
-                        height: 22vw;
-                        max-width: 110px;
-                        max-height: 110px;
-                        right: 16px;
-                        top: 20px; /* 在移动端移动到右上方 */
-                        bottom: auto; /* 清除底部的定位 */
+                    .mobile-sphere-button {
+                        width: 22vw !important;
+                        height: 22vw !important;
+                        max-width: 110px !important;
+                        max-height: 110px !important;
+                        right: 16px !important;
+                        top: 20px !important;
+                        bottom: auto !important;
+                        transform: none !important;
                     }
                 }
             `}</style>
