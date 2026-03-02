@@ -1,7 +1,7 @@
 # Project Essential: 个人网站复刻计划 (Final Edition)
 
 > **项目代号**: Vibe-Personal (Total Reconstruction)
-> **核心目标**: 使用现代技术栈，1:1 复刻 Essential/Nothing 风格，打造个人作品集网站。
+> **核心目标**: 使用现代技术栈，打造个人作品集网站。
 > **当前状态**: 已定稿，准备启动。
 
 ---
