@@ -67,6 +67,7 @@ function PlaygroundSection() {
             >
                 {/* 主网格布局 */}
                 <div
+                    className="pg-grid-container"
                     style={{
                         display: 'grid',
                         gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
@@ -80,7 +81,7 @@ function PlaygroundSection() {
 
                     {/* 1-1: 旋转头像组 - 338 × 253px 容器, 224 × 224px 旋转网格 */}
                     <div
-                        className="flex aspect-square w-full items-center justify-center overflow-hidden"
+                        className="flex aspect-square w-full items-center justify-center overflow-hidden pg-avatars"
                         style={{ aspectRatio: '4/3' }}
                     >
                         <div className="group flex items-center justify-center">
@@ -117,11 +118,11 @@ function PlaygroundSection() {
                     </div>
 
                     {/* 1-2: 空占位符 */}
-                    <div className="w-full" style={{ aspectRatio: '4/3' }}></div>
+                    <div className="w-full pg-empty-1" style={{ aspectRatio: '4/3' }}></div>
 
                     {/* 1-3: Project 1 - height: 60%, 1:1 正方形 */}
                     <div
-                        className="flex h-full w-full items-center justify-center"
+                        className="flex h-full w-full items-center justify-center pg-project-1"
                         style={{ aspectRatio: '4/3' }}
                     >
                         <Link to={projects.project1.link} className="flex h-full w-full items-center justify-center">
@@ -140,7 +141,7 @@ function PlaygroundSection() {
 
                     {/* 1-4: Project 2 - height: 60%, 正圆形 */}
                     <div
-                        className="flex h-full w-full items-center justify-center"
+                        className="flex h-full w-full items-center justify-center pg-project-2"
                         style={{ aspectRatio: '4/3' }}
                     >
                         <Link to={projects.project2.link} className="flex h-full w-full items-center justify-center">
@@ -159,7 +160,7 @@ function PlaygroundSection() {
 
                     {/* ===== 第二行: 中间文字区 (跨4列) ===== */}
                     <div
-                        className="flex flex-col items-center justify-center text-center"
+                        className="flex flex-col items-center justify-center text-center pg-text-area"
                         style={{ gridColumn: 'span 4', padding: '32px 0' }}
                     >
                         <p
@@ -194,7 +195,7 @@ function PlaygroundSection() {
 
                     {/* 3-1: Project 3 堆叠图片 - 用外层容器包裹并居中 */}
                     <div
-                        className="flex h-full w-full items-center justify-center"
+                        className="flex h-full w-full items-center justify-center pg-project-3"
                         style={{ aspectRatio: '4/3' }}
                     >
                         <Link
@@ -255,7 +256,7 @@ function PlaygroundSection() {
 
                     {/* 3-2: Project 4 - height: 60%, 1:1 正方形, rounded-[20px] */}
                     <div
-                        className="flex h-full w-full items-center justify-center"
+                        className="flex h-full w-full items-center justify-center pg-project-4"
                         style={{ aspectRatio: '4/3' }}
                     >
                         <Link to={projects.project4.link} className="flex h-full w-full items-center justify-center">
@@ -273,11 +274,11 @@ function PlaygroundSection() {
                     </div>
 
                     {/* 3-3: 空占位符 */}
-                    <div className="w-full" style={{ aspectRatio: '4/3' }}></div>
+                    <div className="w-full pg-empty-2" style={{ aspectRatio: '4/3' }}></div>
 
                     {/* 3-4: Project 5 - height: 60%, 1:1 正方形, rounded-[20px] */}
                     <div
-                        className="flex h-full w-full items-center justify-center"
+                        className="flex h-full w-full items-center justify-center pg-project-5"
                         style={{ aspectRatio: '4/3' }}
                     >
                         <Link to={projects.project5.link} className="flex h-full w-full items-center justify-center">
@@ -295,6 +296,64 @@ function PlaygroundSection() {
                     </div>
                 </div>
             </div>
+
+            <style>{`
+                @media (max-width: 768px) {
+                    .pg-grid-container {
+                        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                        gap: 20px !important;
+                        padding: 10px 0 !important;
+                    }
+
+                    /* 隐藏占位符 */
+                    .pg-empty-1, .pg-empty-2 {
+                        display: none !important;
+                    }
+
+                    /* 重新排列顺序 */
+                    .pg-avatars { order: 1 !important; grid-column: 1 !important; }
+                    .pg-project-4 { order: 2 !important; grid-column: 2 !important; }
+                    
+                    .pg-project-2 { 
+                        order: 3 !important; 
+                        grid-column: 1 / span 2 !important; 
+                        height: 200px !important;
+                    }
+                    
+                    .pg-text-area { 
+                        order: 4 !important; 
+                        grid-column: 1 / span 2 !important; 
+                        padding: 40px 0 !important;
+                    }
+                    .pg-text-area p:first-child {
+                        font-size: 32px !important;
+                        line-height: 1.2 !important;
+                    }
+
+                    .pg-project-3 { 
+                        order: 5 !important; 
+                        grid-column: 1 / span 2 !important;
+                        height: 250px !important;
+                    }
+
+                    .pg-project-1 { order: 6 !important; grid-column: 1 !important; }
+                    .pg-project-5 { order: 7 !important; grid-column: 2 !important; }
+
+                    /* 移动端尺寸微调 */
+                    .pg-avatars div[style*="width: 224px"] {
+                        width: 140px !important;
+                        height: 140px !important;
+                    }
+                    .pg-project-1 img, .pg-project-2 img, .pg-project-4 img, .pg-project-5 img {
+                        height: 90% !important;
+                        width: 90% !important;
+                    }
+                    .pg-project-3 a {
+                        width: 100% !important;
+                        padding: 5% !important;
+                    }
+                }
+            `}</style>
         </section>
     );
 }
