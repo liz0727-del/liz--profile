@@ -573,7 +573,7 @@ function Project3Detail() {
 
                                 {/* Proposal 按钮 */}
                                 <button
-                                    onClick={() => window.open('https://liz-profile-assets.oss-cn-shenzhen.aliyuncs.com/project3-proposal.pdf', '_blank')}
+                                    onClick={() => window.open('/view-pdf/project3-proposal.pdf', '_blank')}
                                     className="flex-1 inline-flex items-center justify-between gap-3 px-6 rounded-full transition-colors hover:brightness-95"
                                     style={{
                                         backgroundColor: isDarkMode ? '#374151' : '#FFFFFF',
