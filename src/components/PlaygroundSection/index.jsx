@@ -310,7 +310,7 @@ function PlaygroundSection() {
                         display: none !important;
                     }
 
-                    /* 重新排列顺序 */
+                    /* 重新排列顺序与位置精准偏移 */
                     .pg-avatars { order: 1 !important; grid-column: 1 !important; }
                     .pg-project-4 { order: 2 !important; grid-column: 2 !important; }
                     
@@ -322,7 +322,7 @@ function PlaygroundSection() {
 
                     .pg-project-2 { 
                         order: 3 !important; 
-                        grid-column: 1 / span 2 !important; 
+                        grid-column: 2 !important; /* 移动到右侧网格单元格 */
                     }
                     
                     .pg-text-area { 
@@ -338,7 +338,7 @@ function PlaygroundSection() {
 
                     .pg-project-3 { 
                         order: 5 !important; 
-                        grid-column: 1 / span 2 !important;
+                        grid-column: 1 !important; /* 移动到左格，以便与下方的项目 1 左对齐 */
                         aspect-ratio: 4 / 3 !important;
                         height: auto !important;
                     }
@@ -346,19 +346,19 @@ function PlaygroundSection() {
                     .pg-project-1 { order: 6 !important; grid-column: 1 !important; }
                     .pg-project-5 { order: 7 !important; grid-column: 2 !important; }
 
-                    /* 移动端尺寸自适应，严格按照用户要求的 30vw 进行缩放 */
+                    /* 移动端尺寸自适应，严格按照用户要求的 28vw 进行缩放 */
                     .pg-avatars div[style*="width: 224px"] {
-                        width: 30vw !important;
-                        height: 30vw !important;
+                        width: 28vw !important;
+                        height: 28vw !important;
                     }
                     .pg-project-1 img, .pg-project-2 img, .pg-project-4 img, .pg-project-5 img {
-                        width: 30vw !important;
-                        height: 30vw !important;
+                        width: 28vw !important;
+                        height: 28vw !important;
                         aspect-ratio: 1 / 1 !important;
                     }
-                    /* 跨列项目协调，保持 30vw 的体感 */
+                    /* 调整堆叠组件宽度使其适应单列网格 (约 45vw 宽) */
                     .pg-project-3 a {
-                        width: 70% !important; /* 约等于 2 * 30vw / 容器宽 */
+                        width: 90% !important; 
                         height: content !important;
                         padding: 10% !important;
                     }
