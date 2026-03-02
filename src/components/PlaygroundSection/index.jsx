@@ -314,16 +314,22 @@ function PlaygroundSection() {
                     .pg-avatars { order: 1 !important; grid-column: 1 !important; }
                     .pg-project-4 { order: 2 !important; grid-column: 2 !important; }
                     
+                    /* 统一比例控制，确保移动端呈现与 PC 一致的格子形状 */
+                    .pg-avatars, .pg-project-1, .pg-project-2, .pg-project-4, .pg-project-5 {
+                        aspect-ratio: 4 / 3 !important;
+                        height: auto !important;
+                    }
+
                     .pg-project-2 { 
                         order: 3 !important; 
                         grid-column: 1 / span 2 !important; 
-                        height: 200px !important;
                     }
                     
                     .pg-text-area { 
                         order: 4 !important; 
                         grid-column: 1 / span 2 !important; 
                         padding: 40px 0 !important;
+                        aspect-ratio: auto !important;
                     }
                     .pg-text-area p:first-child {
                         font-size: 32px !important;
@@ -333,24 +339,26 @@ function PlaygroundSection() {
                     .pg-project-3 { 
                         order: 5 !important; 
                         grid-column: 1 / span 2 !important;
-                        height: 250px !important;
+                        aspect-ratio: 4 / 3 !important;
+                        height: auto !important;
                     }
 
                     .pg-project-1 { order: 6 !important; grid-column: 1 !important; }
                     .pg-project-5 { order: 7 !important; grid-column: 2 !important; }
 
-                    /* 移动端尺寸微调 */
+                    /* 移动端尺寸自适应，将固定像素改为百分比，防止变形或溢出 */
                     .pg-avatars div[style*="width: 224px"] {
-                        width: 140px !important;
-                        height: 140px !important;
+                        width: 66% !important;
+                        height: 66% !important;
                     }
                     .pg-project-1 img, .pg-project-2 img, .pg-project-4 img, .pg-project-5 img {
-                        height: 90% !important;
-                        width: 90% !important;
+                        height: 60% !important; /* 恢复 PC 端默认的 60% 高度比例 */
+                        width: auto !important;
+                        aspect-ratio: 1 / 1 !important; /* 维持图形本身的正方形或圆比例 */
                     }
                     .pg-project-3 a {
                         width: 100% !important;
-                        padding: 5% !important;
+                        padding: 10% !important; /* 略微收缩以适应移动端 */
                     }
                 }
             `}</style>
