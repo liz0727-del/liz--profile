@@ -236,7 +236,7 @@ function IntroductionSection() {
                         width: 100% !important;
                         margin-top: 80px !important;
                         gap: 32px !important;
-                        padding: 24px 16px 16px !important;
+                        padding: 60px 16px 16px !important; /* Increased top padding to 60px */
                     }
 
                     .mobile-photo-card {
