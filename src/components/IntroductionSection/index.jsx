@@ -18,30 +18,9 @@ function IntroductionSection() {
     };
 
     return (
-        <section
-            className="relative flex w-full max-w-6xl mx-auto items-center justify-center"
-            style={{
-                marginBottom: '224px',
-                padding: '0 48px',
-                boxSizing: 'border-box',
-                minHeight: '500px'
-            }}
-        >
-            {/* 左上角：个人照片卡片 - 与视频播放器左边缘对齐 */}
-            {/* 视频初始宽度 972px，容器 max-w-6xl = 1152px，居中后左边距 = (1152-972)/2 = 90px */}
-            <div
-                className="absolute"
-                style={{
-                    left: '180px',
-                    top: '-40px',
-                    width: '176px',
-                    height: '176px',
-                    borderRadius: '20px',
-                    background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.20) 100%), #F2F2F2',
-                    overflow: 'hidden',
-                    zIndex: 10
-                }}
-            >
+        <section className="intro-section">
+            {/* 左上角：个人照片卡片 */}
+            <div className="photo-card">
                 {/* 照片 */}
                 <img loading="lazy" decoding="async"
                     src="https://liz-profile-assets.oss-cn-shenzhen.aliyuncs.com/profile.JPG"
@@ -112,23 +91,8 @@ function IntroductionSection() {
                 </div>
             </div>
 
-            {/* 中间：白色介绍卡片 - 448x416 */}
-            <div
-                style={{
-                    width: '448px',
-                    maxWidth: '100%',
-                    padding: '12px',
-                    gap: '64px',
-                    backgroundColor: '#FFFFFF',
-                    borderRadius: '16px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'flex-start',
-                    justifyContent: 'flex-start',
-                    flexShrink: 0,
-                    zIndex: 5
-                }}
-            >
+            {/* 中间：白色介绍卡片 */}
+            <div className="text-card">
                 {/* 文字内容区域 */}
                 <div
                     className="relative flex flex-col items-start justify-start"
@@ -182,31 +146,12 @@ function IntroductionSection() {
                 </div>
             </div>
 
-            {/* 右下角：AI 对话按钮 - Lottie 动画球体 */}
+            {/* 右下角：AI 对话按钮 */}
             <button
                 onClick={handleAiButtonClick}
                 onMouseEnter={() => setIsAiButtonHovered(true)}
                 onMouseLeave={() => setIsAiButtonHovered(false)}
-                className="absolute"
-                style={{
-                    // 用户要求：向中心左移24px，也就是 right 从 48px 改为 48 + 24 = 72px
-                    right: '72px',
-                    // 原尺寸为 120x120，新尺寸 240x240，为了让中心点对齐视觉中心，需调整 bottom
-                    // 原 bottom: -60px (原球中心在 bottom = 0px 处)，新尺寸要保持同样的中心，bottom 需要减去一半差异
-                    bottom: '-120px',
-                    width: '240px',
-                    height: '240px',
-                    border: 'none',
-                    background: 'transparent',
-                    cursor: 'pointer',
-                    padding: 0,
-                    margin: 0,
-                    outline: 'none',
-                    // 悬停: 放大1.1, 上移动5px
-                    transform: isAiButtonHovered ? 'scale(1.1) translateY(-5px)' : 'scale(1)',
-                    transition: 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                    zIndex: 10
-                }}
+                className={`sphere-button ${isAiButtonHovered ? 'hovered' : ''}`}
             >
                 <div style={{ width: '100%', height: '100%' }}>
                     <img
@@ -217,11 +162,109 @@ function IntroductionSection() {
                 </div>
             </button>
 
-            {/* CSS 动画 - 浮动效果 */}
+            {/* CSS 样式 */}
             <style>{`
+                .intro-section {
+                    position: relative;
+                    display: flex;
+                    width: 100%;
+                    max-width: 1152px;
+                    margin: 0 auto 224px;
+                    padding: 0 48px;
+                    align-items: center;
+                    justify-content: center;
+                    min-height: 500px;
+                    box-sizing: border-box;
+                }
+
+                .photo-card {
+                    position: absolute;
+                    left: 180px;
+                    top: -40px;
+                    width: 176px;
+                    height: 176px;
+                    border-radius: 20px;
+                    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.20) 100%), #F2F2F2;
+                    overflow: hidden;
+                    z-index: 10;
+                }
+
+                .text-card {
+                    width: 448px;
+                    max-width: 100%;
+                    padding: 12px;
+                    gap: 64px;
+                    background-color: #FFFFFF;
+                    border-radius: 16px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    justify-content: flex-start;
+                    flex-shrink: 0;
+                    z-index: 5;
+                }
+
+                .sphere-button {
+                    position: absolute;
+                    right: 72px;
+                    bottom: -120px;
+                    width: 240px;
+                    height: 240px;
+                    border: none;
+                    background: transparent;
+                    cursor: pointer;
+                    padding: 0;
+                    margin: 0;
+                    outline: none;
+                    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+                    z-index: 10;
+                }
+
+                .sphere-button.hovered {
+                    transform: scale(1.1) translateY(-5px);
+                }
+
                 @keyframes float {
                     0%, 100% { transform: translateY(0px); }
                     50% { transform: translateY(-10px); }
+                }
+
+                /* 移动端自适应 (手机端宽度通常 < 768px) */
+                @media (max-width: 768px) {
+                    .intro-section {
+                        margin-bottom: 120px;
+                        padding: 0 24px;
+                        min-height: auto;
+                        flex-direction: column;
+                    }
+
+                    .text-card {
+                        width: 100%;
+                        margin-top: 80px; /* 为上方的小组件留出空间 */
+                        gap: 32px;
+                        padding: 24px 16px 16px; /* 增加顶部内边距以防遮挡文字 */
+                    }
+
+                    .photo-card {
+                        width: 22vw; /* 大约屏幕 1/4 */
+                        height: 22vw;
+                        max-width: 110px;
+                        max-height: 110px;
+                        left: 16px;
+                        top: 20px;
+                        border-radius: 12px;
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                    }
+
+                    .sphere-button {
+                        width: 22vw; /* 大约屏幕 1/4 */
+                        height: 22vw;
+                        max-width: 110px;
+                        max-height: 110px;
+                        right: 16px;
+                        top: 20px; /* 在移动端移动到右上方 */
+                        bottom: auto; /* 清除底部的定位 */
+                    }
                 }
             `}</style>
         </section>
