@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useLanguage, t } from '../../contexts/LanguageContext';
 import { translations } from '../../i18n/translations';
-
 /**
  * IntroductionSection 组件 - 自我介绍区块
  * 
@@ -183,56 +182,39 @@ function IntroductionSection() {
                 </div>
             </div>
 
-            {/* 右下角：AI 对话按钮 - 彩色渐变球体 */}
+            {/* 右下角：AI 对话按钮 - Lottie 动画球体 */}
             <button
                 onClick={handleAiButtonClick}
                 onMouseEnter={() => setIsAiButtonHovered(true)}
                 onMouseLeave={() => setIsAiButtonHovered(false)}
                 className="absolute"
                 style={{
-                    right: '48px',
-                    bottom: '-60px',
-                    width: '120px',
-                    height: '120px',
-                    borderRadius: '50%',
+                    // 用户要求：向中心左移24px，也就是 right 从 48px 改为 48 + 24 = 72px
+                    right: '72px',
+                    // 原尺寸为 120x120，新尺寸 240x240，为了让中心点对齐视觉中心，需调整 bottom
+                    // 原 bottom: -60px (原球中心在 bottom = 0px 处)，新尺寸要保持同样的中心，bottom 需要减去一半差异
+                    bottom: '-120px',
+                    width: '240px',
+                    height: '240px',
                     border: 'none',
+                    background: 'transparent',
                     cursor: 'pointer',
-                    background: 'radial-gradient(circle at 30% 30%, #60A5FA 0%, #3B82F6 30%, #1D4ED8 60%, #1E3A8A 100%)',
-                    boxShadow: isAiButtonHovered
-                        ? '0 20px 60px rgba(59, 130, 246, 0.5), inset 0 -20px 40px rgba(250, 204, 21, 0.4)'
-                        : '0 10px 40px rgba(59, 130, 246, 0.3), inset 0 -20px 40px rgba(250, 204, 21, 0.3)',
-                    transform: isAiButtonHovered ? 'scale(1.08) translateY(-5px)' : 'scale(1)',
-                    transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                    zIndex: 10,
-                    overflow: 'hidden'
+                    padding: 0,
+                    margin: 0,
+                    outline: 'none',
+                    // 悬停: 放大1.1, 上移动5px
+                    transform: isAiButtonHovered ? 'scale(1.1) translateY(-5px)' : 'scale(1)',
+                    transition: 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                    zIndex: 10
                 }}
             >
-                {/* 黄色光斑效果 */}
-                <div
-                    style={{
-                        position: 'absolute',
-                        bottom: '15%',
-                        right: '20%',
-                        width: '50%',
-                        height: '50%',
-                        borderRadius: '50%',
-                        background: 'radial-gradient(circle, rgba(250, 204, 21, 0.8) 0%, rgba(250, 204, 21, 0) 70%)',
-                        filter: 'blur(8px)'
-                    }}
-                />
-                {/* 高光效果 */}
-                <div
-                    style={{
-                        position: 'absolute',
-                        top: '15%',
-                        left: '20%',
-                        width: '30%',
-                        height: '20%',
-                        borderRadius: '50%',
-                        background: 'rgba(255, 255, 255, 0.4)',
-                        filter: 'blur(6px)'
-                    }}
-                />
+                <div style={{ width: '100%', height: '100%' }}>
+                    <img
+                        src="/images/sphere-anim.webp"
+                        alt="AI Assistant"
+                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                    />
+                </div>
             </button>
 
             {/* CSS 动画 - 浮动效果 */}
