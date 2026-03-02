@@ -87,7 +87,7 @@ function PlaygroundSection() {
                         <div className="group flex items-center justify-center">
                             <div
                                 className="grid animate-spin-slow grid-cols-3 grid-rows-3"
-                                style={{ width: '224px', height: '224px' }}
+                                style={{ width: 'var(--pg-avatar-size, 224px)', height: 'var(--pg-avatar-size, 224px)' }}
                             >
                                 <Link
                                     to={avatars[0].link}
@@ -131,7 +131,8 @@ function PlaygroundSection() {
                                 alt={projects.project1.alt}
                                 className="cursor-pointer object-cover transition-transform duration-600 ease-out hover:scale-[1.15]"
                                 style={{
-                                    height: '60%',
+                                    height: 'var(--pg-item-size, 60%)',
+                                    width: 'var(--pg-item-size, auto)',
                                     aspectRatio: '1/1',
                                     borderRadius: '20px',
                                 }}
@@ -150,7 +151,8 @@ function PlaygroundSection() {
                                 alt={projects.project2.alt}
                                 className="cursor-pointer object-cover transition-transform duration-600 ease-out hover:scale-[1.15]"
                                 style={{
-                                    height: '60%',
+                                    height: 'var(--pg-item-size, 60%)',
+                                    width: 'var(--pg-item-size, auto)',
                                     aspectRatio: '1/1',
                                     borderRadius: '9999px',  /* 正圆形 */
                                 }}
@@ -265,7 +267,8 @@ function PlaygroundSection() {
                                 alt={projects.project4.alt}
                                 className="cursor-pointer object-cover transition-transform duration-600 ease-out hover:scale-[1.15]"
                                 style={{
-                                    height: '60%',
+                                    height: 'var(--pg-item-size, 60%)',
+                                    width: 'var(--pg-item-size, auto)',
                                     aspectRatio: '1/1',
                                     borderRadius: '20px',
                                 }}
@@ -287,7 +290,8 @@ function PlaygroundSection() {
                                 alt={projects.project5.alt}
                                 className="cursor-pointer object-cover transition-transform duration-600 ease-out hover:scale-[1.15]"
                                 style={{
-                                    height: '60%',
+                                    height: 'var(--pg-item-size, 60%)',
+                                    width: 'var(--pg-item-size, auto)',
                                     aspectRatio: '1/1',
                                     borderRadius: '20px',
                                 }}
@@ -298,7 +302,17 @@ function PlaygroundSection() {
             </div>
 
             <style>{`
+                :root {
+                    --pg-item-size: 60%;
+                    --pg-avatar-size: 224px;
+                }
+
                 @media (max-width: 768px) {
+                    :root {
+                        --pg-item-size: 28vw;
+                        --pg-avatar-size: 28vw;
+                    }
+
                     .pg-grid-container {
                         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
                         gap: 20px !important;
@@ -318,6 +332,9 @@ function PlaygroundSection() {
                     .pg-avatars, .pg-project-1, .pg-project-2, .pg-project-4, .pg-project-5 {
                         aspect-ratio: 4 / 3 !important;
                         height: auto !important;
+                        display: flex !important;
+                        justify-content: center !important;
+                        align-items: center !important;
                     }
 
                     .pg-project-2 { 
@@ -338,24 +355,21 @@ function PlaygroundSection() {
 
                     .pg-project-3 { 
                         order: 5 !important; 
-                        grid-column: 1 !important; /* 移动到左格，以便与下方的项目 1 左对齐 */
+                        grid-column: 1 !important; /* 移动到左格 */
                         aspect-ratio: 4 / 3 !important;
                         height: auto !important;
+                        display: flex !important;
+                        justify-content: center !important; 
                     }
 
-                    .pg-project-1 { order: 6 !important; grid-column: 1 !important; }
+                    .pg-project-1 { 
+                        order: 6 !important; 
+                        grid-column: 1 !important; 
+                        display: flex !important;
+                        justify-content: center !important;
+                    }
                     .pg-project-5 { order: 7 !important; grid-column: 2 !important; }
 
-                    /* 移动端尺寸自适应，严格按照用户要求的 28vw 进行缩放 */
-                    .pg-avatars div[style*="width: 224px"] {
-                        width: 28vw !important;
-                        height: 28vw !important;
-                    }
-                    .pg-project-1 img, .pg-project-2 img, .pg-project-4 img, .pg-project-5 img {
-                        width: 28vw !important;
-                        height: 28vw !important;
-                        aspect-ratio: 1 / 1 !important;
-                    }
                     /* 调整堆叠组件宽度使其适应单列网格 (约 45vw 宽) */
                     .pg-project-3 a {
                         width: 90% !important; 
