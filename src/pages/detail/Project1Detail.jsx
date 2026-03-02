@@ -530,7 +530,7 @@ function Project1Detail() {
 
                                 {/* Proposal 按钮 */}
                                 <button
-                                    onClick={() => window.open('/view-pdf/project1-proposal.pdf', '_blank')}
+                                    onClick={() => window.open('/pdfs/project1-proposal.pdf', '_blank')}
                                     className="flex-1 inline-flex items-center justify-between gap-3 px-6 rounded-full transition-colors hover:brightness-95"
                                     style={{
                                         backgroundColor: isDarkMode ? '#374151' : '#FFFFFF',

@@ -1,11 +1,18 @@
 {
+    "headers": [
+        {
+            "source": "/pdfs/(.*)",
+            "headers": [
+                {
+                    "key": "Content-Disposition",
+                    "value": "inline"
+                }
+            ]
+        }
+    ],
     "rewrites": [
         {
-            "source": "/view-pdf/:filename",
-            "destination": "https://liz-profile-assets.oss-cn-shenzhen.aliyuncs.com/:filename"
-        },
-        {
-            "source": "/(.*)",
+            "source": "/((?!pdfs/).*)",
             "destination": "/"
         }
     ]
