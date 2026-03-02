@@ -369,18 +369,14 @@ function PlaygroundSection() {
                         line-height: 1.2 !important;
                     }
 
-                    .pg-project-3 { 
-                        order: 5 !important; 
+                    .pg-project-3 {
+                        order: 5 !important;
                         grid-column: 1 !important; /* 移动到左格 */
                         aspect-ratio: 4 / 3 !important;
                         height: auto !important;
                         display: flex !important;
-                        justify-content: flex-start !important; /* 精准左对齐 */
-                        padding-left: calc((100% - 28vw) / 2) !important; /* 使其中心对齐位置等于 28vw 组件的左边缘? 
-                                                                             不对，下面 28vw 是居中的。
-                                                                             如果下面 28vw 是居中的，左边缘在 (100% - 28vw)/2。
-                                                                             所以项目 3 也应该用这个 padding 或居中。 */
-                        justify-content: center !important;
+                        justify-content: center !important; /* 居中对齐 */
+                        padding: 12px 0 !important; /* 上下间距 */
                     }
 
                     .pg-project-1 { 
@@ -393,12 +389,12 @@ function PlaygroundSection() {
 
                     /* 调整堆叠组件宽度使其适应单列网格 (约 45vw 宽) */
                     .pg-project-3 a {
-                        width: 28vw !important; /* 统一锁定为 28vw 以实现完美对齐 */
-                        height: auto !important;
-                        aspect-ratio: 3 / 4 !important; /* 维持单张卡片比例感 */
-                        padding: 0 !important;
-                        display: grid !important;
-                    }
+                         width: 25vw !important; /* 动态 25vw 缩放 */
+                         height: auto !important;
+                         aspect-ratio: 3 / 4 !important; /* 维持单张卡片比例感 */
+                         padding: 0 !important;
+                         display: grid !important;
+                     }
                 }
             `}</style>
         </section>
