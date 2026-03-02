@@ -15,3 +15,7 @@ createRoot(document.getElementById('root')).render(
   </StrictMode>,
 )
 
+// 全局禁止右键菜单（内容保护）
+document.addEventListener('contextmenu', (e) => {
+  e.preventDefault();
+});

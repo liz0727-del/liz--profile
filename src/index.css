@@ -61,6 +61,15 @@
     @apply text-ink font-mono antialiased;
     margin: 0;
     background: transparent;
+    /* 禁止选中文字 */
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* 禁止图片拖拽和长按保存（在移动端也有效） */
+  img, video {
+    pointer-events: none;
+    -webkit-touch-callout: none;
   }
 }
 
