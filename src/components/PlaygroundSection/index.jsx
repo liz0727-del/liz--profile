@@ -346,19 +346,21 @@ function PlaygroundSection() {
                     .pg-project-1 { order: 6 !important; grid-column: 1 !important; }
                     .pg-project-5 { order: 7 !important; grid-column: 2 !important; }
 
-                    /* 移动端尺寸自适应，将固定像素改为百分比，防止变形或溢出 */
+                    /* 移动端尺寸自适应，严格按照用户要求的 30vw 进行缩放 */
                     .pg-avatars div[style*="width: 224px"] {
-                        width: 66% !important;
-                        height: 66% !important;
+                        width: 30vw !important;
+                        height: 30vw !important;
                     }
                     .pg-project-1 img, .pg-project-2 img, .pg-project-4 img, .pg-project-5 img {
-                        height: 60% !important; /* 恢复 PC 端默认的 60% 高度比例 */
-                        width: auto !important;
-                        aspect-ratio: 1 / 1 !important; /* 维持图形本身的正方形或圆比例 */
+                        width: 30vw !important;
+                        height: 30vw !important;
+                        aspect-ratio: 1 / 1 !important;
                     }
+                    /* 跨列项目协调，保持 30vw 的体感 */
                     .pg-project-3 a {
-                        width: 100% !important;
-                        padding: 10% !important; /* 略微收缩以适应移动端 */
+                        width: 70% !important; /* 约等于 2 * 30vw / 容器宽 */
+                        height: content !important;
+                        padding: 10% !important;
                     }
                 }
             `}</style>
