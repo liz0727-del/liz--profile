@@ -226,38 +226,45 @@ function IntroductionSection() {
 
                 @media (max-width: 768px) {
                     .mobile-intro-container {
-                        margin-bottom: 120px !important;
-                        padding: 0 24px !important;
+                        margin-bottom: 60px !important;
+                        padding: 0 16px !important;
                         min-height: auto !important;
                         flex-direction: column !important;
-                    }
-
-                    .mobile-text-card {
-                        width: 100% !important;
-                        margin-top: 80px !important;
-                        gap: 32px !important;
-                        padding: 60px 16px 16px !important; /* Increased top padding to 60px */
+                        display: flex !important;
+                        gap: 24px !important; /* 组件之间的间距 */
                     }
 
                     .mobile-photo-card {
-                        width: 22vw !important;
-                        height: 22vw !important;
-                        max-width: 110px !important;
-                        max-height: 110px !important;
-                        left: 16px !important;
-                        top: 20px !important;
+                        position: relative !important;
+                        width: 30vw !important;
+                        height: 30vw !important;
+                        max-width: 140px !important;
+                        max-height: 140px !important;
+                        left: 0 !important;
+                        top: 0 !important;
+                        align-self: flex-start !important; /* 靠左对齐 */
                         border-radius: 12px !important;
                         box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
                     }
 
+                    .mobile-text-card {
+                        width: 100% !important;
+                        max-width: none !important;
+                        margin-top: 0 !important;
+                        padding: 24px 16px !important;
+                        gap: 24px !important;
+                    }
+
                     .mobile-sphere-button {
-                        width: 22vw !important;
-                        height: 22vw !important;
-                        max-width: 110px !important;
-                        max-height: 110px !important;
-                        right: 16px !important;
-                        top: 20px !important;
-                        bottom: auto !important;
+                        position: relative !important;
+                        width: 30vw !important;
+                        height: 30vw !important;
+                        max-width: 140px !important;
+                        max-height: 140px !important;
+                        right: 0 !important;
+                        bottom: 0 !important;
+                        top: 0 !important;
+                        align-self: flex-end !important; /* 靠右对齐 */
                         transform: none !important;
                     }
                 }
