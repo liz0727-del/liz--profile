@@ -337,6 +337,22 @@ function PlaygroundSection() {
                         align-items: center !important;
                     }
 
+                    /* 强力锁定 28vw 尺寸，防止被容器撑大 */
+                    .pg-avatars div[style*="width: var(--pg-avatar-size, 224px)"] {
+                        width: 28vw !important;
+                        height: 28vw !important;
+                        max-width: 28vw !important;
+                        max-height: 28vw !important;
+                    }
+
+                    .pg-project-1 img, .pg-project-2 img, .pg-project-4 img, .pg-project-5 img {
+                        width: 28vw !important;
+                        height: 28vw !important;
+                        max-width: 28vw !important;
+                        max-height: 28vw !important;
+                        min-width: 28vw !important; /* 确保不被压缩 */
+                    }
+
                     .pg-project-2 { 
                         order: 3 !important; 
                         grid-column: 2 !important; /* 移动到右侧网格单元格 */
@@ -359,7 +375,12 @@ function PlaygroundSection() {
                         aspect-ratio: 4 / 3 !important;
                         height: auto !important;
                         display: flex !important;
-                        justify-content: center !important; 
+                        justify-content: flex-start !important; /* 精准左对齐 */
+                        padding-left: calc((100% - 28vw) / 2) !important; /* 使其中心对齐位置等于 28vw 组件的左边缘? 
+                                                                             不对，下面 28vw 是居中的。
+                                                                             如果下面 28vw 是居中的，左边缘在 (100% - 28vw)/2。
+                                                                             所以项目 3 也应该用这个 padding 或居中。 */
+                        justify-content: center !important;
                     }
 
                     .pg-project-1 { 
@@ -372,9 +393,11 @@ function PlaygroundSection() {
 
                     /* 调整堆叠组件宽度使其适应单列网格 (约 45vw 宽) */
                     .pg-project-3 a {
-                        width: 90% !important; 
-                        height: content !important;
-                        padding: 10% !important;
+                        width: 28vw !important; /* 统一锁定为 28vw 以实现完美对齐 */
+                        height: auto !important;
+                        aspect-ratio: 3 / 4 !important; /* 维持单张卡片比例感 */
+                        padding: 0 !important;
+                        display: grid !important;
                     }
                 }
             `}</style>
