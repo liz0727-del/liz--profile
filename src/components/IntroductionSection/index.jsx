@@ -44,7 +44,7 @@ function IntroductionSection() {
             >
                 {/* 照片 */}
                 <img loading="lazy" decoding="async"
-                    src="/images/profile.JPG"
+                    src="https://liz-profile-assets.oss-cn-shenzhen.aliyuncs.com/profile.JPG"
                     alt="Profile"
                     style={{
                         width: '100%',
@@ -210,7 +210,7 @@ function IntroductionSection() {
             >
                 <div style={{ width: '100%', height: '100%' }}>
                     <img
-                        src="/images/sphere-anim.webp"
+                        src="https://liz-profile-assets.oss-cn-shenzhen.aliyuncs.com/sphere-anim.webp"
                         alt="AI Assistant"
                         style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                     />

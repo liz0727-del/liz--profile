@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import heroMp4 from '../../assets/videos/hero 视频/shader 8s 见.mp4';
+// 使用阿里云 OSS 加速后的视频链接
+const HERO_VIDEO_URL = 'https://liz-profile-assets.oss-cn-shenzhen.aliyuncs.com/hero_bg_optimized.mp4';
 
 /**
  * HeroVideo 组件 - Hero 背景视频（WebM 优先）
@@ -122,7 +123,7 @@ function HeroVideo() {
         preload="metadata"
         className="absolute top-0 left-0 w-full h-full object-cover"
       >
-        <source src={heroMp4} type="video/mp4" />
+        <source src={HERO_VIDEO_URL} type="video/mp4" />
       </video>
     </div>
   );
