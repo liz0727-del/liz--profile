@@ -655,28 +655,6 @@ function Project3Detail() {
                                 </div>
                             </div>
 
-                            {/* 免责声明 - 居中靠下 */}
-                            <div className="mt-auto pt-8 flex flex-col items-center">
-                                {/* 灰色分隔线 */}
-                                <div
-                                    style={{
-                                        width: '100%',
-                                        height: '1px',
-                                        backgroundColor: isDarkMode ? '#374151' : '#E5E7EB',
-                                        marginBottom: 0
-                                    }}
-                                ></div>
-                                {/* 免责声明文字 */}
-                                <p
-                                    className="text-center text-xs font-mono"
-                                    style={{
-                                        color: isDarkMode ? '#6B7280' : '#9CA3AF',
-                                        marginBottom: 0
-                                    }}
-                                >
-                                    {t(translations.detailUI.disclaimer, language)}
-                                </p>
-                            </div>
                         </div>
                     </div>
                 </div>
