@@ -26,45 +26,20 @@ function Navbar() {
     ];
 
     return (
-        <nav
-            style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: '24px 48px',
-                zIndex: 50,
-                fontFamily: "'Geist Mono', monospace",
-                fontSize: '12px',
-                letterSpacing: '0.05em',
-                textTransform: 'uppercase',
-                pointerEvents: 'auto',
-            }}
-        >
+        <nav className="absolute top-0 left-0 right-0 flex justify-between items-center z-50 pointer-events-auto w-full px-5 md:px-12 py-6">
             {/* 左侧：导航链接 */}
-            <div style={{ display: 'flex', gap: '32px' }}>
+            <div className="flex items-center gap-3 md:gap-8">
                 {navItems.map((item) => (
                     <button
                         key={item.target}
                         onClick={() => scrollTo(item.target)}
+                        className="bg-transparent border-none text-ink cursor-pointer p-0 opacity-70 hover:opacity-100 transition-opacity duration-250 ease-in-out"
                         style={{
-                            background: 'none',
-                            border: 'none',
-                            color: '#1C1C1C',
                             fontFamily: "'Geist Mono', monospace",
-                            fontSize: '12px',
+                            fontSize: 'clamp(10px, 2.5vw, 12px)',
                             letterSpacing: '0.05em',
                             textTransform: 'uppercase',
-                            cursor: 'pointer',
-                            padding: 0,
-                            opacity: 0.7,
-                            transition: 'opacity 0.25s ease',
                         }}
-                        onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
-                        onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.7')}
                     >
                         {item.label}
                     </button>
@@ -72,39 +47,30 @@ function Navbar() {
             </div>
 
             {/* 右侧：语言切换 */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div className="flex items-center gap-1 md:gap-2">
                 <button
                     onClick={() => toggleLanguage('en')}
+                    className="bg-transparent border-none text-ink cursor-pointer p-0 transition-opacity duration-250 ease-in-out"
                     style={{
-                        background: 'none',
-                        border: 'none',
-                        color: '#1C1C1C',
                         fontFamily: "'Geist Mono', monospace",
-                        fontSize: '12px',
+                        fontSize: 'clamp(10px, 2.5vw, 12px)',
                         letterSpacing: '0.05em',
-                        cursor: 'pointer',
-                        padding: 0,
                         opacity: language === 'en' ? 1 : 0.4,
                         fontWeight: language === 'en' ? 600 : 400,
-                        transition: 'opacity 0.25s ease',
                     }}
                 >
                     EN
                 </button>
-                <span style={{ color: '#1C1C1C', opacity: 0.3 }}>/</span>
+                <span className="text-ink opacity-30 mx-0.5 md:mx-1" style={{ fontSize: 'clamp(10px, 2.5vw, 12px)' }}>/</span>
                 <button
                     onClick={() => toggleLanguage('zh')}
+                    className="bg-transparent border-none text-ink cursor-pointer p-0 transition-opacity duration-250 ease-in-out"
                     style={{
-                        background: 'none',
-                        border: 'none',
-                        color: '#1C1C1C',
                         fontFamily: "'Geist Mono', monospace",
-                        fontSize: '12px',
-                        cursor: 'pointer',
-                        padding: 0,
+                        fontSize: 'clamp(10px, 2.5vw, 12px)',
+                        letterSpacing: '0.05em',
                         opacity: language === 'zh' ? 1 : 0.4,
                         fontWeight: language === 'zh' ? 600 : 400,
-                        transition: 'opacity 0.25s ease',
                     }}
                 >
                     中文
