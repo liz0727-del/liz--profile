@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-// 使用阿里云 OSS 加速后的视频链接
-const HERO_VIDEO_URL = 'https://liz-profile-assets.oss-cn-shenzhen.aliyuncs.com/hero_bg_optimized.mp4';
+// 使用本地放置的背景视频
+const HERO_VIDEO_URL = '/videos/hero_bg_shader.mp4';
 
 /**
  * HeroVideo 组件 - Hero 背景视频（WebM 优先）
