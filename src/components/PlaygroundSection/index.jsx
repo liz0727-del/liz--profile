@@ -132,7 +132,7 @@ function PlaygroundSection() {
                                 className="cursor-pointer object-cover transition-transform duration-600 ease-out hover:scale-[1.15]"
                                 style={{
                                     height: 'var(--pg-item-size, 60%)',
-                                    width: 'var(--pg-item-size, auto)',
+                                    width: 'auto',
                                     aspectRatio: '1/1',
                                     borderRadius: '20px',
                                 }}
@@ -152,7 +152,7 @@ function PlaygroundSection() {
                                 className="cursor-pointer object-cover transition-transform duration-600 ease-out hover:scale-[1.15]"
                                 style={{
                                     height: 'var(--pg-item-size, 60%)',
-                                    width: 'var(--pg-item-size, auto)',
+                                    width: 'auto',
                                     aspectRatio: '1/1',
                                     borderRadius: '9999px',  /* 正圆形 */
                                 }}
@@ -268,7 +268,7 @@ function PlaygroundSection() {
                                 className="cursor-pointer object-cover transition-transform duration-600 ease-out hover:scale-[1.15]"
                                 style={{
                                     height: 'var(--pg-item-size, 60%)',
-                                    width: 'var(--pg-item-size, auto)',
+                                    width: 'auto',
                                     aspectRatio: '1/1',
                                     borderRadius: '20px',
                                 }}
@@ -291,7 +291,7 @@ function PlaygroundSection() {
                                 className="cursor-pointer object-cover transition-transform duration-600 ease-out hover:scale-[1.15]"
                                 style={{
                                     height: 'var(--pg-item-size, 60%)',
-                                    width: 'var(--pg-item-size, auto)',
+                                    width: 'auto',
                                     aspectRatio: '1/1',
                                     borderRadius: '20px',
                                 }}
@@ -375,8 +375,10 @@ function PlaygroundSection() {
                         aspect-ratio: 4 / 3 !important;
                         height: auto !important;
                         display: flex !important;
-                        justify-content: center !important; /* 居中对齐 */
-                        padding: 12px 0 !important; /* 上下间距 */
+                        justify-content: flex-start !important; /* 靠左对齐以对齐 project1 */
+                        padding-left: calc(50% - 12.5vw) !important; /* 精准控制使其卡片核心位置（总宽 25vw）对齐上方卡片的左缘 */
+                        padding-top: 12px !important;
+                        padding-bottom: 12px !important;
                     }
 
                     .pg-project-1 { 
