@@ -216,7 +216,7 @@ function Project1Detail() {
                             margin: 0
                         }}
                     >
-                        Nothing (R)
+                        BACK
                     </p>
                     <p
                         style={{
@@ -225,7 +225,7 @@ function Project1Detail() {
                             margin: 0
                         }}
                     >
-                        <span className="font-ndot uppercase">Playground</span>
+                        <span className="font-ndot">LiiiiiiiZ</span>
                         <span
                             className="font-mono"
                             style={{
@@ -235,7 +235,7 @@ function Project1Detail() {
                                 marginLeft: '4px'
                             }}
                         >
-                            ALPHA
+                            BATE
                         </span>
                     </p>
                 </button>

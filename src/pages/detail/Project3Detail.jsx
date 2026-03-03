@@ -259,7 +259,7 @@ function Project3Detail() {
                             margin: 0
                         }}
                     >
-                        Nothing (R)
+                        BACK
                     </p>
                     <p
                         style={{
@@ -268,7 +268,7 @@ function Project3Detail() {
                             margin: 0
                         }}
                     >
-                        <span className="font-ndot uppercase">Playground</span>
+                        <span className="font-ndot">LiiiiiiiZ</span>
                         <span
                             className="font-mono"
                             style={{
@@ -278,7 +278,7 @@ function Project3Detail() {
                                 marginLeft: '4px'
                             }}
                         >
-                            ALPHA
+                            BATE
                         </span>
                     </p>
                 </button>
@@ -1019,4 +1019,3 @@ function Project3Detail() {
 }
 
 export default Project3Detail;
-
