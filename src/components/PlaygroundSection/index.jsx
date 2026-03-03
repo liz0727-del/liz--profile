@@ -309,8 +309,8 @@ function PlaygroundSection() {
 
                 @media (max-width: 768px) {
                     :root {
-                        --pg-item-size: 28vw;
-                        --pg-avatar-size: 28vw;
+                        --pg-item-size: 25vw;
+                        --pg-avatar-size: 25vw;
                     }
 
                     .pg-grid-container {
@@ -335,22 +335,23 @@ function PlaygroundSection() {
                         display: flex !important;
                         justify-content: center !important;
                         align-items: center !important;
+                        padding: 12px 0 !important;
                     }
 
-                    /* 强力锁定 28vw 尺寸，防止被容器撑大 */
+                    /* 强力锁定 25vw 尺寸，防止被容器撑大 */
                     .pg-avatars div[style*="width: var(--pg-avatar-size, 224px)"] {
-                        width: 28vw !important;
-                        height: 28vw !important;
-                        max-width: 28vw !important;
-                        max-height: 28vw !important;
+                        width: 25vw !important;
+                        height: 25vw !important;
+                        max-width: 25vw !important;
+                        max-height: 25vw !important;
                     }
 
                     .pg-project-1 img, .pg-project-2 img, .pg-project-4 img, .pg-project-5 img {
-                        width: 28vw !important;
-                        height: 28vw !important;
-                        max-width: 28vw !important;
-                        max-height: 28vw !important;
-                        min-width: 28vw !important; /* 确保不被压缩 */
+                        width: 25vw !important;
+                        height: 25vw !important;
+                        max-width: 25vw !important;
+                        max-height: 25vw !important;
+                        min-width: 25vw !important; /* 确保不被压缩 */
                     }
 
                     .pg-project-2 { 
@@ -389,13 +390,14 @@ function PlaygroundSection() {
                     }
                     .pg-project-5 { order: 7 !important; grid-column: 2 !important; }
 
-                    /* 调整堆叠组件宽度使其适应单列网格 (约 45vw 宽) */
+                    /* 调整堆叠组件宽度使其适应 25vw 并防止裁切 */
                     .pg-project-3 a {
-                         width: 25vw !important; /* 动态 25vw 缩放 */
+                         width: 25vw !important; 
                          height: auto !important;
-                         aspect-ratio: 3 / 4 !important; /* 维持单张卡片比例感 */
+                         aspect-ratio: 4 / 3 !important; /* 恢复原生 4/3 横向比例 */
                          padding: 0 !important;
                          display: grid !important;
+                         overflow: visible !important; /* 取消溢出隐藏，避免边缘裁切 */
                      }
                 }
             `}</style>
