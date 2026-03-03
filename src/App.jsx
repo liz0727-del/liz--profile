@@ -243,7 +243,7 @@ function HomePage({ onScrollTriggerRef }) {
               INSTAGRAM
             </a>
             <a
-              href="https://www.xiaohongshu.com/"
+              href="https://www.xiaohongshu.com/user/profile/67af1f37000000000e012d2e"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:underline"

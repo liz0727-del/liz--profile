@@ -422,23 +422,50 @@ function Project1Detail() {
                 />
             )}
 
-            {/* ========== 主内容区: 两列水平布局 ========== */}
-            <main className="flex-1" style={{ marginTop: '64px', paddingTop: '32px', paddingBottom: '16px', paddingLeft: '32px', paddingRight: '32px' }}>
+            {/* ========== 主内容区: 两列水平/响应式堆叠 布局 ========== */}
+            <main className="flex-1 detail-main-container" style={{ marginTop: '64px', paddingTop: '32px', paddingBottom: '16px', paddingLeft: '32px', paddingRight: '32px' }}>
+                <style>{`
+                    .detail-layout-grid { display: flex; flex-direction: row; gap: 48px; }
+                    .detail-image-container { height: 720px; }
+                    .detail-info-container { flex: 1; margin-right: 16px; padding-left: 12px; padding-right: 12px; }
+                    
+                    /* 手机端挤压修复：改为上下堆排 */
+                    @media (max-width: 768px) {
+                        .detail-main-container {
+                            padding-left: 20px !important;
+                            padding-right: 20px !important;
+                            padding-top: 16px !important;
+                            margin-top: 56px !important;
+                        }
+                        .detail-layout-grid {
+                            flex-direction: column !important;
+                            gap: 32px !important;
+                        }
+                        .detail-image-container {
+                            height: auto !important;
+                            aspect-ratio: 4 / 3;
+                        }
+                        .detail-info-container {
+                            margin-right: 0 !important;
+                            padding-left: 4px !important;
+                            padding-right: 4px !important;
+                        }
+                    }
+                `}</style>
                 <div className="max-w-6xl mx-auto">
-                    {/* 默认水平并排 */}
-                    <div style={{ display: 'flex', flexDirection: 'row', gap: '48px' }}>
+                    {/* 响应式并排布局容器 */}
+                    <div className="detail-layout-grid">
 
                         {/* ===== 左列: 图片轮播 ===== */}
                         <div style={{ flex: 1 }} className="flex flex-col items-center">
                             {/* 图片容器 */}
                             <div
-                                className={`relative w-full overflow-hidden flex items-center justify-center ${hoverSide === 'left' ? 'cursor-dot-left' : hoverSide === 'right' ? 'cursor-dot-right' : ''
+                                className={`detail-image-container relative w-full overflow-hidden flex items-center justify-center ${hoverSide === 'left' ? 'cursor-dot-left' : hoverSide === 'right' ? 'cursor-dot-right' : ''
                                     }`}
                                 style={{
                                     backgroundColor: 'transparent',
                                     borderRadius: '16px',
                                     border: `1px solid ${isDarkMode ? '#4B5563' : '#E5E7EB'}`,
-                                    height: '720px',
                                 }}
                                 onClick={handleImageClick}
                                 onMouseMove={handleMouseMove}
@@ -491,7 +518,7 @@ function Project1Detail() {
                         </div>
 
                         {/* ===== 右列: 信息区 ===== */}
-                        <div style={{ flex: 1, marginRight: '16px', paddingLeft: '12px', paddingRight: '12px' }} className="relative z-10 flex flex-col items-center gap-8 pt-4 pb-8">
+                        <div className="detail-info-container relative z-10 flex flex-col items-center gap-8 pt-4 pb-8">
                             {/* 标题 */}
                             <h1
                                 className="font-ndot text-3xl md:text-4xl text-center"
@@ -701,7 +728,7 @@ function Project1Detail() {
                             INSTAGRAM
                         </a>
                         <a
-                            href="https://www.xiaohongshu.com/"
+                            href="https://www.xiaohongshu.com/user/profile/67af1f37000000000e012d2e"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="hover:underline"
