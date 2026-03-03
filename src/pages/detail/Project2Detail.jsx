@@ -686,7 +686,7 @@ function Project2Detail() {
                         }}
                     >
                         <a
-                            href="https://www.instagram.com/"
+                            href="https://www.instagram.com/llllllleezy/"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="hover:underline"
