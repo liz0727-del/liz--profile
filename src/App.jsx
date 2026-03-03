@@ -178,7 +178,7 @@ function HomePage({ onScrollTriggerRef }) {
         {/* 第二行: See you on the canvas + 装饰圆点 */}
         <div className="flex justify-between items-center mb-16" style={{ marginTop: '200px' }}>
           <p
-            className="font-ndot italic"
+            className="font-ndot"
             style={{
               fontSize: '20px',
               color: '#1C1C1C'

@@ -171,7 +171,6 @@ function PlaygroundSection() {
                                 fontFamily: 'var(--font-ndot), Georgia, serif',
                                 fontWeight: 100,
                                 lineHeight: '44px',
-                                fontStyle: 'italic',
                                 color: '#1c1c1c',
                                 margin: 0,
                             }}

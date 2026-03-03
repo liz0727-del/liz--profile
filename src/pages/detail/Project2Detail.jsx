@@ -656,13 +656,13 @@ function Project2Detail() {
                 {/* 第二行: See you on the canvas + 装饰圆点 */}
                 <div className="flex justify-between items-center mb-16" style={{ marginTop: '200px' }}>
                     <p
-                        className="font-ndot italic"
+                        className="font-ndot"
                         style={{
                             fontSize: '20px',
                             color: isDarkMode ? '#FFFFFF' : '#1C1C1C'
                         }}
                     >
-                        {t(translations.detailUI.footerTagline, language)}
+                        {t(translations.footer.tagline, language)}
                     </p>
                     <div className="flex items-center gap-2">
                         <span
@@ -702,7 +702,7 @@ function Project2Detail() {
                             color: isDarkMode ? '#FFFFFF' : '#1C1C1C'
                         }}
                     >
-                        NOTHING (R)
+                        LIZ © 2026
                     </div>
                     <div
                         className="flex font-ndot uppercase"
