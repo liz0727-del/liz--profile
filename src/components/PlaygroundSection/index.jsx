@@ -168,7 +168,7 @@ function PlaygroundSection() {
                         <p
                             style={{
                                 fontSize: '44px',
-                                fontFamily: 'var(--font-ndot), Georgia, serif',
+                                fontFamily: 'var(--font-ndot), "Noto Sans SC", Georgia, serif',
                                 fontWeight: 100,
                                 lineHeight: '44px',
                                 color: '#1c1c1c',

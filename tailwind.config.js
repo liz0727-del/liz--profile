@@ -14,7 +14,7 @@ export default {
             fontFamily: {
                 mono: ['"Geist Mono"', '"Roboto Mono"', 'monospace'],
                 dot: ['"DotGothic16"', 'monospace'],
-                ndot: ['"Ndot"', '"DotGothic16"', 'monospace'],
+                ndot: ['"Ndot"', '"Noto Sans SC"', '"DotGothic16"', 'monospace'],
             },
         },
     },

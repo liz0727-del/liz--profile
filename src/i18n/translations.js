@@ -101,14 +101,14 @@ export const translations = {
     project2: {
         title: { en: 'Night Vision', zh: 'Night Vision' },
         description: {
-            en: 'A stunning night photography series exploring light and shadow.',
-            zh: '一组探索光影关系的夜间摄影系列作品。',
+            en: 'Changchun Dongyuan · Modern Minimalist Soft Furnishing Design',
+            zh: '长春东原 · 现代极简软装设计',
         },
-        location: { en: 'Tokyo, Japan', zh: '日本，东京' },
+        location: { en: 'Changchun, China', zh: '中国，长春' },
         completionDate: { en: '2024.10', zh: '2024.10' },
         overview: {
-            en: 'Compatible with Nothing phones running OS 4.0 and later. This project features breathtaking night photography optimized for AMOLED displays. Each wallpaper showcases the interplay of city lights and darkness, perfect for Nothing devices with their stunning display technology.',
-            zh: '兼容运行 OS 4.0 及更高版本的 Nothing 手机。该项目以专为 AMOLED 屏幕优化的夜间摄影作品为特色。每张壁纸都展现了城市灯光与暗夜的交织，完美适配 Nothing 设备卓越的显示技术。',
+            en: 'Night Vision — where light meets stillness. This soft furnishing project for Changchun Dongyuan embraces modern minimalism with an artistic sensibility. The design curates a refined palette of muted tones — sage green, marble grey, and warm ivory — layered with carefully selected art pieces, sculptural lighting, and textured ceramics. Every detail, from the modular wall lamps to the hand-picked tableware, is orchestrated to create an atmosphere of quiet sophistication, transforming everyday living into a gallery of curated moments.',
+            zh: 'Night Vision — 当光遇见宁静。长春东原这套软装项目以现代极简主义为基调，融入艺术化的生活美学。设计采用克制的色彩体系——鼠尾草绿、大理石灰与暖象牙白——搭配精心甄选的艺术摆件、雕塑感灯具与质感陶瓷器皿。从模块化壁灯到手工挑选的餐具，每一处细节都经过精心编排，营造出静谧而高级的生活氛围，将日常居所转化为一座关于品质生活的私人美术馆。',
         },
     },
 

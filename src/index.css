@@ -36,8 +36,8 @@
   /* 等宽字体，用于正文 */
   --font-dot: "DotGothic16", monospace;
   /* 点阵字体，用于标题 */
-  --font-ndot: "Ndot", "DotGothic16", monospace;
-  /* Ndot 点阵字体，用于 Hero 大标题 */
+  --font-ndot: "Ndot", "Noto Sans SC", "DotGothic16", monospace;
+  /* Ndot 点阵字体，用于 Hero 大标题；Noto Sans SC 用于中文回退 */
 }
 
 /* Tailwind 核心层导入 */
@@ -67,7 +67,8 @@
   }
 
   /* 禁止图片拖拽和长按保存（在移动端也有效） */
-  img, video {
+  img,
+  video {
     pointer-events: none;
     -webkit-touch-callout: none;
   }
